@@ -1,4 +1,4 @@
-# IES_Project_G2
+# MY SWEET HOME
 ## Our repository for the project of the IES class of 2023/2024 in UA
 
 <p align="center">
