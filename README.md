@@ -1,4 +1,4 @@
-# MY SWEET HOME
+# My Sweet Home
 ## Our repository for the project of the IES class of 2023/2024 in UA
 
 <p align="center">
