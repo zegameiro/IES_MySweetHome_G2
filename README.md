@@ -26,7 +26,7 @@
 ## Bookmarks
 
 ### Github repository
-- https://github.com/zegameiro/IES_Project_G2
+- https://github.com/zegameiro/IES_MySweetHome_G2
 ### Project Specification Report
 - https://uapt33090-my.sharepoint.com/:w:/g/personal/rodrigoaguiar96_ua_pt/Eclxg-hVsX1AjO4ZlODAlHwBhfHHpHcjRj9Xb4AU41awEA
 ### Github Project
