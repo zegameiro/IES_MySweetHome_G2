@@ -1,4 +1,0 @@
-site name, descriptio, purpose, team and contacts
-recomended structure
-use cases com minima explicação em qualquer diagrama
-more context
