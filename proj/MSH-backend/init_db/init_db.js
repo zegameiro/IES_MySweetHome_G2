@@ -6,3 +6,5 @@ db.createUser(
   roles: [ { role: "readWrite", db: "mysweethome" } ]
  }
 )
+
+db.sensordata.createIndex( { "timestamp": 1 }, { expireAfterSeconds: 60 } )
