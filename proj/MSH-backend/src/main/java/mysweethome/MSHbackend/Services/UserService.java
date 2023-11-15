@@ -19,5 +19,12 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    
+    public User findByID(String id) {
+        return userRepository.findByUid(id);
+    }
+
+    public User findByEmailAndPassword(String name, String password) {
+        return userRepository.findByNameAndPassword(name, password);
+    }
+   
 }
