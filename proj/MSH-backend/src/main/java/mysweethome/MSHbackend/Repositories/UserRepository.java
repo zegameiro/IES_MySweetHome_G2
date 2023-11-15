@@ -9,7 +9,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
 
     public User findByName(String name);
-    public User findByID(String id);
+    public User findByUid(String uid);
     
     @Query("{'email' : :#{#email}, 'password' : :#{#pass}}")
     public User findByNameAndPassword(@Param("email") String email, @Param("pass") String pass);

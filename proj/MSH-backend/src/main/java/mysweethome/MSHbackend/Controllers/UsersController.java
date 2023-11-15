@@ -34,7 +34,7 @@ public class UsersController {
     }
 
     // View all information of a specific object based on ID
-    @GetMapping(path = "/view")
+    @GetMapping("/view")
     public @ResponseBody String viewUser(@RequestParam String id) {
         User user;
 
@@ -86,51 +86,27 @@ public class UsersController {
     }
 
     // View all information of a specific object based on ID
-    @GetMapping(path = "/view")
-    public @ResponseBody ResponseEntity<User> updateUser(@RequestParam String id, @RequestParam String username) {
-        User usr;
+    // @GetMapping(path = "/view")
+    // public @ResponseBody ResponseEntity<User> addDislike(@RequestParam String id, @RequestParam String dislike) {
+    //     User usr;
 
-        // Check if a User with this ID exists
-        try {
-            usr = userService.findByID(id);
-        } 
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
-        }
+    //     // Check if a User with this ID exists
+    //     try {
+    //         usr = userService.findByID(id);
+    //     } 
+    //     catch (Exception e) {
+    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+    //     }
 
-        if (usr == null) {
-        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An user with the specified ID does not exist!");
-        }
+    //     if (usr == null) {
+    //     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An user with the specified ID does not exist!");
+    //     }
         
-        usr.setName(username);
-        userService.saveUser(usr);
+    //     usr.addDislike(dislike);
+    //     userService.saveUser(usr);
 
-        return ResponseEntity.ok(usr);
-    }
-
-
-    // View all information of a specific object based on ID
-    @GetMapping(path = "/view")
-    public @ResponseBody ResponseEntity<User> addDislike(@RequestParam String id, @RequestParam String dislike) {
-        User usr;
-
-        // Check if a User with this ID exists
-        try {
-            usr = userService.findByID(id);
-        } 
-        catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
-        }
-
-        if (usr == null) {
-        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An user with the specified ID does not exist!");
-        }
-        
-        usr.addDislike(dislike);
-        userService.saveUser(usr);
-
-        return ResponseEntity.ok(usr);
-    }
+    //     return ResponseEntity.ok(usr);
+    // }
 
     
 }

@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public User findByID(String id) {
-        return userRepository.findByID(id);
+        return userRepository.findByUid(id);
     }
 
     public User findByEmailAndPassword(String name, String password) {

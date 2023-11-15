@@ -10,6 +10,8 @@ import mysweethome.MSHbackend.Models.*;
 @RestController(/*definir o endpoint*/)
 public class DashboardOutputController {
   // Create and save a new app_user object to the repository (database)
+
+  /*
   @GetMapping(path = "/getUser")
   public @ResponseBody String addapp_user(@RequestParam String name, @RequestParam String email,
                                             @RequestParam String password, @RequestParam String cartao) {
@@ -153,4 +155,5 @@ public class DashboardOutputController {
       e.printStackTrace();
       throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
     }
+    */
   }
