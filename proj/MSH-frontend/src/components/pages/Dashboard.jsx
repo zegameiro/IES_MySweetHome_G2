@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../layout/navbar/Navbar'
+import Navbar from '../layout/Navbar'
 
 const Dashboard = () => {
   return (

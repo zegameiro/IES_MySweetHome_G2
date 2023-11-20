@@ -1,0 +1,3 @@
+.gradient-blue {
+    @apply bg-gradient-to-br from-primary to-accent
+}
