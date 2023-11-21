@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+
+import javax.persistence.GeneratedValue;
 import javax.validation.constraints.NotBlank;
 
 @ToString
@@ -12,23 +14,26 @@ import javax.validation.constraints.NotBlank;
 public class SensorData {
 
     @Id
-    private int data_source_id;
+    @GeneratedValue
+    private String data_id;
+    @NotBlank
+    private int datasourceid;
     @NotBlank
     private Long timestamp;
     @NotBlank
     private String sensor_information;
 
     public SensorData(int data_source_id, @NotBlank Long timestamp, @NotBlank String sensor_information) {
-        this.data_source_id = data_source_id;
+        this.datasourceid = data_source_id;
         this.timestamp = timestamp;
         this.sensor_information = sensor_information;
     }
 
     public int getData_source_id() {
-        return data_source_id;
+        return datasourceid;
     }
     public void setData_source_id(int data_source_id) {
-        this.data_source_id = data_source_id;
+        this.datasourceid = data_source_id;
     }
     public Long getTimestamp() {
         return timestamp;
