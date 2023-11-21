@@ -106,32 +106,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/user/add?firstname=Josefino&lastname=Calças&email=jose@fino.com&password=123",
+							"raw": "localhost:8080/user/edit",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"user",
-								"add"
-							],
-							"query": [
-								{
-									"key": "firstname",
-									"value": "Josefino"
-								},
-								{
-									"key": "lastname",
-									"value": "Calças"
-								},
-								{
-									"key": "email",
-									"value": "jose@fino.com"
-								},
-								{
-									"key": "password",
-									"value": "123"
-								}
+								"edit"
 							]
 						}
 					},
