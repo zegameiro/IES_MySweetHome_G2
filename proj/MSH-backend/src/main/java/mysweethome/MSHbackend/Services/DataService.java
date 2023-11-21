@@ -22,9 +22,4 @@ public class DataService {
     }
 
     
-    public List<SensorData> findData(User user) {
-        return dataRepository.findByUser(user);
-    }
-
-    
 }

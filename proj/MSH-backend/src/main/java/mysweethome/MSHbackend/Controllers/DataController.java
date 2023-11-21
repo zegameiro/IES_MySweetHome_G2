@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
+import org.json.JSONObject;
 
 
 @RestController("/data")
@@ -20,12 +21,6 @@ public class DataController
 
     @Autowired
     private DataService sensor_data;
-
-    @GetMapping("/list")
-    public ResponseEntity<String> list()
-    {
-        ResponseEntity<String> response = sensor_data.findByUser("test");
-    }
 
 
 

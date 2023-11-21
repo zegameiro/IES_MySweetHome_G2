@@ -10,6 +10,4 @@ public interface DataRepository extends MongoRepository<SensorData, String> {
 
     // adicionar + cenas conforme for preciso
     
-    public SensorData findByUser(User e);
-    
 }

@@ -27,7 +27,7 @@ public class UsersController {
         User usr = userService.findByEmail(email);
 
         if (usr != null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An user with the specified ID does not exist!");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "This email is already associated with another account!");
         }
         
         usr = new User();
