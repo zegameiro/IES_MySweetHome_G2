@@ -1,10 +1,11 @@
 import React from 'react'
-import Navbar from '../layout/Navbar'
+// import Navbar from '../layout/Navbar'
+import DeviceCard from '../layout/DeviceCard'
 
 const Dashboard = () => {
   return (
-    <div className='mx-2%'>
-      <Navbar />
+    <div>
+      <DeviceCard />
     </div>
   )
 }
