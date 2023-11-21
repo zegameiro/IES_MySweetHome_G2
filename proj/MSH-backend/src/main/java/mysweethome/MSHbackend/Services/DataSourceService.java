@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import mysweethome.MSHbackend.Repositories.DataSourceRepository;
 import mysweethome.MSHbackend.Models.DataSource;
+import java.util.LinkedList;
 
 @Service
 public class DataSourceService {
@@ -16,5 +17,8 @@ public class DataSourceService {
         dataSourceRepository.save(dataSource);
     }
 
-    
+    public LinkedList<DataSource> getAll() {
+        return dataSourceRepository.getAll();
+    }
+
 }
