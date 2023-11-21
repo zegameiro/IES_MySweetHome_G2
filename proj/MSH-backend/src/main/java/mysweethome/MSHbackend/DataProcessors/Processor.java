@@ -7,14 +7,10 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
-import jakarta.annotation.PostConstruct;
-
 import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 
 import org.springframework.stereotype.Component;
 
@@ -37,7 +33,6 @@ public class Processor {
   @Autowired
   private DataSourceService dataSourceRepository ;
 
-  @Autowired
   public Processor(@Qualifier("host") String host, @Qualifier("sensorQueue") String queueName) {
     this.host = host;
     this.queueName = queueName;

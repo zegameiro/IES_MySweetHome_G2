@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -16,16 +16,24 @@ import mysweethome.MSHbackend.Services.*;
 
 
 @RestController
+@RequestMapping(path = "/user")
 public class UsersController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<User> addUser(@RequestParam String name, @RequestParam String email, @RequestParam String password) {
-        User usr = new User();
+    public ResponseEntity<User> addUser(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password) {
+        User usr = userService.findByEmail(email);
+
+        if (usr != null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An user with the specified ID does not exist!");
+        }
         
-        usr.setName(name);
+        usr = new User();
+        
+        usr.setFirstName(firstname);
+        usr.setLastName(lastname);
         usr.setEmail(email);
         usr.setPassword(password);
         
@@ -53,7 +61,8 @@ public class UsersController {
         // Generate the output user object for the frontend
         JSONObject out = new JSONObject();
         out.put("id", user.getUid());
-        out.put("name", user.getName());
+        out.put("firstname", user.getFirstName());
+        out.put("lastname", user.getLastName());
         out.put("email", user.getEmail());
 
         return out.toString(1);
@@ -73,13 +82,14 @@ public class UsersController {
         }
 
         if (user == null) {
-        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An account with this credentials does not exist!");
+        throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An account with these credentials does not exist!");
         }
         
         // Generate the output user object for the frontend
         JSONObject out = new JSONObject();
         out.put("id", user.getUid());
-        out.put("name", user.getName());
+        out.put("firstname", user.getFirstName());
+        out.put("lastname", user.getLastName());
         out.put("email", user.getEmail());
 
         return out.toString(1);

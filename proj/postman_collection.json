@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "cad69a86-d42d-4378-93b0-4d6c01587d02",
+		"name": "IES-Proj",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28375958"
+	},
+	"item": [
+		{
+			"name": "Add User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/add?firstname=Josefino&lastname=Calças&email=jose@fino.com&password=123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"add"
+					],
+					"query": [
+						{
+							"key": "firstname",
+							"value": "Josefino"
+						},
+						{
+							"key": "lastname",
+							"value": "Calças"
+						},
+						{
+							"key": "email",
+							"value": "jose@fino.com"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/view?id=655cc232e10e8951aa800dc3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"view"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "655cc232e10e8951aa800dc3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/user/login?email=jose@fino.com&password=123",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "jose@fino.com"
+						},
+						{
+							"key": "password",
+							"value": "123"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

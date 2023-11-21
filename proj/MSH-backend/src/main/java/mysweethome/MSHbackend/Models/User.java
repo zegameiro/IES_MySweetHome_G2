@@ -22,7 +22,9 @@ public class User {
     @Id
     private String uid;
     @NotBlank
-    private String name;
+    private String firstname;
+    @NotBlank
+    private String lastname;
     @NotBlank
     @Email
     private String email;
@@ -37,11 +39,17 @@ public class User {
     public void setUid(String uid) {
         this.uid = uid;
     }
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstname;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
+    }
+    public String getLastName() {
+        return lastname;
+    }
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
     public String getEmail() {
         return email;
