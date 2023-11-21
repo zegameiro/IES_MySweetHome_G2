@@ -23,7 +23,7 @@ const LandPage = () => {
             </p>
             <button
               className="btn btn-primary text-lg"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/login')}
             >
               Get Started
             </button>
@@ -79,7 +79,7 @@ const LandPage = () => {
           </h1>
           <button
             className="btn btn-secondary text-lg"
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/login')}
           >
             Sign in
           </button>
