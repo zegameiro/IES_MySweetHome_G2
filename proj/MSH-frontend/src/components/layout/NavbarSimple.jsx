@@ -17,7 +17,7 @@ const NavbarSimple = ({ fixed }) => {
       <span>
         <button
           className="btn gradient-blue text-white border-none text-lg"
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('/login')}
         >
           Sign in
         </button>

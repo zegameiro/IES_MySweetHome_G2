@@ -26,8 +26,8 @@ const LoginPage = () => {
             <span className="py-6 ml-8">
               <h1 className="text-4xl font-bold text-primary">Welcome Back!</h1>
               <p className="text-xl text-base-content">
-                Register to unlock a world of smart living {<br />}
-                Join the future of home automation with a MSH account. {<br />}
+                Connect to your home intelligence by signing in. {<br />}
+                Access your smart home with ease. Log in to your account. {<br />}
                 Don't have an account?{' '}
                 <a
                   href="/register"
