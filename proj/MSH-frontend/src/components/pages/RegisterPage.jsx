@@ -2,6 +2,7 @@ import { useState } from 'react';
 import '../../utils/index.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -75,6 +76,9 @@ const RegisterPage = () => {
                 onSubmit={(values) => {
                   const { confirmPassword, ...data } = values;
                   console.log(data);
+                  axios.post('/api/users', data).then((res) => {
+                    console.log(res);
+                  })
                 }}
               >
                 {({ errors, touched }) => (
