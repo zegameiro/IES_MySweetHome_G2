@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.mongodb.repository.Query;
 
 
+
 @Repository
 public interface DataRepository extends MongoRepository<SensorData, String> {
 

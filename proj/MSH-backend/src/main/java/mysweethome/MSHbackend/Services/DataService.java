@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import mysweethome.MSHbackend.Repositories.DataRepository;
 import mysweethome.MSHbackend.Models.SensorData;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 public class DataService {
 
     @Autowired
-    private DataRepository dataSourceRepository;
+    private DataRepository dataRepository;
 
     public void saveData(SensorData data) {
-        dataSourceRepository.save(data);
+        dataRepository.save(data);
     }
 
     /* 

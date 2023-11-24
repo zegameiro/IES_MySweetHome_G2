@@ -2,18 +2,21 @@ import { useState } from 'react';
 import '../../utils/index.css';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import NavbarSimple from '../layout/NavbarSimple';
-import logo from '/src/assets/msh_logo.png';
+import { BASE_API_URL } from '../../constants';
+import logo from '/src/assets/icon/msh_logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const SignupSchema = Yup.object().shape({
-  firstName: Yup.string()
+  firstname: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  lastName: Yup.string()
+  lastname: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -28,8 +31,28 @@ const SignupSchema = Yup.object().shape({
 });
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const registerUser = async (data) => {
+    try {
+      const res = await axios.post(`${BASE_API_URL}/user/add`,null, {
+        params: {
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+          password: data.password,
+        },
+      });
+      console.log(res);
+      if (res.status === 200) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div>
@@ -64,8 +87,8 @@ const RegisterPage = () => {
             <div className="bg-base-100 rounded-2xl w-full h-full p-4">
               <Formik
                 initialValues={{
-                  firstName: '',
-                  lastName: '',
+                  firstname: '',
+                  lastname: '',
                   email: '',
                   password: '',
                   confirmPassword: '',
@@ -75,6 +98,7 @@ const RegisterPage = () => {
                 onSubmit={(values) => {
                   const { confirmPassword, ...data } = values;
                   console.log(data);
+                  registerUser(data);
                 }}
               >
                 {({ errors, touched }) => (
@@ -82,44 +106,44 @@ const RegisterPage = () => {
                     <span className="flex flex-col w-full p-2">
                       <label
                         className=" font-medium text-2xl p-2"
-                        htmlFor="firstName"
+                        htmlFor="firstname"
                       >
                         First Name
                       </label>
                       <Field
-                        name="firstName"
+                        name="firstname"
                         placeholder="First Name"
                         className={`input input-${
-                          errors.firstName && touched.firstName
+                          errors.firstname && touched.firstname
                             ? 'error'
                             : 'primary'
                         }`}
                       />
-                      {errors.firstName && touched.firstName && (
+                      {errors.firstname && touched.firstname && (
                         <p className="text-error px-2 text-sm">
-                          {errors.firstName}
+                          {errors.firstname}
                         </p>
                       )}
                     </span>
                     <span className="flex flex-col w-full p-2">
                       <label
                         className=" font-medium text-2xl p-2"
-                        htmlFor="lastName"
+                        htmlFor="lastname"
                       >
                         Last Name
                       </label>
                       <Field
-                        name="lastName"
+                        name="lastname"
                         placeholder="Last Name"
                         className={`input input-${
-                          errors.lastName && touched.lastName
+                          errors.lastname && touched.lastname
                             ? 'error'
                             : 'primary'
                         }`}
                       />
-                      {errors.lastName && touched.lastName && (
+                      {errors.lastname && touched.lastname && (
                         <p className="text-error px-2 text-sm">
-                          {errors.lastName}
+                          {errors.lastname}
                         </p>
                       )}
                     </span>

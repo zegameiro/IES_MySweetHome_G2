@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +33,6 @@ public class Processor {
   @Autowired
   private DataSourceService dataSourceRepository ;
 
-  @Autowired
   public Processor(@Qualifier("host") String host, @Qualifier("sensorQueue") String queueName) {
     this.host = host;
     this.queueName = queueName;
