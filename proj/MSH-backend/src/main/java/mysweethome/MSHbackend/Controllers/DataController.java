@@ -13,6 +13,7 @@ import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping(path = "/data")
@@ -21,26 +22,33 @@ public class DataController {
     @Autowired
     private DataService dataService;
 
-    @GetMapping("/view") // /view?sensor_id=12345
-    public ResponseEntity<List<SensorData>> listDataBySensor(@RequestParam("sensor_id") int sensor_id) {
-        List<SensorData> data = dataService.listDataBySensor(sensor_id);
-        // .subList(0, 5);
-        return ResponseEntity.ok(data);
+    @GetMapping("/view")
+    public ResponseEntity<List<SensorData>> listDataBySensor(
+            @RequestParam("sensor_id") String sensor_id,
+            @RequestParam(name = "filter", defaultValue = "none", required = false) String filter) {
+        List<SensorData> data = new ArrayList<SensorData>();
 
+        if (!filter.equals("last_hour") && !filter.equals("last_day") && !filter.equals("last_week")
+                && !filter.equals("last_month") && !filter.equals("none") && !filter.equals("latest"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid filter!");
+            
+            data = dataService.listDataBySensor(sensor_id, filter);
+
+        if (data == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error retrieving data!");
+
+        return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/list") // para todos
-    public ResponseEntity<List<SensorData>> listAllData ()
-    {
-        try{
+    @GetMapping("/list") // get all data from all sensors
+    public ResponseEntity<List<SensorData>> listAllData() {
+        try {
 
-        List<SensorData> data = dataService.listAllData();
-        return ResponseEntity.ok(data);
+            List<SensorData> data = dataService.listAllData();
+            return ResponseEntity.ok(data);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
     }
-
-
 
 }

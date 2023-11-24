@@ -15,10 +15,10 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Document("outputdevices")
-public class OutputDevice {
+public class OutputDevice extends Device {
 
     @Id
-    private int device_id;
+    private String ID;
     @NotBlank
     private int device_category;
     @NotBlank

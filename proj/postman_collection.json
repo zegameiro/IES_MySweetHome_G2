@@ -99,6 +99,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Edit User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"edit"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -130,6 +149,39 @@
 			"name": "Output Devices",
 			"item": [
 				{
+					"name": "Add Output Device",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/outputs/add?state=OFF&category=1&roomID=6560c50ac795346d0d8ab6d5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"add"
+							],
+							"query": [
+								{
+									"key": "state",
+									"value": "OFF"
+								},
+								{
+									"key": "category",
+									"value": "1"
+								},
+								{
+									"key": "roomID",
+									"value": "6560c50ac795346d0d8ab6d5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "List Outputs",
 					"request": {
 						"method": "GET",
@@ -143,6 +195,215 @@
 							"path": [
 								"outputs",
 								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/outputs/listCategories",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"listCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change State",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/outputs/changeState?id=6560d3a27e0c60134c0dcf41&newState=ON",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"changeState"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6560d3a27e0c60134c0dcf41"
+								},
+								{
+									"key": "newState",
+									"value": "ON"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sensor Data",
+			"item": [
+				{
+					"name": "Get Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/data/view?sensor_id=12345&filter=latest",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"data",
+								"view"
+							],
+							"query": [
+								{
+									"key": "sensor_id",
+									"value": "12345"
+								},
+								{
+									"key": "filter",
+									"value": "latest"
+								},
+								{
+									"key": "filter",
+									"value": "last_hour",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "last_day",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "last_week",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "last_month",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "Add Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/add?name=Quarto&floornumber=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"add"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Quarto"
+								},
+								{
+									"key": "floornumber",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/view?id=6560c50ac795346d0d8ab6d5",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"view"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6560c50ac795346d0d8ab6d5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/list",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Device to Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/room/addDevice?roomID=6560c50ac795346d0d8ab6d5&deviceID=12345",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"room",
+								"addDevice"
+							],
+							"query": [
+								{
+									"key": "roomID",
+									"value": "6560c50ac795346d0d8ab6d5"
+								},
+								{
+									"key": "deviceID",
+									"value": "12345"
+								}
 							]
 						}
 					},
