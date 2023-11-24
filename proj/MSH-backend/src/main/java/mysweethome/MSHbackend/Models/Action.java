@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 @ToString
 @NoArgsConstructor
@@ -29,5 +30,7 @@ public class Action {
     private HashMap<String, String> input_ranges;
     @NotBlank
     private HashMap<String,Integer> output_actions;
+    @NotBlank
+    private ArrayList<OutputDevice> output_devices; // output devices to which this action should be associated
 
 }

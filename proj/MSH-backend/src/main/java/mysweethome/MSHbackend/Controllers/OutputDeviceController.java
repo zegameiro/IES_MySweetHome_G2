@@ -24,7 +24,7 @@ public class OutputDeviceController {
     @Autowired
     private OutputDeviceService outputDevService;
 
-    //  Get a full list of all the data sources (sensors)
+    //  Get a full list of all the output devices
     @GetMapping("/list")
     public @ResponseBody String getSources() {
         LinkedList<OutputDevice> sources;
@@ -46,6 +46,7 @@ public class OutputDeviceController {
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());
             out.put("state", src.getCurrent_state());
+            out.put("actions", src.getPermited_actions());
     
             output.add(out);
         }
