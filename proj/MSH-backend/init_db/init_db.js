@@ -7,4 +7,4 @@ db.createUser(
  }
 )
 
-db.sensordata.createIndex( { "timestamp": 1 }, { expireAfterSeconds: 60 } )
+//db.sensordata.createIndex( { "timestamp": 1 }, { expireAfterSeconds: 60 } )

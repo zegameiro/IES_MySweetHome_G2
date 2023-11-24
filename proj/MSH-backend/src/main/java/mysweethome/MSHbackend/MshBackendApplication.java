@@ -18,6 +18,7 @@ import java.util.Arrays;
 @ComponentScan(basePackages = "mysweethome.MSHbackend")
 @EnableMongoRepositories
 @EnableAsync
+
 public class MshBackendApplication {
 
     public static void main(String[] args) {

@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "cad69a86-d42d-4378-93b0-4d6c01587d02",
+		"_postman_id": "d5fc1e3e-4da4-4166-a738-28b1d59f694d",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "28375958"
+		"_exporter_id": "19001359"
+
 	},
 	"item": [
 		{
@@ -149,6 +150,7 @@
 			"name": "Output Devices",
 			"item": [
 				{
+
 					"name": "List Outputs",
 					"request": {
 						"method": "GET",
