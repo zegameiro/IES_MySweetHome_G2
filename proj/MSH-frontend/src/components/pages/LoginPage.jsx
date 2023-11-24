@@ -1,16 +1,39 @@
 import { useState } from 'react';
 import '../../utils/index.css';
 import { Formik, Field, Form } from 'formik';
-import * as Yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import NavbarSimple from '../layout/NavbarSimple';
-import logo from '/src/assets/msh_logo.png';
+import logo from '/src/assets/icon/msh_logo.png';
+import { BASE_API_URL } from '../../constants';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+
+  const handleLogin = async (data) => {
+    try {
+      const res = await axios.get(`${BASE_API_URL}/user/login`, {
+        params: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+      console.log(res);
+      if (res.status === 200) {
+        localStorage.setItem('user', JSON.stringify(res.data));
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.log(error);
+      setLoginError(true);
+      
+    }
+  };
 
   return (
     <div>
@@ -27,7 +50,8 @@ const LoginPage = () => {
               <h1 className="text-4xl font-bold text-primary">Welcome Back!</h1>
               <p className="text-xl text-base-content">
                 Connect to your home intelligence by signing in. {<br />}
-                Access your smart home with ease. Log in to your account. {<br />}
+                Access your smart home with ease. Log in to your account.{' '}
+                {<br />}
                 Don't have an account?{' '}
                 <a
                   href="/register"
@@ -47,12 +71,35 @@ const LoginPage = () => {
                   password: '',
                 }}
                 validateOnBlur={true}
-                onSubmit={(values) => {
-                  console.log(data);
+                onSubmit={(values, actions) => {
+                  console.log(values);
+                  handleLogin(values);
+                  actions.resetForm();
                 }}
               >
                 {({ errors, touched }) => (
                   <Form className="flex flex-wrap">
+                    {loginError && (
+                      <div
+                        role="alert"
+                        className="alert alert-error"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="stroke-current shrink-0 h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span>Invalid email or password!</span>
+                      </div>
+                    )}
                     <span className="flex flex-col w-full p-2">
                       <label
                         className=" font-medium text-2xl p-2"

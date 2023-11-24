@@ -23,7 +23,9 @@ const navbar = () => {
       <Link to='/routines' className='flex justify-center align-center'>
         <FaGears />
       </Link>
-      <Link to='/logout' className='flex justify-center align-center'>
+      <Link to='/login' onClick={() => {
+        localStorage.removeItem('user');
+      }} className='flex justify-center align-center'>
         <FaRightFromBracket />
       </Link>
     </div>
