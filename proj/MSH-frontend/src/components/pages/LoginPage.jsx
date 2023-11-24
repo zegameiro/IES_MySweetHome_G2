@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../../utils/index.css';
 import { Formik, Field, Form } from 'formik';
 import axios from 'axios';
@@ -14,6 +14,19 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const [redirected, setRedirected] = useState(
+    new URLSearchParams(window.location.search).get('redirect') !== null
+  );
+
+  useEffect(() => {
+    if (redirected) {
+      console.log('redirected');
+    }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {setRedirected(false)}, 3000);
+  }, [redirected]);
 
   const handleLogin = async (data) => {
     try {
@@ -31,7 +44,6 @@ const LoginPage = () => {
     } catch (error) {
       console.log(error);
       setLoginError(true);
-      
     }
   };
 
@@ -85,7 +97,7 @@ const LoginPage = () => {
                         className="alert alert-error"
                       >
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"
+                          xmlns="http://www.w3.org/2000/sv"
                           className="stroke-current shrink-0 h-6 w-6"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -98,6 +110,29 @@ const LoginPage = () => {
                           />
                         </svg>
                         <span>Invalid email or password!</span>
+                      </div>
+                    )}
+                    {redirected && (
+                      <div
+                        role="alert"
+                        className="alert alert-warning "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="stroke-current shrink-0 h-6 w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                          />
+                        </svg>
+                        <span>
+                          You must be logged in to access you dashboard!
+                        </span>
                       </div>
                     )}
                     <span className="flex flex-col w-full p-2">
