@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "cad69a86-d42d-4378-93b0-4d6c01587d02",
+		"_postman_id": "d5fc1e3e-4da4-4166-a738-28b1d59f694d",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "28375958"
+		"_exporter_id": "19001359"
 	},
 	"item": [
 		{
@@ -220,28 +220,60 @@
 					"response": []
 				},
 				{
-					"name": "Change State",
+					"name": "View Output Device",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/outputs/changeState?id=6560d3a27e0c60134c0dcf41&newState=ON",
+							"raw": "http://localhost:8080/outputs/view?id=6561070de5e0397d65c4c9cc",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"outputs",
-								"changeState"
+								"view"
 							],
 							"query": [
 								{
 									"key": "id",
-									"value": "6560d3a27e0c60134c0dcf41"
-								},
+									"value": "6561070de5e0397d65c4c9cc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change State",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"state\":\"on\",\r\n\"temperature\":25}\r\n\r\n// state can be on or off ( or whatever but pls dont )\r\n// ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/outputs/view?id=6561070de5e0397d65c4c9cc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"view"
+							],
+							"query": [
 								{
-									"key": "newState",
-									"value": "ON"
+									"key": "id",
+									"value": "6561070de5e0397d65c4c9cc"
 								}
 							]
 						}
