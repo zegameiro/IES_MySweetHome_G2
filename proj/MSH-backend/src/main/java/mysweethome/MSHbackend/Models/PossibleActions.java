@@ -1,8 +1,8 @@
 package mysweethome.MSHbackend.Models;
 
 public enum PossibleActions {
-    TURN_ON(OutputDeviceType.LIGHT, OutputDeviceType.SPEAKER),
-    TURN_OFF(OutputDeviceType.LIGHT, OutputDeviceType.SPEAKER),
+    TURN_ON(OutputDeviceType.LIGHT, OutputDeviceType.SPEAKER, OutputDeviceType.AIR_CONDITIONER, OutputDeviceType.TELEVISION),
+    TURN_OFF(OutputDeviceType.LIGHT, OutputDeviceType.SPEAKER , OutputDeviceType.AIR_CONDITIONER, OutputDeviceType.TELEVISION),
     SET_TEMPERATURE(OutputDeviceType.AIR_CONDITIONER),
     CHANGE_CHANNEL(OutputDeviceType.TELEVISION);
 
