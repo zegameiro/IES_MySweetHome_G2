@@ -8,7 +8,6 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 
 @ToString
 @NoArgsConstructor
@@ -26,7 +25,12 @@ public class OutputDevice extends Device {
     private String device_location;
     @NotBlank
     private String current_state;
-    @NotBlank
-    ArrayList<String> permited_actions; // actions that can be performed on this device
+
+    Integer temperature; // for air conditioners
+    String current_channel; // for television
+    String current_music; // for speakers
+
+
+
 
 }

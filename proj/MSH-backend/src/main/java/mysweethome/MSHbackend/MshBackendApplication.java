@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan(basePackages = "mysweethome.MSHbackend")
 @EnableMongoRepositories
 @EnableAsync
+
 public class MshBackendApplication {
 
     public static void main(String[] args) {
