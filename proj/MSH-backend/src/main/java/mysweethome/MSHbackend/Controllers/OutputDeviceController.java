@@ -47,7 +47,7 @@ public class OutputDeviceController {
         
 
         dev.setCurrent_state(state);
-        dev.setDevice_category(category);
+        dev.setDevice_category(OutputDeviceType.valueOf(category));
         dev.setDevice_location(room.getUid());
         
         String deviceID = outputDevService.saveGetOutputDevice(dev).getID();
@@ -81,7 +81,7 @@ public class OutputDeviceController {
         JSONObject out = new JSONObject();
         
         out.put("id", device.getID());
-        out.put("category", OutputDeviceType.valueOf(device.getDevice_category()).name());
+        out.put("category", OutputDeviceType.valueOf(device.getDevice_category().name()));
         out.put("location", device.getDevice_location());
         out.put("state", device.getCurrent_state());
 
@@ -107,7 +107,7 @@ public class OutputDeviceController {
             JSONObject out = new JSONObject();
             
             out.put("id", src.getID());
-            out.put("category", OutputDeviceType.valueOf(src.getDevice_category()).name());
+            out.put("category", OutputDeviceType.valueOf(src.getDevice_category().name()));
             out.put("location", src.getDevice_location());
             out.put("state", src.getCurrent_state());
     

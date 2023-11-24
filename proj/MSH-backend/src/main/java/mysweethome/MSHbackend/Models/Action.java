@@ -22,8 +22,10 @@ public class Action {
 
     @Id
     private int id;
+    /* 
     @NotBlank
     private int action_category;
+    */
     @NotBlank
     private String action_description;
     @NotBlank
@@ -31,6 +33,6 @@ public class Action {
     @NotBlank
     private HashMap<String,Integer> output_actions;
     @NotBlank
-    private ArrayList<OutputDevice> output_devices; // output devices to which this action should be associated
+    private String outputDeviceID; // id of the output device that will be affected by this action
 
 }
