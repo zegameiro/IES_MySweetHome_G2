@@ -17,6 +17,10 @@ public class OutputDeviceService {
         outDevRepository.save(outDev);
     }
 
+    public OutputDevice findByID(String id) {
+        return outDevRepository.findByID(id);
+    }
+
     public LinkedList<OutputDevice> getAll() {
         return outDevRepository.getAll();
     }

@@ -99,7 +99,7 @@ public class Processor {
     String device_location = (String) data.get("device_location");
 
     dataSourceRepository
-        .saveDataSource(new DataSource(Integer.parseInt(device_id), Integer.parseInt(device_category), device_location));
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location));
     System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
 
   }
