@@ -1,11 +1,11 @@
 package mysweethome.MSHbackend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,28 +24,27 @@ public class SensorController {
     @Autowired
     private DataSourceService dataSourceService;
 
-    //  Get a full list of all the data sources (sensors)
+    // Get a full list of all the data sources (sensors)
     @GetMapping("/list")
     public @ResponseBody String getSources() {
         LinkedList<DataSource> sources;
         List<JSONObject> output = new LinkedList<JSONObject>();
 
-        //  Get the sources list
+        // Get the sources list
         try {
             sources = dataSourceService.getAll();
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
         for (DataSource src : sources) {
             // Generate the output user object for the frontend
             JSONObject out = new JSONObject();
-            
+
             out.put("id", src.getDevice_id());
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());
-    
+
             output.add(out);
         }
 
