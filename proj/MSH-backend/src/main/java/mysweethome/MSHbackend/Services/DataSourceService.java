@@ -17,6 +17,10 @@ public class DataSourceService {
         dataSourceRepository.save(dataSource);
     }
 
+    public DataSource findByID(String id) {
+        return dataSourceRepository.findByID(id);
+    }
+
     public LinkedList<DataSource> getAll() {
         return dataSourceRepository.getAll();
     }
