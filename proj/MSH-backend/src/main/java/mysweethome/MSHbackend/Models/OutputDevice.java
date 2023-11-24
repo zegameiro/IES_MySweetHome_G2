@@ -16,10 +16,10 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @Document("outputdevices")
-public class OutputDevice {
+public class OutputDevice extends Device {
 
     @Id
-    private int device_id;
+    private String ID;
     @NotBlank
     private OutputDeviceType device_category;
     @NotBlank

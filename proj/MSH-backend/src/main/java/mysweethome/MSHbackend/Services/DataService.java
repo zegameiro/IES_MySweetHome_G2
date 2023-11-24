@@ -24,7 +24,7 @@ public class DataService {
         return dataSourceRepository.findAllByUser();
     }
     */
-    public List<SensorData> listDataBySensor(int sensor_id, String filter) {
+    public List<SensorData> listDataBySensor(String sensor_id, String filter) {
 
         List<SensorData> data = new ArrayList<SensorData>();
 

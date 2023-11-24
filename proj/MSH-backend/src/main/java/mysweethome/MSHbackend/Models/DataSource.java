@@ -7,17 +7,17 @@ import javax.validation.constraints.NotBlank;
 
 @ToString
 @Document("sensors")
-public class DataSource {
+public class DataSource extends Device {
 
     @Id
-    private int device_id;
+    private String ID;
     @NotBlank
     private int device_category;
     @NotBlank
     private String device_location;
 
-    public DataSource(int device_id, int device_category, String device_location) {
-        this.device_id = device_id;
+    public DataSource(String device_id, int device_category, String device_location) {
+        this.ID = device_id;
         this.device_category = device_category;
         this.device_location = device_location;
     }
@@ -25,12 +25,12 @@ public class DataSource {
     public DataSource() {
     }
 
-    public int getDevice_id() {
-        return device_id;
+    public String getDevice_id() {
+        return ID;
     }
 
-    public void setDevice_id(int device_id) {
-        this.device_id = device_id;
+    public void setDevice_id(String device_id) {
+        this.ID = device_id;
     }
 
     public int getDevice_category() {
