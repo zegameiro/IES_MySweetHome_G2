@@ -13,7 +13,7 @@ public class appConfig {
 
     @Bean
     public String host() {
-        return "localhost";
+        return "rabbitmq";
     }
 }
 
