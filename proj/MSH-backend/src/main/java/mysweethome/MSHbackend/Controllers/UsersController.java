@@ -17,9 +17,9 @@ import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "/user")
 public class UsersController {
 
     @Autowired
