@@ -43,8 +43,6 @@ services:
     ports:
       - '8080:8080'
 
-    command: ["./wait-for-it.sh", "rabbitmq:5672", "--", "mvn", "spring-boot:run"]
-
   frontend:
     build: 
       context: ./MSH-frontend
