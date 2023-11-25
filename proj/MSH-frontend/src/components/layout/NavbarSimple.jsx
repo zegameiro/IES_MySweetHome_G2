@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from 'react-router-dom';
-import logo from '/src/assets/msh_logo.png';
+import logo from '/src/assets/icon/msh_logo.png';
 
 const NavbarSimple = ({ fixed }) => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const NavbarSimple = ({ fixed }) => {
       <span>
         <button
           className="btn gradient-blue text-white border-none text-lg"
-          onClick={() => navigate('/register')}
+          onClick={() => navigate('/login')}
         >
           Sign in
         </button>

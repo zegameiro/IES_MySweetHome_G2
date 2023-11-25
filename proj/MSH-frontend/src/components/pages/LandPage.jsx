@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/msh_logo.png';
+import logo from '/src/assets/icon/msh_logo.png';
 import Footer from '../layout/Footer';
 
 import { FaUser, FaHouse } from 'react-icons/fa6';
@@ -9,7 +9,7 @@ const LandPage = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className=" hero min-h-screen bg-[url('/src/assets/smarthome_bg.jpg')]">
+      <div className={`hero min-h-screen bg-[url('/src/assets/images/smarthome_bg.jpg')]`}>
         <div className="hero-overlay bg-[#1e1e1e] bg-opacity-40 "></div>
         <div className="hero-content text-center text-neutral-content">
           <NavbarSimple fixed />
@@ -23,7 +23,7 @@ const LandPage = () => {
             </p>
             <button
               className="btn btn-primary text-lg"
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/login')}
             >
               Get Started
             </button>
@@ -79,7 +79,7 @@ const LandPage = () => {
           </h1>
           <button
             className="btn btn-secondary text-lg"
-            onClick={() => navigate('/register')}
+            onClick={() => navigate('/login')}
           >
             Sign in
           </button>

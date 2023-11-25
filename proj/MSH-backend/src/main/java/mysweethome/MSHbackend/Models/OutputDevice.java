@@ -15,15 +15,22 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Document("outputdevices")
-public class OutputDevice {
+public class OutputDevice extends Device {
 
     @Id
-    private int device_id;
+    private String ID;
     @NotBlank
-    private int device_category;
+    private OutputDeviceType device_category;
     @NotBlank
     private String device_location;
     @NotBlank
     private String current_state;
+
+    Integer temperature; // for air conditioners
+    String current_channel; // for television
+    String current_music; // for speakers
+
+
+
 
 }

@@ -7,17 +7,13 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
-import jakarta.annotation.PostConstruct;
 
 import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 
 import org.springframework.stereotype.Component;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -37,7 +33,6 @@ public class Processor {
   @Autowired
   private DataSourceService dataSourceRepository ;
 
-  @Autowired
   public Processor(@Qualifier("host") String host, @Qualifier("sensorQueue") String queueName) {
     this.host = host;
     this.queueName = queueName;
@@ -52,11 +47,11 @@ public class Processor {
     Connection connection = factory.newConnection();
     Channel channel = connection.createChannel();
     channel.queueDeclare(this.queueName, false, false, false, null);
-    System.out.println("Processor is waiting for messages uwu ");
+    //System.out.println("Processor is waiting for messages uwu ");
 
     DeliverCallback deliverCallback = (consumerTag, delivery) -> {
       String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-      System.out.println(" [Processor] Received '" + message + "'");
+      //System.out.println(" [Processor] Received '" + message + "'");
       processMessage(message);
     };
     channel.basicConsume(this.queueName, true, deliverCallback, consumerTag -> {
@@ -85,11 +80,16 @@ public class Processor {
     }
 
     int sensorId = Integer.parseInt((String)data.get("data_source_id"));
+
+    // check if this id is in the database
+
+
     Long timestamp = Long.parseLong((String)data.get("timestamp"));
     String sensorInformation = (String) data.get("sensor_information");
 
     dataRepository.saveData(new SensorData(sensorId, timestamp, sensorInformation));
-    System.out.println("Saving data from sensor with ID in database" + sensorId);
+
+    System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
 
   }
   public  void registerSensor(Map<String, Object> data) {
@@ -99,8 +99,8 @@ public class Processor {
     String device_location = (String) data.get("device_location");
 
     dataSourceRepository
-        .saveDataSource(new DataSource(Integer.parseInt(device_id), Integer.parseInt(device_category), device_location));
-    System.out.println("Registering sensor with ID in database" + device_id);
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location));
+    System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
 
   }
 

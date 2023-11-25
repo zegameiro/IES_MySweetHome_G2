@@ -1,0 +1,26 @@
+Get users
+Login users
+Create users
+Edit users info
+
+Get user's devices
+Get user's devices categories
+Get device details
+Get user's devices by room 
+Edit device's details (on/off, values, ...)
+
+Get user's rooms
+Get room details
+Add room
+Add device to room
+
+Get temperature history (all time, last month last week)
+Get electricity history (all time, last month last week)
+Get music history (all time, last month last week)
+
+Get user's routines
+Edit routine
+Add routine
+Delete routine
+Get options to change in device (???)
+

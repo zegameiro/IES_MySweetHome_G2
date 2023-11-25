@@ -21,13 +21,17 @@ public class Action {
 
     @Id
     private int id;
+    /* 
     @NotBlank
     private int action_category;
+    */
     @NotBlank
     private String action_description;
     @NotBlank
     private HashMap<String, String> input_ranges;
     @NotBlank
     private HashMap<String,Integer> output_actions;
+    @NotBlank
+    private String outputDeviceID; // id of the output device that will be affected by this action
 
 }

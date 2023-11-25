@@ -31,7 +31,7 @@ public class TemperatureSensor {
             String register_msg = MAPPER.writeValueAsString(Map.of("register_msg", "1", "device_id", String.valueOf(device_id),
                     "device_category", device_category, "device_location", device_location));
             broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
-            System.out.println(" [TemperatureSensor] Sent '" + register_msg + "'");
+            //System.out.println(" [TemperatureSensor] Sent '" + register_msg + "'");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -43,13 +43,13 @@ public class TemperatureSensor {
                 String message = MAPPER.writeValueAsString(Map.of("data_source_id", String.valueOf(device_id), "timestamp",
                         String.valueOf(System.currentTimeMillis()), "sensor_information", String.valueOf(RANDOM.nextInt(higher_bound - lower_bound +1) + lower_bound)) );
                 broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
-                System.out.println(" [TemperatureSensor] Sent '" + message + "'");
+                //System.out.println(" [TemperatureSensor] Sent '" + message + "'");
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
             try {
-                TimeUnit.SECONDS.sleep(3);
+                TimeUnit.SECONDS.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
