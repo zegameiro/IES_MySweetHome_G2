@@ -10,7 +10,6 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
-import java.util.ArrayList;
 
 @ToString
 @NoArgsConstructor

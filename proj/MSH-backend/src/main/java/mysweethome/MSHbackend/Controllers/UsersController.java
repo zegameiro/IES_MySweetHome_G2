@@ -14,11 +14,11 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Controller
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
-
 @RequestMapping(path = "/users")
 public class UsersController {
 
