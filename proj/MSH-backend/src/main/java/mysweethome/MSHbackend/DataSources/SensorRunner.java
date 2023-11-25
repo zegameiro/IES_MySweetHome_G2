@@ -26,7 +26,7 @@ public class SensorRunner {
     public void run() throws Exception {
         System.out.println("SensorRunner initialized");
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("localhost");
+        factory.setHost("rabbitmq");
         try {
             Connection connection = factory.newConnection();
             channel = connection.createChannel();
