@@ -1,16 +1,18 @@
 FROM node:16.9.0-alpine3.12
 
-WORKDIR /msh-frontend
+WORKDIR /app
 
-COPY package.json /msh-frontend/
-COPY package-lock.json /msh-frontend/
-COPY postcss.config.js /msh-frontend/
-COPY tailwind.config.js /msh-frontend/
-COPY yarn.lock /msh-frontend/
-
-COPY . .
+COPY package.json .
+COPY package-lock.json .
+COPY postcss.config.js .
+COPY tailwind.config.js .
+COPY yarn.lock .
 
 RUN yarn
 
+COPY . .
+
 EXPOSE 3000
+
+CMD ["yarn", "dev"]
 

@@ -37,7 +37,7 @@ const RegisterPage = () => {
 
   const registerUser = async (data) => {
     try {
-      const res = await axios.post(`${BASE_API_URL}/user/add`,null, {
+      const res = await axios.post(`${BASE_API_URL}/user/add`, null,{
         params: {
           firstname: data.firstname,
           lastname: data.lastname,
@@ -47,6 +47,7 @@ const RegisterPage = () => {
       });
       console.log(res);
       if (res.status === 200) {
+        console.log('registered');
         navigate('/login');
       }
     } catch (error) {

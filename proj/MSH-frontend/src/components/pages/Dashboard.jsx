@@ -13,6 +13,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      <Navbar />
       <DeviceCard />
     </div>
   )

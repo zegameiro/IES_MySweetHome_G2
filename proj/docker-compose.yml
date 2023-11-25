@@ -1,4 +1,4 @@
-version: '2.21.0'
+version: '3.8'
 
 services:
 
@@ -6,6 +6,9 @@ services:
     image: rabbitmq:3-management
     
     container_name: 'rabbitmq'
+
+    networks:
+      - backend_network
 
     ports:
       - '5672:5672'
@@ -24,6 +27,9 @@ services:
 
     container_name: 'mongodb'
 
+    networks:
+      - backend_network
+
     restart: always
 
     ports:
@@ -35,6 +41,10 @@ services:
       dockerfile: Dockerfile
 
     container_name: 'msh_backend'
+
+    networks:
+      - backend_network
+      - frontend_network
 
     depends_on:
       - rabbitmq
@@ -50,6 +60,12 @@ services:
 
     container_name: 'msh_frontend'
 
+    networks:
+      - frontend_network
+
+    volumes:
+      - ./MSH-frontend:/app
+
     depends_on:
       - backend
 
@@ -58,4 +74,10 @@ services:
 
     command: yarn dev
 
-  
+networks:
+
+  backend_network:
+    driver: bridge
+
+  frontend_network:
+    driver: bridge
