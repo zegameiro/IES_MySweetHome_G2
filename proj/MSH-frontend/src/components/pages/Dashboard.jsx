@@ -8,6 +8,7 @@ import axios from 'axios';
 const Dashboard = () => {
   const navigate = useNavigate();
   const [devices, setDevices] = useState([]);
+  const [rooms, setRooms] = useState([])
 
   const getDevices = async () => {
     try {
@@ -24,10 +25,11 @@ const Dashboard = () => {
 
   const getAllRooms = async () => {
     try {
-        const rooms = await axios.get(`${BASE_API_URL}/room/list`, null);
+        const res = await axios.get(`${BASE_API_URL}/room/list`, null);
         if (res.status === 200) {
             console.log('received data');
-            rooms = res.data;
+            console.log(res.data);
+            setRooms(res.data);
         }
     } catch (error) {
         console.log(error);
@@ -47,7 +49,7 @@ const Dashboard = () => {
     <div className='flex flex row'>
       <Navbar/>
       {devices.map(device => (
-        <DeviceCard device={device} isBig rooms={rooms}/>
+        <DeviceCard device={device} rooms={rooms}/>
       ))}
     </div>
   )

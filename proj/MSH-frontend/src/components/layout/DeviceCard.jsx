@@ -11,6 +11,7 @@ import { FaLightbulb, FaRegLightbulb  } from 'react-icons/fa6';
 const DeviceCard = (props) => {
     const isBig = props.isBig;
     let device = props.device;
+    const rooms = props.rooms;
     const [isChecked, setIsChecked] = useState(device["state"] === "on" ? true : false);
     
 
@@ -74,47 +75,51 @@ const DeviceCard = (props) => {
     return (
         <>
             {isBig ? 
-                <div className={`card w-[500px] border-solid border-[3px] flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}>
-                    <div className='flex justify-between items-center p-5'>
-                        <div className='flex p-1'> 
-                            { isChecked ? <h1 className='text-3xl font-medium text-primary'>On</h1> : <h1 className='text-3xl font-medium text-accent'>Off</h1> }
+                <div className={`card w-[280px] h-[180px] border-solid border-[3px] ${isChecked ? "border-primary" : "border-accent"} flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}>
+                    <div className='flex justify-between items-center'>
+                        <div className='flex text-lg font-medium pl-5 pt-2'> 
+                            { isChecked ? <h1 className='text-primary'>On</h1> : <h1 className='text-accent'>Off</h1> }
                         </div>
-                        <input type="checkbox" className={`toggle ${isChecked ? 'toggle-primary' : 'toggle-accent'} peer`} 
-                            checked={isChecked ? true : false} 
-                            onChange={(e) => {
-                                setIsChecked(e.target.checked);
-                                changeState(device["id"], e.target.checked ? 'on' : 'off');
-                            }}
-                        />
+                        <div className='flex pr-5 pt-2'>
+                            <input type="checkbox" className={`toggle ${isChecked ? 'toggle-primary' : 'toggle-accent'} peer`} 
+                                checked={isChecked ? true : false} 
+                                onChange={(e) => {
+                                    setIsChecked(e.target.checked);
+                                    changeState(device["id"], e.target.checked ? 'on' : 'off');
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className='justify-between flex'>
-                        <div className="card-body pb-10 flex justify-between">
-                            <div className='pl-5 text-8xl mb-[10px] font-medium text-primary'>
+                        <div className="card-body flex justify-between pl-4 pt-2">
+                            <div className={`text-6xl pl-5 mb-[10px] font-medium ${isChecked ? "text-primary" : "text-accent"}`}>
                                 {getIcon(device["category"], isChecked)}
         
                             </div>
-                            <div className={`text-3xl font-medium`}>
-                                <h1>Ambient LEDS</h1>
+                            <div>
+                                <div className={`text-base font-semibold ${isChecked ? "text-primary" : "text-accent"}`}>
+                                    <h1>Ambient LEDS</h1>
+                                </div>
+                                {rooms[0]["devices"].includes(device["id"]) ? 
+                                    <p className='items-centers text-sm'> On <strong>{ rooms[0]["name"] }</strong> </p> 
+                                : 
+                                    <p className='text-sm'>Room Unknown</p> 
+                                }
                             </div>
-                            <p className='items-center'>On <strong>Kitchen</strong></p>
                         </div>
-                        <div className='flex justify-end p-5'>
+                        <div className='flex justify-end'>
                             { isChecked ?
-                                <div className='flex-col'>
-                                    <div className='flex'>
-                                        <div>
-                                            <span className='bg-[#EA80FF] font-semibold'>#EA80FF</span>
-                                        </div>
+                                <div className='flex-col pr-4'>
+                                    <div className='flex text-sm pt-[30px]'>
+                                        <span className='bg-[#EA80FF] font-semibold'>#EA80FF</span>
                                     </div>
-                                    <div className='flex flex-col items-center pt-[120px] text-slate-500'>
-                                        <p>Uptime</p>
-                                        <p className='text-xl font-bold'> 2h 46min </p>
+                                    <div className='flex flex-col items-center pt-[40px] text-slate-500'>
+                                        <p className='text-sm'>Uptime</p>
+                                        <p className='text-sm font-bold'> 2h 46min </p>
                                     </div>
                                 </div>
                             :
-                                <div>
-                                    <span className='bg-'></span>
-                                </div>
+                                <div></div>
                             }
                         </div>
                     </div>
