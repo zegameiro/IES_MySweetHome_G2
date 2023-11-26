@@ -126,7 +126,7 @@ const DeviceCard = (props) => {
                 
                 </div>
             :
-                <div className={`card w-[180px] h-[180px] border-solid border-[3px] ${isChecked ? 'border-primary' : 'border-accent'} flex flex-col text-center justify-between hover:shadow-xl transition-shadow duration-300`}>
+                <div className={`card w-[170px] h-[170px] border-solid border-[3px] ${isChecked ? 'border-primary' : 'border-accent'} flex flex-col text-center justify-between hover:shadow-xl transition-shadow duration-300`}>
                     <div className='flex justify-between pt-3 pr-3 pl-3'>
                         <div className='flex'> 
                             { isChecked ? <h1 className='text-md font-medium text-primary'>On</h1> : <h1 className='text-md font-medium text-accent'>Off</h1> }

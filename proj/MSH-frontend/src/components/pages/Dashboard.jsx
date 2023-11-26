@@ -5,8 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { BASE_API_URL } from '../../constants';
 import axios from 'axios';
 
+import home1 from '../../assets/images/home1.jpg';
+
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const [devices, setDevices] = useState([]);
   const [rooms, setRooms] = useState([])
 
@@ -46,11 +50,19 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className='flex flex row'>
+    <div className='flex'>
       <Navbar/>
-      {devices.map(device => (
-        <DeviceCard device={device} rooms={rooms}/>
-      ))}
+      <div className='flex flex-col'>
+        <div className='pb-4'>
+          <img src={home1} className='w-[450px] h-[270px]'/>
+          <p>{user["firstname"]}</p>
+        </div>
+        <div className='flex flex-row'>
+          {devices.map(device => (
+            <DeviceCard device={device} isBig rooms={rooms}/>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
