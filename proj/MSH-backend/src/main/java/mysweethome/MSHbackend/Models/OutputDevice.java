@@ -20,6 +20,8 @@ public class OutputDevice extends Device {
     @Id
     private String ID;
     @NotBlank
+    private String name;
+    @NotBlank
     private OutputDeviceType device_category;
     @NotBlank
     private String device_location;
@@ -29,6 +31,7 @@ public class OutputDevice extends Device {
     Integer temperature; // for air conditioners
     String current_channel; // for television
     String current_music; // for speakers
+    String color; // for lights
 
 
 

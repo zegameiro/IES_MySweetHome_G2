@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d5fc1e3e-4da4-4166-a738-28b1d59f694d",
+		"_postman_id": "6a07d913-5e18-493d-847f-a2da0d7adc78",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19001359"
@@ -252,7 +252,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"state\":\"on\",\r\n\"temperature\":25}\r\n\r\n// state can be on or off ( or whatever but pls dont )\r\n// ",
+							"raw": "{\"state\":\"on\",\r\n\"temperature\":25}\r\n\r\n// state can be on or off ( or whatever but pls dont )\r\n// for the 2nd argument, theres various ones:\r\n// temperature , channel , music or color\r\n// for air conditioner, television , speaker , light",
 							"options": {
 								"raw": {
 									"language": "json"

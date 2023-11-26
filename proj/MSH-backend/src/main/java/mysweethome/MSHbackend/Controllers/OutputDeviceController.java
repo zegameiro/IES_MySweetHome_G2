@@ -29,7 +29,7 @@ public class OutputDeviceController {
     private RoomService roomService;
 
     @PostMapping("/add")
-    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String state, @RequestParam int category, @RequestParam String roomID) {
+    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String name , @RequestParam String state, @RequestParam int category, @RequestParam String roomID) {
         OutputDevice dev = new OutputDevice();
 
         Room room;
@@ -46,7 +46,7 @@ public class OutputDeviceController {
         }
         
         OutputDeviceType dev_category = OutputDeviceType.valueOf(category);
-        
+        dev.setName(name);
         dev.setCurrent_state(state);
         dev.setDevice_category(dev_category);
         dev.setDevice_location(room.getUid());
@@ -62,7 +62,8 @@ public class OutputDeviceController {
                 dev.setCurrent_music("None");
                 break;
             case LIGHT:
-                break; // nao há opçao nenhuma por enqnt
+                dev.setColor("white");
+                break;
             default:
                 throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
         }
@@ -94,7 +95,7 @@ public class OutputDeviceController {
 
         // Generate the output user object for the frontend
         JSONObject out = new JSONObject();
-        
+        out.put("name", device.getName());
         out.put("id", device.getID());
         out.put("category", OutputDeviceType.valueOf(device.getDevice_category().name()));
         out.put("location", device.getDevice_location());
@@ -111,7 +112,7 @@ public class OutputDeviceController {
                 out.put("music", device.getCurrent_music());
                 break;
             case LIGHT:
-                break; // nao há opçao nenhuma por enqnt
+                out.put("color", device.getColor());
             default:
                 throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
         }
@@ -155,12 +156,17 @@ public class OutputDeviceController {
             device.setCurrent_music(body.getString("music"));
         }
 
+        if (body.has("color") && device.getDevice_category() == OutputDeviceType.LIGHT) { // alteração de color
+            device.setColor(body.getString("color"));
+        }
+
 
         outputDevService.saveOutputDevice(device);
 
         // Generate the output user object for the frontend
         JSONObject out = new JSONObject();
         
+        out.put("name", device.getName());
         out.put("id", device.getID());
         out.put("category", OutputDeviceType.valueOf(device.getDevice_category().name()));
         out.put("location", device.getDevice_location());
@@ -200,6 +206,7 @@ public class OutputDeviceController {
             JSONObject out = new JSONObject();
             OutputDeviceType dev_category = src.getDevice_category();
             
+            out.put("name", src.getName());
             out.put("id", src.getID());
             out.put("category", dev_category.toString());
             out.put("location", src.getDevice_location());
