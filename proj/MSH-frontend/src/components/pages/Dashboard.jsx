@@ -12,7 +12,6 @@ const Dashboard = () => {
   const getDevices = async () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`, null);
-      console.log(res);
       if (res.status === 200) {
         console.log('received data');
         setDevices(res.data);
@@ -22,11 +21,25 @@ const Dashboard = () => {
       console.log(error);
     }
   }
+
+  const getAllRooms = async () => {
+    try {
+        const rooms = await axios.get(`${BASE_API_URL}/room/list`, null);
+        if (res.status === 200) {
+            console.log('received data');
+            rooms = res.data;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
   useEffect(() => {
     if (!localStorage.getItem('user')) {
       navigate('/login?redirect=dashboard');
     } else {
       getDevices();
+      getAllRooms();
     }
   }, []);
 
@@ -34,7 +47,7 @@ const Dashboard = () => {
     <div className='flex flex row'>
       <Navbar/>
       {devices.map(device => (
-        <DeviceCard device={device} />
+        <DeviceCard device={device} isBig rooms={rooms}/>
       ))}
     </div>
   )

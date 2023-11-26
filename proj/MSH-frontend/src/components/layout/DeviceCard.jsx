@@ -79,13 +79,19 @@ const DeviceCard = (props) => {
                         <div className='flex p-1'> 
                             { isChecked ? <h1 className='text-3xl font-medium text-primary'>On</h1> : <h1 className='text-3xl font-medium text-accent'>Off</h1> }
                         </div>
-                        <input type="checkbox" className="toggle toggle-primary peer" onClick={changeState(device["id"], device["state"])} />
+                        <input type="checkbox" className={`toggle ${isChecked ? 'toggle-primary' : 'toggle-accent'} peer`} 
+                            checked={isChecked ? true : false} 
+                            onChange={(e) => {
+                                setIsChecked(e.target.checked);
+                                changeState(device["id"], e.target.checked ? 'on' : 'off');
+                            }}
+                        />
                     </div>
                     <div className='justify-between flex'>
                         <div className="card-body pb-10 flex justify-between">
                             <div className='pl-5 text-8xl mb-[10px] font-medium text-primary'>
-                                {getIcon(device["category"], device["state"])}
-                                
+                                {getIcon(device["category"], isChecked)}
+        
                             </div>
                             <div className={`text-3xl font-medium`}>
                                 <h1>Ambient LEDS</h1>
