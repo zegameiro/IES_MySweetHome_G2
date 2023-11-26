@@ -20,15 +20,20 @@ public class OutputDevice extends Device {
     @Id
     private String ID;
     @NotBlank
+    private String name;
+    @NotBlank
     private OutputDeviceType device_category;
     @NotBlank
     private String device_location;
     @NotBlank
     private String current_state;
+    @NotBlank
+    private Long laststatechange;
 
     Integer temperature; // for air conditioners
     String current_channel; // for television
     String current_music; // for speakers
+    String color; // for lights
 
 
 

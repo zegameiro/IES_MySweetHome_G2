@@ -1,7 +1,7 @@
 package mysweethome.MSHbackend.Models;
 
 public enum OutputDeviceType {
-    AIR_CONDITIONER(1), LIGHT(0), TELEVISION(2), SPEAKER(3);
+    AIR_CONDITIONER(1), LIGHT(0), TELEVISION(2), SPEAKER(3), DEHUMIDIFER(4);
     
     private Integer index;
 
