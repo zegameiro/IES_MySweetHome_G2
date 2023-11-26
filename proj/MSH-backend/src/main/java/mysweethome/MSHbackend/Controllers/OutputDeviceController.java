@@ -50,6 +50,7 @@ public class OutputDeviceController {
         dev.setCurrent_state(state);
         dev.setDevice_category(dev_category);
         dev.setDevice_location(room.getUid());
+        dev.setLaststatechange(System.currentTimeMillis());
 
         switch (dev_category) {
             case AIR_CONDITIONER:
@@ -100,6 +101,7 @@ public class OutputDeviceController {
         out.put("category", OutputDeviceType.valueOf(device.getDevice_category().name()));
         out.put("location", device.getDevice_location());
         out.put("state", device.getCurrent_state());
+        out.put("laststatechange", device.getLaststatechange());
 
         switch (device.getDevice_category()) {
             case AIR_CONDITIONER:
@@ -160,6 +162,8 @@ public class OutputDeviceController {
             device.setColor(body.getString("color"));
         }
 
+        device.setLaststatechange(System.currentTimeMillis());
+
 
         outputDevService.saveOutputDevice(device);
 
@@ -211,6 +215,7 @@ public class OutputDeviceController {
             out.put("category", dev_category.toString());
             out.put("location", src.getDevice_location());
             out.put("state", src.getCurrent_state());
+            out.put("laststatechange", src.getLaststatechange());
 
             switch (dev_category) {
                 case AIR_CONDITIONER:

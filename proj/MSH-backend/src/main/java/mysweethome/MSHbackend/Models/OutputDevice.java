@@ -27,6 +27,8 @@ public class OutputDevice extends Device {
     private String device_location;
     @NotBlank
     private String current_state;
+    @NotBlank
+    private Long laststatechange;
 
     Integer temperature; // for air conditioners
     String current_channel; // for television
