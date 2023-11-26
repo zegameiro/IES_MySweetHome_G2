@@ -8,17 +8,13 @@ services:
     container_name: 'rabbitmq'
 
     networks:
-      - backend_network
+      - msh_network
 
     ports:
       - '5672:5672'
       - '15672:15672'
 
     command: rabbitmq-server
-
-    volumes:
-      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
-      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
   
   mongo:
     build:
@@ -28,7 +24,7 @@ services:
     container_name: 'mongodb'
 
     networks:
-      - backend_network
+      - msh_network
 
     restart: always
 
@@ -43,8 +39,7 @@ services:
     container_name: 'msh_backend'
 
     networks:
-      - backend_network
-      - frontend_network
+      - msh_network
 
     depends_on:
       - rabbitmq
@@ -61,7 +56,7 @@ services:
     container_name: 'msh_frontend'
 
     networks:
-      - frontend_network
+      - msh_network
 
     volumes:
       - ./MSH-frontend:/app
@@ -73,11 +68,7 @@ services:
       - '3000:3000'
 
     command: yarn dev
-
+  
 networks:
-
-  backend_network:
-    driver: bridge
-
-  frontend_network:
+  msh_network:
     driver: bridge

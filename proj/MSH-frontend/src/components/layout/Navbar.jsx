@@ -4,7 +4,7 @@ import { FaChartLine } from "react-icons/fa";
 
 const navbar = () => {
   return (
-    <div className=' flex flex-col justify-evenly bg-accent p-2 rounded-3xl text-4xl text-white w-[8%] h-[80vh]'>
+    <div className=' flex flex-col justify-evenly bg-accent p-2 rounded-3xl text-4xl text-white w-[10%] h-[80vh] m-5'>
       <Link to='/dashboard' className='flex justify-center align-center'>
         <FaHouse />
       </Link>
