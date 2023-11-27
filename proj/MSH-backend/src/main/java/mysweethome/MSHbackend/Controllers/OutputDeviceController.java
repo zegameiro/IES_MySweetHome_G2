@@ -2,6 +2,7 @@ package mysweethome.MSHbackend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(path = "/outputs")
 public class OutputDeviceController {
 
@@ -228,12 +230,12 @@ public class OutputDeviceController {
                     out.put("music", src.getCurrent_music());
                     break;
                 case LIGHT:
-                    break; // nao há opçao nenhuma por enqnt
+                    out.put("color", src.getColor());
+                    break;
                 default:
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
             }
             
-    
             output.add(out);
         }
 

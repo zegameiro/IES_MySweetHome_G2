@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { FaHouse, FaLightbulb, FaHouseSignal, FaCirclePlus, FaGears, FaRightFromBracket } from "react-icons/fa6";
 import { FaChartLine } from "react-icons/fa";
+import '../../utils/index.css';
 
 const navbar = () => {
   return (
-    <div className=' flex flex-col justify-evenly bg-accent p-2 rounded-3xl text-4xl text-white w-[8%] h-[80vh]'>
+    <div className=' flex flex-col justify-evenly gradient-blue rounded-3xl text-4xl text-white w-[5%] h-[80vh]'>
       <Link to='/dashboard' className='flex justify-center align-center'>
         <FaHouse />
       </Link>

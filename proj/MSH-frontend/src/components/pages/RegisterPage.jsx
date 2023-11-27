@@ -37,7 +37,7 @@ const RegisterPage = () => {
 
   const registerUser = async (data) => {
     try {
-      const res = await axios.post(`${BASE_API_URL}/user/add`,null, {
+      const res = await axios.post(`${BASE_API_URL}/user/add`, null,{
         params: {
           firstname: data.firstname,
           lastname: data.lastname,
@@ -47,6 +47,7 @@ const RegisterPage = () => {
       });
       console.log(res);
       if (res.status === 200) {
+        console.log('registered');
         navigate('/login');
       }
     } catch (error) {
@@ -56,7 +57,7 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <NavbarSimple fixed />
+      <NavbarSimple  fixed />
       <div className="hero min-h-screen bg-gradient-to-br from-base-100 via-secondary via-50% to-primary to-90%">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center flex flex-row lg:text-left bg-white p-4 rounded-xl bg-opacity-75 items-center">
@@ -237,7 +238,7 @@ const RegisterPage = () => {
                         </button>
                       </span>
                       {errors.confirmPassword && touched.confirmPassword && (
-                        <p className="text-error px-2 text-sm">
+                        <p className="text-error px-2 text-sm ">
                           {errors.confirmPassword}
                         </p>
                       )}

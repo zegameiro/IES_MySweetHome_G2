@@ -27,6 +27,8 @@ public class UsersController {
 
     @PostMapping("/add")
     public ResponseEntity<User> addUser(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String email, @RequestParam String password) {
+        System.out.println("ENTERED ADD USER");
+        System.out.println("Adding user: " + firstname + " " + lastname + " " + email + " " + password);
         User usr = userService.findByEmail(email);
 
         if (usr != null) {
@@ -74,6 +76,8 @@ public class UsersController {
     // View all information of a specific object based on ID
     @GetMapping(path = "/login")
     public @ResponseBody String loginUser(@RequestParam String email, @RequestParam String password) {
+        System.out.println("ENTERED LOGIN USER");
+        System.out.println("Logging in user: " + email + " " + password);
         User user;
 
         // Check if a User with this email and password exists
