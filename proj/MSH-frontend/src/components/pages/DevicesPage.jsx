@@ -14,6 +14,7 @@ const DevicesPage = () => {
   const [devices, setDevices] = useState([]);
   const [rooms, setRooms] = useState([]);
   const search = new URLSearchParams(window.location.search).get('search');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem('user')) {
@@ -24,9 +25,9 @@ const DevicesPage = () => {
     }
   }, []);
 
-    useEffect(() => {
-        console.log('search changed -> ', search);
-    }, [search]);
+  useEffect(() => {
+    console.log('search changed -> ', search);
+  }, [search]);
 
   const getDevices = async () => {
     try {
@@ -35,9 +36,11 @@ const DevicesPage = () => {
         console.log('received data');
         console.log('Devices -> ', res.data);
         setDevices(res.data);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
+      setLoading(true);
     }
   };
 
@@ -61,36 +64,40 @@ const DevicesPage = () => {
         <Header />
         <div>
           <h1 className="text-4xl font-bold m-4">Devices</h1>
-          <div className="flex flex-wrap mx-4">
-            {devices != [] ? (
-              devices.filter((device) => {
-                if (search === null) {
-                  return device;
-                } else if (
-                  device?.name
-                    .toLowerCase()
-                    .includes(search.toLowerCase())
-                ) {
-                  return device;
-                }
-              }).map((device) => {
-                return (
-                  <span
-                    className="m-2"
-                    key={device?.uid}
-                  >
-                    <DeviceCard
-                      device={device}
-                      isBig
-                      rooms={rooms}
-                    />
-                  </span>
-                );
-              })
-            ) : (
-              <h1 className="text-4xl font-bold m-4">No devices found</h1>
-            )}
-          </div>
+          {loading ? (
+            <h1 className="text-4xl font-bold m-4">Loading...</h1>
+          ) : (
+            <div className="flex flex-wrap mx-4">
+              {devices != [] ? (
+                devices
+                  .filter((device) => {
+                    if (search === null) {
+                      return device;
+                    } else if (
+                      device?.name.toLowerCase().includes(search.toLowerCase())
+                    ) {
+                      return device;
+                    }
+                  })
+                  .map((device) => {
+                    return (
+                      <span
+                        className="m-2"
+                        key={device?.uid}
+                      >
+                        <DeviceCard
+                          device={device}
+                          isBig
+                          rooms={rooms}
+                        />
+                      </span>
+                    );
+                  })
+              ) : (
+                <h1 className="text-4xl font-bold m-4">No devices found</h1>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
