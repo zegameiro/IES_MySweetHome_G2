@@ -9,6 +9,7 @@ import ProfileButton from '../layout/ProfileButton';
 import axios from 'axios';
 
 import home1 from '../../assets/images/home1.jpg';
+import Header from '../layout/Header';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -55,21 +56,16 @@ const Dashboard = () => {
 
   return (
     <div className='flex flex-row pt-4 ml-5 justify-evenly'>
-      <Navbar className="fixed left-0 top-0 right-0 lg:left-auto lg:right-0"/>
+      <Navbar/>
       <div className='flex flex-col pl-3'>
-        <div className='flex flex-row'>
-          <div className='pt-5 pr-3'>
-            <SearchBar />
-          </div>
-          <ProfileButton />
-        </div>
+        <Header />
         <div className='flex flex-col'>
           <div className='pb-4'>
             <img src={home1} className='w-[450px] h-[270px]'/>
           </div>
-          <div className='flex flex-row'>
-            {devices.map((device, idx) => (
-              <DeviceCard key={idx} device={device} isBig rooms={rooms}/>
+          <div className='flex flex-row max-w-[85vw] overflow-x-scroll overflow-y-hidden'>
+            {devices.map((device) => (
+              <DeviceCard key={device.id} device={device} isBig rooms={rooms}/>
             ))}
           </div>
         </div>
