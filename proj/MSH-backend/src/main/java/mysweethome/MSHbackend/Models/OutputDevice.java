@@ -23,8 +23,7 @@ public class OutputDevice extends Device {
     private String name;
     @NotBlank
     private OutputDeviceType device_category;
-    @NotBlank
-    private String device_location;
+    private String device_location; // may be blank
     @NotBlank
     private String current_state;
     @NotBlank

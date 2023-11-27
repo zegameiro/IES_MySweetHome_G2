@@ -26,33 +26,21 @@ public class OutputDeviceController {
 
     @Autowired
     private OutputDeviceService outputDevService;
-    
+
     @Autowired
     private RoomService roomService;
 
     @PostMapping("/add")
-    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String name , @RequestParam String state, @RequestParam int category, @RequestParam String roomID) {
+    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String name, @RequestParam String state,
+            @RequestParam int category) {
         OutputDevice dev = new OutputDevice();
 
-        Room room;
-        try {
-            //  Check if a User with this ID exists
-            room = roomService.findByID(roomID);
-        }
-        catch ( Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
-        }
-
-        if (room == null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "A room with the specified ID does not exist!");
-        }
-        
         OutputDeviceType dev_category = OutputDeviceType.valueOf(category);
         dev.setName(name);
         dev.setCurrent_state(state);
         dev.setDevice_category(dev_category);
-        dev.setDevice_location(room.getUid());
         dev.setLaststatechange(System.currentTimeMillis());
+        dev.setDevice_location("None");
 
         switch (dev_category) {
             case AIR_CONDITIONER:
@@ -71,29 +59,58 @@ public class OutputDeviceController {
                 throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
         }
 
-
-        
-        String deviceID = outputDevService.saveGetOutputDevice(dev).getID();
-
-        room.addDevice(deviceID);
-        roomService.saveRoom(room);
+        outputDevService.saveOutputDevice(dev);
 
         return ResponseEntity.ok(dev);
+    }
+
+    @PostMapping("/associate") // associate a device to a room
+    public @ResponseBody String associateDevice(@RequestParam String deviceID, @RequestParam String roomID) {
+        OutputDevice device;
+        Room room;
+
+        try {
+            // Check if a User with this ID exists
+            device = outputDevService.findByID(deviceID);
+            room = roomService.findByID(roomID);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "An output device with this ID does not exist!");
+        }
+
+        if (room == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "A room with the specified ID does not exist!");
+        }
+
+        device.setDevice_location(roomID);
+        outputDevService.saveOutputDevice(device);
+
+        if (!room.getDevices().contains(deviceID)) { // dont add repeated devices
+            room.addDevice(deviceID);
+        }
+        roomService.saveRoom(room);
+
+        return "Device " + deviceID + " associated to room " + roomID;
     }
 
     @GetMapping("/view")
     public @ResponseBody String viewOutputDevice(@RequestParam String id) {
         OutputDevice device;
-        //  Get the output device
+        // Get the output device
         try {
             device = outputDevService.findByID(id);
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
         if (device == null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An output device with this ID does not exist!");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "An output device with this ID does not exist!");
         }
 
         // Generate the output user object for the frontend
@@ -124,35 +141,35 @@ public class OutputDeviceController {
         return out.toString();
     }
 
-
-     
-    //  Change the state of an output device
+    // Change the state of an output device
     @PostMapping("/changeState")
     public String changeState(@RequestParam String id, @RequestBody String request_body) {
         OutputDevice device;
-        //  Get the output device
+        // Get the output device
         try {
             device = outputDevService.findByID(id);
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
         if (device == null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An output device with this ID does not exist!");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "An output device with this ID does not exist!");
         }
 
         JSONObject body = new JSONObject(request_body);
 
-        if (body.has("state") ) { // alteração de state
+        if (body.has("state")) { // alteração de state
             device.setCurrent_state(body.getString("state"));
         }
 
-        if (body.has("temperature") && device.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) { // alteração de temperature
+        if (body.has("temperature") && device.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) { // alteração
+                                                                                                          // de
+                                                                                                          // temperature
             device.setTemperature(body.getInt("temperature"));
         }
 
-        if (body.has("channel") && device.getDevice_category() == OutputDeviceType.TELEVISION ) { // alteração de channel
+        if (body.has("channel") && device.getDevice_category() == OutputDeviceType.TELEVISION) { // alteração de channel
             device.setCurrent_channel(body.getString("channel"));
         }
 
@@ -166,12 +183,11 @@ public class OutputDeviceController {
 
         device.setLaststatechange(System.currentTimeMillis());
 
-
         outputDevService.saveOutputDevice(device);
 
         // Generate the output user object for the frontend
         JSONObject out = new JSONObject();
-        
+
         out.put("name", device.getName());
         out.put("id", device.getID());
         out.put("category", OutputDeviceType.valueOf(device.getDevice_category().name()));
@@ -180,38 +196,33 @@ public class OutputDeviceController {
 
         if (device.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) {
             out.put("temperature", device.getTemperature());
-        }
-        else if (device.getDevice_category() == OutputDeviceType.TELEVISION) {
+        } else if (device.getDevice_category() == OutputDeviceType.TELEVISION) {
             out.put("channel", device.getCurrent_channel());
-        }
-        else if (device.getDevice_category() == OutputDeviceType.SPEAKER) {
+        } else if (device.getDevice_category() == OutputDeviceType.SPEAKER) {
             out.put("music", device.getCurrent_music());
         }
 
-
         return out.toString();
     }
-    
 
-    //  Get a full list of all the output devices
+    // Get a full list of all the output devices
     @GetMapping("/list")
     public @ResponseBody String getOutputs() {
         LinkedList<OutputDevice> sources;
         List<JSONObject> output = new LinkedList<JSONObject>();
 
-        //  Get the the output devices list
+        // Get the the output devices list
         try {
             sources = outputDevService.getAll();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
-        }            
+        }
 
         for (OutputDevice src : sources) {
             // Generate the output user object for the frontend
             JSONObject out = new JSONObject();
             OutputDeviceType dev_category = src.getDevice_category();
-            
+
             out.put("name", src.getName());
             out.put("id", src.getID());
             out.put("category", dev_category.toString());
@@ -235,14 +246,14 @@ public class OutputDeviceController {
                 default:
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
             }
-            
+
             output.add(out);
         }
 
         return output.toString();
     }
 
-    //  Get a full list of all the output devices
+    // Get a full list of all the output devices
     @GetMapping("/listCategories")
     public @ResponseBody String getCategories() {
         List<JSONObject> output = new LinkedList<JSONObject>();
@@ -250,10 +261,10 @@ public class OutputDeviceController {
         for (OutputDeviceType type : OutputDeviceType.values()) {
             // Generate the output user object for the frontend
             JSONObject out = new JSONObject();
-            
+
             out.put("id", type.toString());
             out.put("name", type.name());
-    
+
             output.add(out);
         }
 
