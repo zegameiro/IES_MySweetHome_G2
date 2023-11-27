@@ -8,8 +8,8 @@
 &nbsp;
 
 [![All Contributors](https://img.shields.io/badge/Contributors-4-brightgreen.svg?style=for-the-badge)](#contributors-)
-[![PRs Welcome](https://img.shields.io/badge/Open%20Issues-0-orange.svg?style=for-the-badge)](http://makeapullrequest.com)
-[![PRs Welcome](https://img.shields.io/badge/Closed%20Issues-0-blue.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/Open%20Issues-13-orange.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/Closed%20Issues-26-blue.svg?style=for-the-badge)](http://makeapullrequest.com)
 
 ## Description
 ### My Sweet Home <br> Home Automation Management System
@@ -22,6 +22,14 @@
 ## Architecture Diagram
 
 <img src = "presentations/Report_Diagrams/architecture_diagram.png">
+
+## To execute our application:
+```bash
+cd proj
+docker compose up
+```
+Then, simply navigate to localhost:3000 to access the front-end application
+
 
 ## Bookmarks
 
