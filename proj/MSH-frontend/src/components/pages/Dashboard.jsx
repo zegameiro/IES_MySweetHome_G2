@@ -5,12 +5,11 @@ import { BASE_API_URL } from '../../constants';
 import { IoIosCloudy, IoIosArrowDown } from "react-icons/io";
 import { FaTemperatureHalf } from "react-icons/fa6";
 
-import Navbar from '../layout/Navbar'
 import DeviceCard from '../layout/DeviceCard'
 import axios from 'axios';
 
-import home1 from '../../assets/images/home1.jpg';
 import Header from '../layout/Header';
+import Navbar from '../layout/Navbar';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -19,6 +18,7 @@ const Dashboard = () => {
   
   const [selectedRoom, setSelectedRoom] = useState("");
   const [filteredOutDevices, setFilteredOutDevices] = useState([]);
+  const [filteredInputDevices, setFilteredInputDevices] = useState([]);
   const [outputDevices, setOutputDevices] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [inputDevices, setInputDevices] = useState([]);
@@ -73,8 +73,9 @@ const Dashboard = () => {
   useEffect(() => {
     if (selectedRoom) {
       console.log(selectedRoom.id);
-      const roomDevices = outputDevices.filter(outdevice => outdevice.location === selectedRoom.name);
-      setFilteredOutDevices(roomDevices);
+      const roomOutDevices = outputDevices.filter(outdevice => outdevice.location === selectedRoom.name);
+      setFilteredOutDevices(roomOutDevices);
+      setFilteredInputDevices(inputDevices);
     } else {
       setFilteredOutDevices([]);
     }
@@ -82,7 +83,10 @@ const Dashboard = () => {
 
  return (
    <div className='flex flex-col pt-4 ml-5'>
-      <Navbar fixed />
+    <div className="mx-[5%] mt-4 flex justify-between">
+      <Navbar />
+      <div className="flex flex-col w-full h-full">
+        <Header />
       <div className='flex flex-col pl-[10%] pt-[2%] w-[100%]'>
         <div className="carousel w-[70%] rounded-3xl">
           <div id="slide1" className="carousel-item relative w-[100%]">
@@ -173,10 +177,25 @@ const Dashboard = () => {
           }
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Input Devices </div>
-        <div className='flex flex-row'>
+        <div className='flex flex-row pl-[10%] pb-[10%] max-w-[85vw] overflow-x-scroll overflow-y-hidden'>
+          {selectedRoom !== "" ? 
+            filteredInputDevices.length > 0 ?
+              <div className='flex flex-row space-x-8'>
+                {filteredInputDevices.map((device) => (
+                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
+                ))}
+              </div>
+            :
+              <h2 className='text-xl'>No devices found</h2>
+          :
+            <h2 className='text-xl'>No devices found</h2>
+          }
         </div>
       </div>
    </div>
+    </div>
+</div>  
+  
  )
 }
 
