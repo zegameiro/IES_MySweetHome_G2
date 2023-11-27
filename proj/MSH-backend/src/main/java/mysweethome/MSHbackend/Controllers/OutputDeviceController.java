@@ -230,12 +230,12 @@ public class OutputDeviceController {
                     out.put("music", src.getCurrent_music());
                     break;
                 case LIGHT:
-                    break; // nao há opçao nenhuma por enqnt
+                    out.put("color", src.getColor());
+                    break;
                 default:
                     throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
             }
             
-    
             output.add(out);
         }
 

@@ -5,7 +5,7 @@ import '../../utils/index.css';
 
 const navbar = () => {
   return (
-    <div className=' flex flex-col justify-evenly gradient-blue p-2 rounded-3xl text-4xl text-white w-[5%] h-[80vh] m-5'>
+    <div className=' flex flex-col justify-evenly gradient-blue rounded-3xl text-4xl text-white w-[5%] h-[80vh]'>
       <Link to='/dashboard' className='flex justify-center align-center'>
         <FaHouse />
       </Link>

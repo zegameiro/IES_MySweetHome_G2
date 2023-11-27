@@ -1,0 +1,53 @@
+import React from "react";
+import { Link } from 'react-router-dom';
+
+import { IoIosArrowDown, IoMdSettings, IoIosInformationCircle } from "react-icons/io";
+import { MdAccountCircle } from "react-icons/md";
+import { FaHouseSignal } from "react-icons/fa6";
+import { FaLightbulb, FaChartLine, FaSignOutAlt } from "react-icons/fa";
+import "../../utils/index.css";
+
+const ProfileButton = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    return (
+        <details className="dropdown">
+            <summary className="btn rounded-[50px] text-[30px] text-white h-[80px] w-[270px] gradient-blue">
+            <div className="avatar">
+                <div className="w-[70px] rounded-full">
+                    <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                </div>
+            </div>
+                {user["firstname"]} <IoIosArrowDown />
+            </summary>
+            <ul className="shadow menu dropdown-content z-[1] gradient-blue text-white text-xl font-bold rounded-box w-60">
+                <li>
+                    <Link to='/profile'><MdAccountCircle /> My account </Link>
+                </li>
+                <li>
+                    <Link to='/rooms'><FaHouseSignal /> Manage rooms</Link>
+                </li>
+                <li>
+                    <Link to='/devices'><FaLightbulb /> Manage Devices</Link>
+                </li>
+                <li>
+                    <Link to='/statistics'><FaChartLine /> Analytics</Link>
+                </li>
+                <li>
+                    <Link to='/setting'><IoMdSettings /> Settings</Link>
+                </li>
+                <li>
+                    <Link to='/help'><IoIosInformationCircle /> Help</Link>
+                </li>
+                <li className="pt-5">
+                    <Link href="/login" onClick={() => {localStorage.removeItem('user');}}>
+                        <FaSignOutAlt /> Logout
+                    </Link>
+                </li>
+                
+            </ul>
+        </details>
+    );
+}
+
+export default ProfileButton;
