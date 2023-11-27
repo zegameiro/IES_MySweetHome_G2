@@ -8,7 +8,6 @@ import mysweethome.MSHbackend.Models.SensorData;
 import java.util.List;
 import java.util.ArrayList;
 
-
 @Service
 public class DataService {
 
@@ -19,39 +18,37 @@ public class DataService {
         dataRepository.save(data);
     }
 
-    /* 
-    public List<SensorData> listData() {
-        return dataSourceRepository.findAllByUser();
-    }
-    */
-    public List<SensorData> listDataBySensor(String sensor_id, String filter) {
+    /*
+     * public List<SensorData> listData() {
+     * return dataSourceRepository.findAllByUser();
+     * }
+     */
+    public List<SensorData> listDataBySensor(int sensor_id, String filter) {
 
         List<SensorData> data = new ArrayList<SensorData>();
 
-        if (filter.equals("none")){
-        return dataRepository.findByDatasourceid(sensor_id);
-        }
-        else if (filter.equals("last_hour")){
+        if (filter.equals("none")) {
+            return dataRepository.findBySourceid(sensor_id);
+        } else if (filter.equals("last_hour")) {
             Long current_time = System.currentTimeMillis();
-            return dataRepository.findByIDTimeStamped(sensor_id,current_time - 3600000);
-        }
-        else if (filter.equals("last_week")){
+            return dataRepository.findByIDTimeStamped(sensor_id, current_time - 3600000);
+        } else if (filter.equals("last_week")) {
             Long current_time = System.currentTimeMillis();
-            return dataRepository.findByIDTimeStamped(sensor_id,current_time - 604800000);
-        }
-        else if (filter.equals("last_month")){
+            return dataRepository.findByIDTimeStamped(sensor_id, current_time - 604800000);
+        } else if (filter.equals("last_month")) {
             Long current_time = System.currentTimeMillis();
-            return dataRepository.findByIDTimeStamped(sensor_id,current_time - 2592000000L);
-        }
-        else if (filter.equals("last_day")){
+            return dataRepository.findByIDTimeStamped(sensor_id, current_time - 2592000000L);
+        } else if (filter.equals("last_day")) {
             Long current_time = System.currentTimeMillis();
-            return dataRepository.findByIDTimeStamped(sensor_id,current_time - 86400000);
-    
-        }
+            return dataRepository.findByIDTimeStamped(sensor_id, current_time - 86400000);
 
-        else if (filter.equals("latest")){
-            data.add(dataRepository.findByDatasourceid(sensor_id).get(dataRepository.findByDatasourceid(sensor_id).size()-1));
-            return data;
+        } else if (filter.equals("latest")) {
+            if (dataRepository.findBySourceid(sensor_id).size() > 0) {
+                data.add(dataRepository.findBySourceid(sensor_id).get(dataRepository.findBySourceid(sensor_id).size() - 1));
+            }
+            else{
+                return data;
+            }
         }
 
         return null;
@@ -61,5 +58,4 @@ public class DataService {
         return dataRepository.findAll();
     }
 
-    
 }

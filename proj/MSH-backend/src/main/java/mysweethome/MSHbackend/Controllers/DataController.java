@@ -24,7 +24,7 @@ public class DataController {
 
     @GetMapping("/view")
     public ResponseEntity<List<SensorData>> listDataBySensor(
-            @RequestParam("sensor_id") String sensor_id,
+            @RequestParam("sensor_id") int sensor_id,
             @RequestParam(name = "filter", defaultValue = "none", required = false) String filter) {
         List<SensorData> data = new ArrayList<SensorData>();
 
@@ -35,7 +35,10 @@ public class DataController {
             data = dataService.listDataBySensor(sensor_id, filter);
 
         if (data == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error retrieving data!");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error retrieving data or there is no data!");
+
+        if (data.size() == 0)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no data!");
 
         return ResponseEntity.ok(data);
     }

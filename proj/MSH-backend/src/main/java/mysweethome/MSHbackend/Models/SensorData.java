@@ -17,23 +17,23 @@ public class SensorData {
     @GeneratedValue
     private String data_id;
     @NotBlank
-    private int datasourceid;
+    private int sourceid;
     @NotBlank
     private Long timestamp;
     @NotBlank
     private String sensor_information;
 
     public SensorData(int data_source_id, @NotBlank Long timestamp, @NotBlank String sensor_information) {
-        this.datasourceid = data_source_id;
+        this.sourceid = data_source_id;
         this.timestamp = timestamp;
         this.sensor_information = sensor_information;
     }
 
     public int getData_source_id() {
-        return datasourceid;
+        return sourceid;
     }
     public void setData_source_id(int data_source_id) {
-        this.datasourceid = data_source_id;
+        this.sourceid = data_source_id;
     }
     public Long getTimestamp() {
         return timestamp;

@@ -41,7 +41,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                TemperatureSensor temperatureSensor = new TemperatureSensor(channel, QUEUE_NAME, 12345, "1", "Kitchen");
+                TemperatureSensor temperatureSensor = new TemperatureSensor(channel, QUEUE_NAME, 12345, "1", "Kitchen", "Termómetro");
                 temperatureSensor.run();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                EletricitySensor eletricitySensor = new EletricitySensor(channel, QUEUE_NAME, 54321, "2", "Living Room");
+                EletricitySensor eletricitySensor = new EletricitySensor(channel, QUEUE_NAME, 54321, "2", "Living Room", "Contador de energia");
                 eletricitySensor.run();
             } catch (Exception e) {
                 e.printStackTrace();

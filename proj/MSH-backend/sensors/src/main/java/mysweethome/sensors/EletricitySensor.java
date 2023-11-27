@@ -8,18 +8,21 @@ import java.util.Map;
 
 public class EletricitySensor {
     Channel broker_queue = null;
-    String queue_name = null, device_location, device_category;
+    String queue_name = null, device_location, device_category,name;
+
+
     int device_id;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     static Random RANDOM = new Random();
 
     public EletricitySensor(Channel queue, String queue_name, int device_id, String device_category,
-            String device_location) {
+            String device_location, String name) {
         this.broker_queue = queue;
         this.queue_name = queue_name;
         this.device_id = device_id;
         this.device_category = device_category;
         this.device_location = device_location;
+        this.name = name;
     }
 
     public void run() throws Exception {
@@ -27,7 +30,7 @@ public class EletricitySensor {
         // send register message
         String register_msg = MAPPER
                 .writeValueAsString(Map.of("register_msg", "1", "device_id", String.valueOf(device_id),
-                        "device_category", device_category, "device_location", device_location));
+                        "device_category", device_category, "device_location", device_location, "name", name));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
         // System.out.println(" [EletricitySensor] ");
 
@@ -64,5 +67,13 @@ public class EletricitySensor {
             // to 0.02 kWh
             return 0.001 + (0.02 - 0.001) * RANDOM.nextDouble();
         }
+    }
+
+        public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

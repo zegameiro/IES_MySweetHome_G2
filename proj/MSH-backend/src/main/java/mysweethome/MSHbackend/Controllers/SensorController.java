@@ -41,6 +41,7 @@ public class SensorController {
             // Generate the output user object for the frontend
             JSONObject out = new JSONObject();
 
+            out.put("name", src.getName());
             out.put("id", src.getDevice_id());
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());

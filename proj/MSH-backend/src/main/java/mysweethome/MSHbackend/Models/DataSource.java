@@ -15,11 +15,16 @@ public class DataSource extends Device {
     private int device_category;
     @NotBlank
     private String device_location;
+    @NotBlank
+    private String name;
 
-    public DataSource(String device_id, int device_category, String device_location) {
+
+
+    public DataSource(String device_id, int device_category, String device_location, String name) {
         this.ID = device_id;
         this.device_category = device_category;
         this.device_location = device_location;
+        this.name = name;
     }
 
     public DataSource() {
@@ -47,6 +52,14 @@ public class DataSource extends Device {
 
     public void setDevice_location(String device_location) {
         this.device_location = device_location;
+    }
+
+        public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

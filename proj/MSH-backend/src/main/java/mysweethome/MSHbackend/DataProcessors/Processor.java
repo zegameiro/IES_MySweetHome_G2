@@ -89,7 +89,7 @@ public class Processor {
 
     dataRepository.saveData(new SensorData(sensorId, timestamp, sensorInformation));
 
-    System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
+    //System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
 
   }
   public  void registerSensor(Map<String, Object> data) {
@@ -97,9 +97,10 @@ public class Processor {
     String device_id = (String) data.get("device_id");
     String device_category = (String) data.get("device_category");
     String device_location = (String) data.get("device_location");
+    String device_name = (String) data.get("name");
 
     dataSourceRepository
-        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location));
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location, device_name));
     System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
 
   }
