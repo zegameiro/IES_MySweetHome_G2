@@ -10,5 +10,5 @@ RUN chmod +x /wait-for-it.sh
 ENTRYPOINT ["./wait-for-it.sh", "rabbitmq:5672", "--", "mvn", "spring-boot:run"]
 
 RUN cd /msh-backend/sensors && mvn install
-RUN cd /msh-backend && mvn package
+
 

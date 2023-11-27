@@ -45,11 +45,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (!localStorage.getItem('user')) {
-      navigate('/login?redirect=dashboard');
-    } else {
+    if (localStorage.getItem('user')) {
       getDevices();
       getAllRooms();
+    } else {
+      navigate('/login?redirect=dashboard');
     }
   }, []);
 
@@ -68,8 +68,8 @@ const Dashboard = () => {
             <img src={home1} className='w-[450px] h-[270px]'/>
           </div>
           <div className='flex flex-row'>
-            {devices.map(device => (
-              <DeviceCard device={device} isBig rooms={rooms}/>
+            {devices.map((device, idx) => (
+              <DeviceCard key={idx} device={device} isBig rooms={rooms}/>
             ))}
           </div>
         </div>

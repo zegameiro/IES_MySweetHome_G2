@@ -8,7 +8,7 @@ import { FaLightbulb, FaChartLine, FaSignOutAlt } from "react-icons/fa";
 import "../../utils/index.css";
 
 const ProfileButton = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null;
 
     return (
         <details className="dropdown">
@@ -18,7 +18,7 @@ const ProfileButton = () => {
                     <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
                 </div>
             </div>
-                {user["firstname"]} <IoIosArrowDown />
+                {user?.firstname} <IoIosArrowDown />
             </summary>
             <ul className="shadow menu dropdown-content z-[1] gradient-blue text-white text-xl font-bold rounded-box w-60">
                 <li>
