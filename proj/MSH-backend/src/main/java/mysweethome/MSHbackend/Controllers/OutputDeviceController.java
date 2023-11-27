@@ -56,7 +56,7 @@ public class OutputDeviceController {
                 dev.setColor("white");
                 break;
             default:
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
+                break;
         }
 
         outputDevService.saveOutputDevice(dev);
@@ -135,7 +135,7 @@ public class OutputDeviceController {
             case LIGHT:
                 out.put("color", device.getColor());
             default:
-                throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
+                break;
         }
 
         return out.toString();
@@ -244,7 +244,7 @@ public class OutputDeviceController {
                     out.put("color", src.getColor());
                     break;
                 default:
-                    throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Invalid device category!");
+                    break;
             }
 
             output.add(out);
