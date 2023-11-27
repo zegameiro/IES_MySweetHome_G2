@@ -45,13 +45,11 @@ public class DataService {
         } else if (filter.equals("latest")) {
             if (dataRepository.findBySourceid(sensor_id).size() > 0) {
                 data.add(dataRepository.findBySourceid(sensor_id).get(dataRepository.findBySourceid(sensor_id).size() - 1));
-            }
-            else{
-                return data;
+            
             }
         }
 
-        return null;
+        return data;
     }
 
     public List<SensorData> listAllData() {

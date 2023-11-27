@@ -9,6 +9,9 @@ import Navbar from '../layout/Navbar'
 import DeviceCard from '../layout/DeviceCard'
 import axios from 'axios';
 
+import home1 from '../../assets/images/home1.jpg';
+import Header from '../layout/Header';
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -155,12 +158,12 @@ const Dashboard = () => {
           <Link to='/devices'><p className='text-neutral font-semibold'>See more</p></Link>
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Output Devices </div>
-        <div className='flex flex-row pl-[10%]'>
+        <div className='flex flex-row pl-[10%] max-w-[85vw] overflow-x-scroll overflow-y-hidden'>
           {selectedRoom !== "" ? 
             filteredOutDevices.length > 0 ?
               <div className='flex flex-row space-x-8'>
-                {filteredOutDevices.map((device, idx) => (
-                  <DeviceCard key={idx} device={device} room={selectedRoom}/>
+                {filteredOutDevices.map((device) => (
+                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
                 ))}
               </div>
             :
