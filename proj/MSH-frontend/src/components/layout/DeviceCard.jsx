@@ -12,7 +12,7 @@ import { WiHumidity } from "react-icons/wi";
 const DeviceCard = (props) => {
     const isBig = props.isBig;
     let device = props.device;
-    const rooms = props.rooms;
+    const room = props.room;
     const [isChecked, setIsChecked] = useState(device["state"] === "on" ? true : false);
     const [durationTime, setDurationTime] = useState(`0min`);
 
@@ -154,7 +154,7 @@ const DeviceCard = (props) => {
                                     <h1>{device["name"]}</h1>
                                 </div>
                                 {rooms[0]["devices"].includes(device["id"]) ? 
-                                    <p className='items-centers text-sm'> On <strong>{ rooms[0]["name"] }</strong> </p> 
+                                    <p className='items-centers text-sm'> On <strong>{ room["name"] }</strong> </p> 
                                 : 
                                     <p className='text-sm'>Room Unknown</p> 
                                 }

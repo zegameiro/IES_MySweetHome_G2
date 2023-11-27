@@ -11,16 +11,13 @@ const ProfileButton = () => {
     const user = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null;
 
     return (
-        <details className="dropdown">
-            <summary className="btn rounded-[50px] text-[30px] text-white h-[80px] w-[270px] gradient-blue">
-            <div className="avatar">
-                <div className="w-[70px] rounded-full">
-                    <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+        <details className="dropdown relative">
+            <summary className="btn rounded-[50px] text-white h-[5%] w-auto gradient-blue inline-flex">
+                <div className="text-lg flex flex-row items-center">
+                    {user?.firstname} <IoIosArrowDown />
                 </div>
-            </div>
-                {user?.firstname} <IoIosArrowDown />
             </summary>
-            <ul className="shadow menu dropdown-content z-[1] gradient-blue text-white text-xl font-bold rounded-box w-60">
+            <ul className="shadow menu dropdown-content z-[0] gradient-blue text-white text-lg font-bold rounded-box w-60 text-center absolute top-full left-1/2 transform -translate-x-1/2">
                 <li>
                     <Link to='/profile'><MdAccountCircle /> My account </Link>
                 </li>
