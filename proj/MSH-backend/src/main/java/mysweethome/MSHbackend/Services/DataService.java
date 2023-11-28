@@ -18,11 +18,6 @@ public class DataService {
         dataRepository.save(data);
     }
 
-    /*
-     * public List<SensorData> listData() {
-     * return dataSourceRepository.findAllByUser();
-     * }
-     */
     public List<SensorData> listDataBySensor(String sensor_id, String filter) {
 
         List<SensorData> data = new ArrayList<SensorData>();
