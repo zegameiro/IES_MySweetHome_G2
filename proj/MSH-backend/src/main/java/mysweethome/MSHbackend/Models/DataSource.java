@@ -13,14 +13,11 @@ public class DataSource extends Device {
     private String ID;
     @NotBlank
     private int device_category;
-    @NotBlank
     private String device_location;
     @NotBlank
     private String name;
 
-
-
-    public DataSource(String device_id, int device_category, String device_location, String name) {
+    public DataSource(String device_id, int device_category,String device_location, String name) {
         this.ID = device_id;
         this.device_category = device_category;
         this.device_location = device_location;

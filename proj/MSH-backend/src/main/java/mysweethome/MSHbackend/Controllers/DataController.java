@@ -24,7 +24,7 @@ public class DataController {
 
     @GetMapping("/view")
     public ResponseEntity<List<SensorData>> listDataBySensor(
-            @RequestParam("sensor_id") int sensor_id,
+            @RequestParam("sensor_id") String sensor_id,
             @RequestParam(name = "filter", defaultValue = "none", required = false) String filter) {
         List<SensorData> data = new ArrayList<SensorData>();
 
