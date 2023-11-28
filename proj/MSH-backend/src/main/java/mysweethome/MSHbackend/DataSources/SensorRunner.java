@@ -9,8 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import mysweethome.sensors.EletricitySensor;
-import mysweethome.sensors.TemperatureSensor;
+import mysweethome.MSHbackend.Sensors.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
