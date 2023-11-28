@@ -10,7 +10,8 @@ import { PiMonitorBold, PiMonitorFill } from 'react-icons/pi';
 import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
-const DeviceCard = ({ isBig, device, rooms, ...props}) => {
+const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
+  const [device, setDevice] = useState(Device ? Device : null);
 
   const [isChecked, setIsChecked] = useState(
     device['state'] === 'on' ? true : false
@@ -120,7 +121,7 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
       );
       if (res.status === 200) {
         console.log('changed state');
-        device = res.data;
+        setDevice(res.data);
       }
     } catch (error) {
       console.log(error);

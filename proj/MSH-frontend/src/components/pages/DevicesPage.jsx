@@ -29,6 +29,10 @@ const DevicesPage = () => {
     console.log('search changed -> ', search);
   }, [search]);
 
+  const user = JSON.parse(localStorage.getItem('user'))
+    ? JSON.parse(localStorage.getItem('user'))
+    : null;
+
   const getDevices = async () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`);
@@ -57,13 +61,17 @@ const DevicesPage = () => {
     }
   };
 
+  console.log('User -> ', user);
+
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
       <div className="flex flex-col w-full h-full">
         <Header />
         <div>
-          <h1 className="text-4xl font-bold m-4">Devices</h1>
+          <h1 className="text-4xl font-bold m-4">
+            {user?.firstname}'s devices
+          </h1>
           {loading ? (
             <h1 className="text-4xl font-bold m-4">Loading...</h1>
           ) : (
@@ -83,10 +91,10 @@ const DevicesPage = () => {
                     return (
                       <span
                         className="m-2"
-                        key={device?.uid}
+                        key={device?.id}
                       >
                         <DeviceCard
-                          device={device}
+                          Device={device}
                           isBig
                           rooms={rooms}
                         />

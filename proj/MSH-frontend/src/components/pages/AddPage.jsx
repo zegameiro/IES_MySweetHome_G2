@@ -14,8 +14,11 @@ const AddPage = () => {
       <div className="flex flex-col w-full h-full">
         <Header />
         <div className="flex flex-row justify-between">
-          <div className='w-full h-full m-2'>
-            <button className="bg-[url('/src/assets/images/home1.jpg')] rounded-xl shadow-lg p-4 m-4 flex justify-start items-end font-bold text-3xl w-full h-[80vh] ">
+          <div className="w-full h-full m-2">
+            <button
+              className="bg-[url('/src/assets/images/home1.jpg')] rounded-xl shadow-lg p-4 m-4 flex justify-start items-end font-bold text-3xl w-full h-[80vh] "
+              onClick={() => navigate('/addroom')}
+            >
               <h1>ADD ROOM</h1>
             </button>
           </div>
