@@ -79,7 +79,7 @@ public class Processor {
       }
     }
 
-    int sensorId = Integer.parseInt((String)data.get("data_source_id"));
+    String sensorId = (String)data.get("device_id");
 
     // check if this id is in the database
 

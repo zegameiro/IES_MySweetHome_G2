@@ -2,26 +2,24 @@ package mysweethome.MSHbackend.Sensors;
 
 import com.rabbitmq.client.Channel;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 
 public class EletricitySensor {
     Channel broker_queue = null;
-    String queue_name = null, device_location, device_category,name;
+    String queue_name = null, device_category, name;
+    String uniqueID = UUID.randomUUID().toString();
 
 
-    int device_id;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     static Random RANDOM = new Random();
 
-    public EletricitySensor(Channel queue, String queue_name, int device_id, String device_category,
-            String device_location, String name) {
+    public EletricitySensor(String name, Channel queue, String queue_name, String device_category) {
         this.broker_queue = queue;
         this.queue_name = queue_name;
-        this.device_id = device_id;
         this.device_category = device_category;
-        this.device_location = device_location;
         this.name = name;
     }
 
@@ -29,19 +27,15 @@ public class EletricitySensor {
 
         // send register message
         String register_msg = MAPPER
-                .writeValueAsString(Map.of("register_msg", "1", "device_id", String.valueOf(device_id),
-                        "device_category", device_category, "device_location", device_location, "name", name));
+                .writeValueAsString(Map.of("register_msg", "1", "device_category", device_category, "name", name , "device_id", uniqueID));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
-        // System.out.println(" [EletricitySensor] ");
-
-        // send normal data every 10 sec
 
         while (true) {
             try {
                 String message = MAPPER.writeValueAsString(
-                        Map.of("data_source_id", String.valueOf(device_id),
-                                "timestamp", String.valueOf(System.currentTimeMillis()),
-                                "sensor_information", String.valueOf(getRandomElectricityUsage())));
+                        Map.of(
+                                "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
+                                String.valueOf(getRandomElectricityUsage()), "device_id", uniqueID));
                 broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
                 // System.out.println(" [EletricitySensor] Sent '" + message + "'");
             } catch (Exception e) {
@@ -69,11 +63,11 @@ public class EletricitySensor {
         }
     }
 
-        public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
