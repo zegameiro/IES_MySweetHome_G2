@@ -2,6 +2,7 @@ package mysweethome.MSHbackend.Sensors;
 
 import com.rabbitmq.client.Channel;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
@@ -9,44 +10,43 @@ import java.util.Map;
 public class TemperatureSensor {
 
     Channel broker_queue = null;
-    String queue_name = null, device_location, device_category, name;
-
-
-    int device_id;
+    String queue_name = null, device_category, name;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     Random RANDOM = new Random();
     int lower_bound = 20, higher_bound = 25; // may be changed by user
+    String uniqueID = UUID.randomUUID().toString();
 
-    public TemperatureSensor(Channel queue, String queue_name, int device_id, String device_category,
-            String device_location, String name) {
+
+    public TemperatureSensor(String name, Channel queue, String queue_name, String device_category) {
         this.broker_queue = queue;
         this.queue_name = queue_name;
-        this.device_id = device_id;
         this.device_category = device_category;
-        this.device_location = device_location;
         this.name = name;
     }
 
     public void run() {
 
-        try { 
+        try {
             // send register message
-            String register_msg = MAPPER.writeValueAsString(Map.of("register_msg", "1", "device_id", String.valueOf(device_id),
-                    "device_category", device_category, "device_location", device_location, "name", name));
+            String register_msg = MAPPER
+                    .writeValueAsString(Map.of("register_msg", "1",
+                            "device_category", device_category, "name", name, "device_id", uniqueID));
             broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
-            //System.out.println(" [TemperatureSensor] Sent '" + register_msg + "'");
+            // System.out.println(" [TemperatureSensor] Sent '" + register_msg + "'");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
 
-        while (true) { 
+        while (true) {
             // send normal messages every 3sec
             try {
-                String message = MAPPER.writeValueAsString(Map.of("data_source_id", String.valueOf(device_id), "timestamp",
-                        String.valueOf(System.currentTimeMillis()), "sensor_information", String.valueOf(RANDOM.nextInt(higher_bound - lower_bound +1) + lower_bound)) );
+                String message = MAPPER.writeValueAsString(
+                        Map.of(
+                                "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
+                                String.valueOf(RANDOM.nextInt(higher_bound - lower_bound + 1) + lower_bound), "device_id", uniqueID));
                 broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
-                //System.out.println(" [TemperatureSensor] Sent '" + message + "'");
+                // System.out.println(" [TemperatureSensor] Sent '" + message + "'");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -67,7 +67,7 @@ public class TemperatureSensor {
         this.lower_bound = lower_bound;
     }
 
-        public int getHigher_bound() {
+    public int getHigher_bound() {
         return higher_bound;
     }
 
@@ -75,7 +75,7 @@ public class TemperatureSensor {
         this.higher_bound = higher_bound;
     }
 
-        public String getName() {
+    public String getName() {
         return name;
     }
 
