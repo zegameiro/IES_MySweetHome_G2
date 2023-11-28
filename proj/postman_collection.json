@@ -130,14 +130,63 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/datasources/list",
+							"raw": "localhost:8080/sources/list",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"datasources",
+								"sources",
 								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Associate Device to Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/associate?roomID=65660bfb73bba55bd4c2757b&sensor_id=0e855b46-6d8f-4031-a4e4-09d00ccf6565",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"associate"
+							],
+							"query": [
+								{
+									"key": "roomID",
+									"value": "65660bfb73bba55bd4c2757b"
+								},
+								{
+									"key": "sensor_id",
+									"value": "0e855b46-6d8f-4031-a4e4-09d00ccf6565"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Input Device IDS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/list/ids",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"list",
+								"ids"
 							]
 						}
 					},
@@ -299,7 +348,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/data/view?sensor_id=12345&filter=latest",
+							"raw": "localhost:8080/data/view?sensor_id=2045281a-3f03-4f82-90f5-908c2ed3b011",
 							"host": [
 								"localhost"
 							],
@@ -310,12 +359,9 @@
 							],
 							"query": [
 								{
-									"key": "sensor_id",
-									"value": "12345"
-								},
-								{
 									"key": "filter",
-									"value": "latest"
+									"value": "latest",
+									"disabled": true
 								},
 								{
 									"key": "filter",
@@ -336,7 +382,30 @@
 									"key": "filter",
 									"value": "last_month",
 									"disabled": true
+								},
+								{
+									"key": "sensor_id",
+									"value": "2045281a-3f03-4f82-90f5-908c2ed3b011"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/data/list",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"data",
+								"list"
 							]
 						}
 					},
@@ -353,7 +422,8 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/room/add?name=Quarto&floornumber=2",
+							"raw": "http://localhost:8080/room/add?name=Quarto&floornumber=2",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
