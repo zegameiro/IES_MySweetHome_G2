@@ -1,4 +1,4 @@
-package mysweethome.sensors;
+package mysweethome.MSHbackend.Sensors;
 
 import com.rabbitmq.client.Channel;
 import java.util.Random;
