@@ -30,6 +30,9 @@ public class Processor {
   private DataService dataRepository;
 
   @Autowired
+  private AlertService alertRepository;
+
+  @Autowired
   private DataSourceService dataSourceRepository;
 
   public Processor(@Qualifier("host") String host, @Qualifier("sensorQueue") String queueName) {
@@ -102,6 +105,13 @@ public class Processor {
 
     dataSourceRepository
         .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location , device_name));
+    
+    Alert newAlert = new Alert();
+    newAlert.setId(device_id);
+    newAlert.setAlert_information("New sensor added with name: " + device_name + "!");
+    newAlert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
+    alertRepository.saveAlert(newAlert);
+
     System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
 
   }

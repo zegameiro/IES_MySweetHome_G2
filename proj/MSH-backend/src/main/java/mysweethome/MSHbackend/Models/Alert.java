@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotBlank;
 
+
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 public class Alert {
 
     @Id
-    private int data_source_id;
+    private String id;
     @NotBlank
     private int timestamp;
     @NotBlank
