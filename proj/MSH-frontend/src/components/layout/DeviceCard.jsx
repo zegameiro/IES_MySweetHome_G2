@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_API_URL } from '../../constants';
 
@@ -10,15 +9,14 @@ import { PiMonitorBold, PiMonitorFill } from 'react-icons/pi';
 import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
-const DeviceCard = ({ isBig, device, rooms, ...props}) => {
+const DeviceCard = ({ isBig, device, room }) => {
 
-  const [isChecked, setIsChecked] = useState(
-    device['state'] === 'on' ? true : false
-  );
+  const [isChecked, setIsChecked] = useState(device.state === '1');
   const [durationTime, setDurationTime] = useState(`0min`);
+  const [uptimeInterval, setUptimeInterval] = useState(null);
 
-  const getDurationTime = (device) => {
-    const laststatechange = device['laststatechange'];
+  const getDurationTime = () => {
+    const laststatechange = device.laststatechange;
     const now = Date.now();
     let diff = now - laststatechange;
 
@@ -28,84 +26,80 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
 
     const minutes = Math.floor(diff / 1000 / 60);
 
-    if (hours === 0) {
-      setDurationTime(`${minutes}m`);
-    } else {
-      setDurationTime(`${hours}h ${minutes}m`);
-    }
+    hours === 0 ?  setDurationTime(`${minutes}m`) : setDurationTime(`${hours}h ${minutes}m`);
+
+  };
+
+  const startUptimeInterval = () => {
+    // Set up an interval to update device uptime every minute
+    const intervalId = setInterval(() => {
+      getDurationTime();
+    }, 60000);
+    setUptimeInterval(intervalId);
   };
 
   useEffect(() => {
-    getDurationTime(device);
+    if (isChecked) {
+      startUptimeInterval();
+    } else {
+      // Clear the interval when the device is turned off
+      clearInterval(uptimeInterval);
+      setUptimeInterval(null);
+    }
+  }, [isChecked]);
+
+
+  useEffect(() => {
+    getDurationTime();
   }, [device]);
 
   const getIcon = (category, state) => {
     switch (category) {
       case '0':
-        if (state) {
-          return <FaLightbulb />;
-        } else {
-          return <FaRegLightbulb />;
-        }
+        return state ? <FaLightbulb /> : <FaRegLightbulb />;
+
       case '1':
-        if (state) {
-          return <TbAirConditioning />;
-        } else {
-          return <TbAirConditioningDisabled />;
-        }
+        return state ? <TbAirConditioning /> :  <TbAirConditioningDisabled />;
+
       case '2':
-        if (state) {
-          return <PiMonitorBold />;
-        } else {
-          return <PiMonitorFill />;
-        }
+        return state ? <PiMonitorBold /> : <PiMonitorFill />;
+
       case '3':
-        if (state) {
-          return <MdSpeaker />;
-        } else {
-          return <MdOutlineSpeaker />;
-        }
+        return state ? <MdSpeaker /> : <MdOutlineSpeaker />;
+
       case '4':
         return <WiHumidity />;
     }
   };
 
   const getDescription = (device) => {
-    let category = device['category'];
+    let category = device.category;
 
     switch (category) {
       case '0':
-        if (device['state'] === 'on') {
-          if (device['color'] !== 'white') return `Color: ${device['color']}`;
-          else return `Light on`;
-        }
+        if (device.state === '1')
+        console.log('device -> ', device);
+          return device.color !== 'white' ? `Color: ${device.color}` : `${device.name} on`;
         break;
 
       case '1':
-        if (device['state'] === 'on') {
-          if (device['temperature'] !== 0)
-            return `Temperature: ${device['temperature']}°C`;
-          else return `Air conditioner on`;
-        }
+        if (device.state === '1')
+          return device.temperature !== 0 ? `Temperature: ${device.temperature}°C` : `${device.name} on`;
         break;
+
       case '2':
-        if (device['state'] === 'on') {
-          if (device['channel'] !== 'None')
-            return `Tv on channel ${device['channel']}`;
-          else return `Reproducing Tv`;
-        }
+        if (device.state === '1') 
+          return device.channel !== 'None' ? `Tv on channel ${device.channel}` : `Reproducing Tv`;
         break;
 
       case '3':
-        if (device['state'] === 'on') {
-          if (device['music'] !== 'None') return `Playing ${device['music']}`;
-          else return `Playing music`;
-        }
+        if (device.state === '1')
+          return device.music !== 'None' ? `Playing ${device.music}` : `Playing music`;
         break;
+
       case '4':
-        if (device['state'] === 'on') {
-          return `Dehumidifier on`;
-        }
+        if (device.state === '1')
+          return `${device.name} on`;
         break;
     }
   };
@@ -120,7 +114,13 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
       );
       if (res.status === 200) {
         console.log('changed state');
+
         device = res.data;
+        setIsChecked(newState === '1');
+
+        if (newState === '1' && !uptimeInterval) {
+          startUptimeInterval();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -152,7 +152,7 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
                 checked={isChecked ? true : false}
                 onChange={(e) => {
                   setIsChecked(e.target.checked);
-                  changeState(device?.id, e.target.checked ? 'on' : 'off');
+                  changeState(device?.id, e.target.checked ? '1' : '0');
                 }}
               />
             </div>
@@ -164,7 +164,7 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
                   isChecked ? 'text-primary' : 'text-accent'
                 }`}
               >
-                {getIcon(device['category'], isChecked)}
+                {getIcon(device.category, isChecked)}
               </div>
               <div>
                 <div
@@ -174,14 +174,9 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
                 >
                   <h1>{device['name']}</h1>
                 </div>
-                {rooms[0]['devices'].includes(device['id']) ? (
-                  <p className="items-centers text-sm">
-                    {' '}
-                    On <strong>{rooms[0]['name']}</strong>{' '}
-                  </p>
-                ) : (
-                  <p className="text-sm">Room Unknown</p>
-                )}
+                <p className="items-centers text-sm">
+                  On <strong>{room.name}</strong>
+                </p>
               </div>
             </div>
             <div className="flex justify-end">
@@ -231,7 +226,7 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
               checked={isChecked ? true : false}
               onChange={(e) => {
                 setIsChecked(e.target.checked);
-                changeState(device['id'], e.target.checked ? 'on' : 'off');
+                changeState(device.id, e.target.checked ? '1' : '0');
               }}
             />
           </div>
@@ -241,10 +236,10 @@ const DeviceCard = ({ isBig, device, rooms, ...props}) => {
             }`}
           >
             <div className="text-5xl mb-[10px]">
-              {getIcon(device['category'], isChecked)}
+              {getIcon(device.category, isChecked)}
             </div>
             <div className="text-base">
-              <p>{device['name']}</p>
+              <p>{device.name}</p>
             </div>
           </div>
         </div>

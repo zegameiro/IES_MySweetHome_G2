@@ -29,7 +29,6 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`, null);
       if (res.status === 200) {
-        console.log('received output devices');
         setOutputDevices(res.data);
       }
     } catch (error) {
@@ -41,7 +40,6 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/sources/list`, null);
       if (res.status === 200) {
-        console.log('received input devices (sensors)');
         setInputDevices(res.data);
       }
     } catch (error) {
@@ -53,7 +51,6 @@ const Dashboard = () => {
    try {
        const res = await axios.get(`${BASE_API_URL}/room/list`, null);
        if (res.status === 200) {
-           console.log('received rooms');
            setRooms(res.data);
        }
    } catch (error) {
@@ -72,8 +69,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedRoom) {
-      console.log(selectedRoom.id);
-      const roomOutDevices = outputDevices.filter(outdevice => outdevice.location === selectedRoom.name);
+      const roomOutDevices = outputDevices.filter(outdevice => outdevice.location === selectedRoom.id);
       setFilteredOutDevices(roomOutDevices);
       setFilteredInputDevices(inputDevices);
     } else {
@@ -162,12 +158,12 @@ const Dashboard = () => {
           <Link to='/devices'><p className='text-neutral font-semibold'>See more</p></Link>
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Output Devices </div>
-        <div className='flex flex-row pl-[10%] max-w-[85vw] overflow-x-scroll overflow-y-hidden'>
+        <div className='flex flex-row pl-[10%] max-w-[85vw]'>
           {selectedRoom !== "" ? 
             filteredOutDevices.length > 0 ?
               <div className='flex flex-row space-x-8'>
                 {filteredOutDevices.map((device) => (
-                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
+                  <DeviceCard key={device.id} device={device} isBig room={selectedRoom}/>
                 ))}
               </div>
             :
@@ -177,7 +173,7 @@ const Dashboard = () => {
           }
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Input Devices </div>
-        <div className='flex flex-row pl-[10%] pb-[10%] max-w-[85vw] overflow-x-scroll overflow-y-hidden'>
+        <div className='flex flex-row pl-[10%] pb-[10%] max-w-[70%] overflow-x-auto overflow-y-hidden'>
           {selectedRoom !== "" ? 
             filteredInputDevices.length > 0 ?
               <div className='flex flex-row space-x-8'>

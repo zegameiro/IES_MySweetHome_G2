@@ -88,7 +88,7 @@ const DevicesPage = () => {
                         <DeviceCard
                           device={device}
                           isBig
-                          rooms={rooms}
+                          room={rooms}
                         />
                       </span>
                     );
