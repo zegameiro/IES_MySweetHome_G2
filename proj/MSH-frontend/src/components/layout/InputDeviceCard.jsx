@@ -10,8 +10,10 @@ import { MdElectricBolt } from "react-icons/md";
 
 const InputDeviceCard = ({ device }) => {
   const [isChecked, setIsChecked] = useState(null);
-  const [sensorData, setSensorData] = useState(null);
+  const [sensorDataHour, setSensorDataHour] = useState(null);
+  const [sensorDataLatest, setSensorDataLatest] = useState(null);
   const [avgSensorData, setAvgSensorData] = useState(null); 
+  const [latestSensorData, setLatestSensorData] = useState(null);
   const [timeInterval, setTimeInterval] = useState(null);
 
   const getAverageData = (data) => {
@@ -22,17 +24,36 @@ const InputDeviceCard = ({ device }) => {
     return (sum / informationVal.length).toFixed(4);
   };
 
-  const getSensorInformation = async (deviceID) => {
+  const getSensorInformationHour = async (deviceID) => {
     try {
       const res = await axios.get(`${BASE_API_URL}/data/view`, {
         params: {
           sensor_id: deviceID,
+          filter: "last_hour"
         },
       });
         
       if (res.status === 200) {
-        setSensorData(res.data);
+        setSensorDataHour(res.data);
         setAvgSensorData(getAverageData(res.data));
+      }
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  const getSensorInformationLatest = async (deviceID) => {
+    try {
+      const res = await axios.get(`${BASE_API_URL}/data/view`, {
+        params: {
+          sensor_id: deviceID,
+          filter: "latest"
+        },
+      });
+
+      if (res.status === 200) {
+        setSensorDataLatest(res.data);
+        setLatestSensorData(res.data[0].sensor_information);
       }
     } catch (error) {
       console.log(error);
@@ -42,10 +63,12 @@ const InputDeviceCard = ({ device }) => {
   useEffect(() => {
     if (isChecked) {
 
-      getSensorInformation(device?.id);
+      getSensorInformationHour(device?.id);
+      getSensorInformationLatest(device?.id);
 
       const intervalId = setInterval(() => {
-        getSensorInformation(device?.id, isChecked);
+        getSensorInformationHour(device?.id);
+        getSensorInformationLatest(device?.id);
       }, 5000); // Set an interval of 5 seconds to make calls to the API
       setTimeInterval(intervalId);
 
@@ -75,30 +98,43 @@ const InputDeviceCard = ({ device }) => {
     }
   };
 
-  const getDescription = (device, info) => {
+  const getDescriptionAvg = (device, info) => {
     switch (device.category) {
       case 1:
-        return `Avg Temperature: ${info}°C`;
-        break;
+        return (<p>Avg Temperature (last hour): <br /> <strong>{info}°C</strong></p>);
       
       case 2:
-        return `Avg Consume: ${info}%`;
-        break;
+        return (<p>Avg Consume (last hour): <br /> <strong>{info}kWh</strong></p>);
 
       case 3:
-        return `People: ${info}`;
-        break;
+        return (<p>People (last hour): <br /> <strong>{info}</strong></p>);
 
       case 4:
-        return `Avg Wind Strength: ${info} km/h`;
-        break;
+        return (<p>Avg Wind Strength (last hour): <br /> <strong>{info} km/h</strong></p>);
+    }
+  }
+
+  const getDescriptionLatest = (device, info) => {
+    let infor = Number(info)
+    switch (device.category) {
+      case 1:
+        return (<p>Current Temperature: <br /> <strong>{infor}°C</strong></p>);
+      
+      case 2:
+        return (<p>Current Consume: <br /> <strong>{infor.toFixed(4)}kWh</strong></p>);
+
+      case 3:
+        return (<p>Current People: <br /> <strong>{infor}</strong></p>);
+
+      case 4:
+        return (<p>Current Wind Strength: <br /> <strong>{infor}km/h</strong></p>);
     }
   }
 
   return (
     <>
       <div
-        className={`card w-[35vh] h-[100%] border-solid border-[3px] ${
+        className={`card w-[40vh] h-[100%] border-solid border-[3px] ${
           isChecked ? "border-primary" : "border-accent"
         } flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}
       >
@@ -110,7 +146,7 @@ const InputDeviceCard = ({ device }) => {
               <h1 className="text-accent">Off</h1>
             )}
           </div>
-          <div className="flex pr-5 pt-2">
+          <div className="flex pr-5 pt-2 pb-4">
             <input
               type="checkbox"
               className={`toggle ${
@@ -119,7 +155,8 @@ const InputDeviceCard = ({ device }) => {
               checked={isChecked ? true : false}
               onChange={(e) => {
                 setIsChecked(e.target.checked);
-                getSensorInformation(device?.id)
+                getSensorInformationHour(device?.id);
+                getSensorInformationLatest(device?.id);
               }}
             />
           </div>
@@ -143,12 +180,14 @@ const InputDeviceCard = ({ device }) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end relative">
-            {isChecked && sensorData ? (
+          <div className="flex justify-end">
+            {isChecked && sensorDataHour && sensorDataLatest ? (
               <div className="flex-col">
-                <div className="flex text-sm absolute top-5 right-4">
-                  <span className="font-semibold">
-                    {getDescription(device, avgSensorData)}
+                <div className="flex text-sm pr-4">
+                  <span className="flex flex-col">
+                    {getDescriptionAvg(device, avgSensorData)}
+                    <br />
+                    {getDescriptionLatest(device, latestSensorData)}
                   </span>
                 </div>
               </div>
