@@ -46,7 +46,7 @@ const InputDeviceCard = ({ device }) => {
 
       const intervalId = setInterval(() => {
         getSensorInformation(device?.id, isChecked);
-      }, 300000); // Set an interval of 5 minutes to make calls to the API
+      }, 5000); // Set an interval of 5 seconds to make calls to the API
       setTimeInterval(intervalId);
 
     } else
