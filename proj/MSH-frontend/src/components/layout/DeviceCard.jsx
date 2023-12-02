@@ -182,7 +182,7 @@ const DeviceCard = ({ isBig, device, room }) => {
                 >
                   <h1>{device.name}</h1>
                 </div>
-                <p className="items-centers text-sm">
+                <p className="text-sm">
                   On <strong>{room.name}</strong>
                 </p>
               </div>

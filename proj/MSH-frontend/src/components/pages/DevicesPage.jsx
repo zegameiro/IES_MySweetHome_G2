@@ -57,6 +57,11 @@ const DevicesPage = () => {
     }
   };
 
+  const getRoomDevice = (location) => {
+    const room = rooms.find((room) => room.id === location);
+    return room;
+  }
+
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
@@ -88,7 +93,7 @@ const DevicesPage = () => {
                         <DeviceCard
                           device={device}
                           isBig
-                          room={rooms}
+                          room={getRoomDevice(device?.location)}
                         />
                       </span>
                     );
