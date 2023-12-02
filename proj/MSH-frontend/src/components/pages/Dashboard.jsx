@@ -5,7 +5,7 @@ import { BASE_API_URL } from '../../constants';
 import { IoIosCloudy, IoIosArrowDown } from "react-icons/io";
 import { FaTemperatureHalf } from "react-icons/fa6";
 
-import DeviceCard from '../layout/DeviceCard'
+import OutputDeviceCard from '../layout/OutputDeviceCard';
 import axios from 'axios';
 
 import Header from '../layout/Header';
@@ -163,7 +163,7 @@ const Dashboard = () => {
             filteredOutDevices.length > 0 ?
               <div className='flex flex-row max-w-[70%] space-x-4 overflow-x-auto overflow-y-hidden custom-scrollbar'>
                 {filteredOutDevices.map((device) => (
-                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
+                  <OutputDeviceCard key={device.id} device={device} room={selectedRoom}/>
                 ))}
               </div>
             :

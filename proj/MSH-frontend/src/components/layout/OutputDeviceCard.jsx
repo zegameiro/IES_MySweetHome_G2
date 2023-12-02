@@ -9,7 +9,7 @@ import { PiMonitorBold, PiMonitorFill } from 'react-icons/pi';
 import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
-const DeviceCard = ({ isBig, device, room }) => {
+const OutputDeviceCard = ({ isBig, device, room }) => {
 
   const [isChecked, setIsChecked] = useState(device.state === '1');
   const [durationTime, setDurationTime] = useState(`0min`);
@@ -256,4 +256,4 @@ const DeviceCard = ({ isBig, device, room }) => {
   );
 };
 
-export default DeviceCard;
+export default OutputDeviceCard;

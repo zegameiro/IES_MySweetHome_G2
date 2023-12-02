@@ -5,7 +5,7 @@ import { BASE_API_URL } from '../../constants';
 
 import axios from 'axios';
 import Header from '../layout/Header';
-import DeviceCard from '../layout/DeviceCard';
+import OutputDeviceCard from '../layout/OutputDeviceCard';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -90,7 +90,7 @@ const DevicesPage = () => {
                         className="m-2"
                         key={device?.uid}
                       >
-                        <DeviceCard
+                        <OutputDeviceCard
                           device={device}
                           isBig
                           room={getRoomDevice(device?.location)}
