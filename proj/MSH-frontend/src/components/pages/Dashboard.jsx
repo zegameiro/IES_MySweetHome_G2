@@ -6,6 +6,7 @@ import { IoIosCloudy, IoIosArrowDown } from "react-icons/io";
 import { FaTemperatureHalf } from "react-icons/fa6";
 
 import OutputDeviceCard from '../layout/OutputDeviceCard';
+import InputDeviceCard from '../layout/InputDeviceCard';
 import axios from 'axios';
 
 import Header from '../layout/Header';
@@ -18,10 +19,9 @@ const Dashboard = () => {
   
   const [selectedRoom, setSelectedRoom] = useState("");
   const [filteredOutDevices, setFilteredOutDevices] = useState([]);
-  const [filteredInputDevices, setFilteredInputDevices] = useState([]);
   const [outputDevices, setOutputDevices] = useState([]);
-  const [rooms, setRooms] = useState([]);
   const [inputDevices, setInputDevices] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
 
 
@@ -41,6 +41,7 @@ const Dashboard = () => {
       const res = await axios.get(`${BASE_API_URL}/sources/list`, null);
       if (res.status === 200) {
         setInputDevices(res.data);
+        console.log("Input Devices -> ", res.data)
       }
     } catch (error) {
       console.log(error);
@@ -61,6 +62,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (localStorage.getItem('user')) {
       getOutputDevices();
+      getInputDevices();
       getAllRooms();
     } else {
       navigate('/login?redirect=dashboard');
@@ -71,14 +73,13 @@ const Dashboard = () => {
     if (selectedRoom) {
       const roomOutDevices = outputDevices.filter(outdevice => outdevice.location === selectedRoom.id);
       setFilteredOutDevices(roomOutDevices);
-      setFilteredInputDevices(inputDevices);
     } else {
       setFilteredOutDevices([]);
     }
   }, [selectedRoom, outputDevices]);
 
  return (
-   <div className='flex flex-col pt-4 ml-5'>
+   <div className='flex flex-col pt-4 ml-5 overflow-y-auto'>
     <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
       <div className="flex flex-col w-full h-full">
@@ -158,7 +159,7 @@ const Dashboard = () => {
           <Link to='/devices'><p className='text-neutral font-semibold'>See more</p></Link>
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Output Devices </div>
-        <div className='flex flex-row max-w-[85vw] space'>
+        <div className='flex flex-row max-w-[85vw]'>
           {selectedRoom !== "" ? 
             filteredOutDevices.length > 0 ?
               <div className='flex flex-row max-w-[70%] space-x-4 overflow-x-auto overflow-y-hidden custom-scrollbar'>
@@ -173,16 +174,13 @@ const Dashboard = () => {
           }
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Input Devices </div>
-        <div className='pb-[10%]'>
-          {selectedRoom !== "" ? 
-            filteredInputDevices.length > 0 ?
-              <div className='flex flex-row pl-[5%] max-w-[70%] overflow-x-auto custom-scrollbar'>
-                {filteredInputDevices.map((device) => (
-                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
-                ))}
-              </div>
-            :
-              <h2 className='text-xl'>No devices found</h2>
+        <div className='flex flex-row max-w-[85vw]'>
+          {inputDevices.length > 0 ?
+            <div className='flex flex-row max-w-[70%] space-x-4 overflow-x-auto overflow-y-hidden custom-scrollbar'>
+              {inputDevices.map((device) => (
+                <InputDeviceCard key={device.id} device={device} />
+              ))}
+            </div>
           :
             <h2 className='text-xl'>No devices found</h2>
           }
