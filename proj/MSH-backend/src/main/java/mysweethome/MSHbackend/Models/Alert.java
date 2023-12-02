@@ -22,6 +22,11 @@ public class Alert {
     private String id;
     @NotBlank
     private int timestamp;
+    //  1: Imediante action, 2: Information (ex: action executed), 3: New device added
+    @NotBlank
+    private int alert_level;
+    @NotBlank
+    private String alert_header;
     @NotBlank
     private String alert_information;
 

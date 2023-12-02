@@ -108,7 +108,9 @@ public class Processor {
     
     Alert newAlert = new Alert();
     newAlert.setId(device_id);
-    newAlert.setAlert_information("New sensor added with name: " + device_name + "!");
+    newAlert.setAlert_header("New sensor added!");
+    newAlert.setAlert_level(3);
+    newAlert.setAlert_information("A new device called '" + device_name + "' as been registered in the application!");
     newAlert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
     alertRepository.saveAlert(newAlert);
 
