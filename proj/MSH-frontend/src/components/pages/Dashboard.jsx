@@ -158,12 +158,12 @@ const Dashboard = () => {
           <Link to='/devices'><p className='text-neutral font-semibold'>See more</p></Link>
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Output Devices </div>
-        <div className='flex flex-row pl-[10%] max-w-[85vw]'>
+        <div className='flex flex-row max-w-[85vw] space'>
           {selectedRoom !== "" ? 
             filteredOutDevices.length > 0 ?
-              <div className='flex flex-row space-x-8'>
+              <div className='flex flex-row max-w-[70%] space-x-4 overflow-x-auto overflow-y-hidden custom-scrollbar'>
                 {filteredOutDevices.map((device) => (
-                  <DeviceCard key={device.id} device={device} isBig room={selectedRoom}/>
+                  <DeviceCard key={device.id} device={device} room={selectedRoom}/>
                 ))}
               </div>
             :
@@ -173,10 +173,10 @@ const Dashboard = () => {
           }
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Input Devices </div>
-        <div className='flex flex-row pl-[10%] pb-[10%] max-w-[70%] overflow-x-auto overflow-y-hidden'>
+        <div className='pb-[10%]'>
           {selectedRoom !== "" ? 
             filteredInputDevices.length > 0 ?
-              <div className='flex flex-row space-x-8'>
+              <div className='flex flex-row pl-[5%] max-w-[70%] overflow-x-auto custom-scrollbar'>
                 {filteredInputDevices.map((device) => (
                   <DeviceCard key={device.id} device={device} room={selectedRoom}/>
                 ))}

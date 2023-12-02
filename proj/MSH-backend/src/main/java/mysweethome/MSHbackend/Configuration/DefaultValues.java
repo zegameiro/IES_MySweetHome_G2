@@ -97,7 +97,7 @@ public class DefaultValues implements ApplicationRunner {
         outputDeviceRepository.save(leds_ligits);
 
         OutputDevice air_conditioner = new OutputDevice();
-        air_conditioner.setName("Ar Condicionado Sala");
+        air_conditioner.setName("Air Conditioner");
         air_conditioner.setDevice_category(OutputDeviceType.AIR_CONDITIONER);
         air_conditioner.setDevice_location(couple_bedroom.getUid());
         air_conditioner.setCurrent_state("1");

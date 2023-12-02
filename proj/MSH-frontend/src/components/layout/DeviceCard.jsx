@@ -15,43 +15,46 @@ const DeviceCard = ({ isBig, device, room }) => {
   const [durationTime, setDurationTime] = useState(`0min`);
   const [uptimeInterval, setUptimeInterval] = useState(null);
 
-  const getDurationTime = () => {
-    const laststatechange = device.laststatechange;
+  const getDurationTime = (d) => {
+    const laststatechange = d.laststatechange; // Move this line inside the function
     const now = Date.now();
     let diff = now - laststatechange;
-
+  
     const hours = Math.floor(diff / (1000 * 60 * 60));
-
+  
     diff -= hours * (1000 * 60 * 60);
-
+  
     const minutes = Math.floor(diff / 1000 / 60);
-
-    hours === 0 ?  setDurationTime(`${minutes}m`) : setDurationTime(`${hours}h ${minutes}m`);
-
+    if (isChecked) 
+      hours === 0 ?  setDurationTime(`${minutes}min`) : setDurationTime(`${hours}h ${minutes}min`);
+    else
+      setDurationTime(`0min`);
   };
 
   const startUptimeInterval = () => {
     // Set up an interval to update device uptime every minute
     const intervalId = setInterval(() => {
-      getDurationTime();
+      getDurationTime(device);
     }, 60000);
     setUptimeInterval(intervalId);
   };
 
+
   useEffect(() => {
-    if (isChecked) {
+
+    getDurationTime(device);
+
+    if (isChecked)
       startUptimeInterval();
-    } else {
-      // Clear the interval when the device is turned off
+
+    else {
       clearInterval(uptimeInterval);
       setUptimeInterval(null);
     }
-  }, [isChecked]);
-
-
-  useEffect(() => {
-    getDurationTime();
-  }, [device]);
+    return () => {
+      clearInterval(uptimeInterval);
+    }
+  }, [isChecked, device]);
 
   const getIcon = (category, state) => {
     switch (category) {
@@ -72,33 +75,32 @@ const DeviceCard = ({ isBig, device, room }) => {
     }
   };
 
-  const getDescription = (device) => {
+  const getDescription = (device, state) => {
     let category = device.category;
 
     switch (category) {
       case '0':
-        if (device.state === '1')
-        console.log('device -> ', device);
+        if (state)
           return device.color !== 'white' ? `Color: ${device.color}` : `${device.name} on`;
         break;
 
       case '1':
-        if (device.state === '1')
+        if (state)
           return device.temperature !== 0 ? `Temperature: ${device.temperature}°C` : `${device.name} on`;
         break;
 
       case '2':
-        if (device.state === '1') 
+        if (state) 
           return device.channel !== 'None' ? `Tv on channel ${device.channel}` : `Reproducing Tv`;
         break;
 
       case '3':
-        if (device.state === '1')
+        if (state)
           return device.music !== 'None' ? `Playing ${device.music}` : `Playing music`;
         break;
 
       case '4':
-        if (device.state === '1')
+        if (state)
           return `${device.name} on`;
         break;
     }
@@ -115,12 +117,18 @@ const DeviceCard = ({ isBig, device, room }) => {
       if (res.status === 200) {
         console.log('changed state');
 
-        device = res.data;
+        const newdevice = res.data;
         setIsChecked(newState === '1');
 
-        if (newState === '1' && !uptimeInterval) {
+        if (newState === '1' && !uptimeInterval)
           startUptimeInterval();
+
+        else if (newState === '0' && uptimeInterval) {
+          clearInterval(uptimeInterval);
+          setUptimeInterval(null);
         }
+
+        getDurationTime(newdevice);
       }
     } catch (error) {
       console.log(error);
@@ -131,7 +139,7 @@ const DeviceCard = ({ isBig, device, room }) => {
     <>
       {isBig ? (
         <div
-          className={`card w-[310px] h-[180px] border-solid border-[3px] ${
+          className={`card w-[35vh] h-[100%] border-solid border-[3px] ${
             isChecked ? 'border-primary' : 'border-accent'
           } flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}
         >
@@ -172,7 +180,7 @@ const DeviceCard = ({ isBig, device, room }) => {
                     isChecked ? 'text-primary' : 'text-accent'
                   }`}
                 >
-                  <h1>{device['name']}</h1>
+                  <h1>{device.name}</h1>
                 </div>
                 <p className="items-centers text-sm">
                   On <strong>{room.name}</strong>
@@ -184,7 +192,7 @@ const DeviceCard = ({ isBig, device, room }) => {
                 <div className="flex-col pr-4">
                   <div className="flex text-sm pt-[30px]">
                     <span className="font-semibold">
-                      {getDescription(device)}
+                      {getDescription(device, isChecked)}
                     </span>
                   </div>
                   <div className="flex flex-col items-center pt-[40px] text-slate-500">
