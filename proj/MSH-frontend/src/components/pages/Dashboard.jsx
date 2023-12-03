@@ -98,7 +98,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     setIsVisible(true);
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
+      for (const alert of alerts) {
+        try{
+          await axios.post(`${BASE_API_URL}/alerts/mark?id=${alert.id}`, null);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
       setAlerts(alerts.filter((alert) => alert !== alert));
       setIsVisible(false);
     }, 15000);
@@ -106,12 +114,12 @@ const Dashboard = () => {
   }, [alerts])
 
   return (
-    <div className="flex flex-col pt-4 ml-5 overflow-y-auto pb-[10vh]">
+    <div className="flex flex-col pt-4 overflow-y-auto pb-[10vh]">
       <div className="mx-[5%] mt-4 flex justify-between">
         <Navbar />
         <div className="flex flex-col w-full h-full">
           <Header />
-          <div className="flex flex-col pl-[10%] pt-[2%] w-[100%]">
+          <div className="flex flex-col pl-[5%] pt-[2%] w-[100%]">
             <div className="carousel w-[70%] rounded-3xl">
               <div id="slide1" className="carousel-item relative w-[100%]">
                 <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">

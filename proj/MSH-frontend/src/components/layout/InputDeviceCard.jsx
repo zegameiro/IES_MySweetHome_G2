@@ -146,7 +146,7 @@ const InputDeviceCard = ({ device }) => {
               <h1 className="text-accent">Off</h1>
             )}
           </div>
-          <div className="flex pr-5 pt-2 pb-4">
+          <div className="flex pr-5 pt-3 pb-4">
             <input
               type="checkbox"
               className={`toggle ${
