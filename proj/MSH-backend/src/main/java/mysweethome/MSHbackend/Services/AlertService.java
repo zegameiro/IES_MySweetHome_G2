@@ -25,4 +25,8 @@ public class AlertService {
         return alertRepository.getAll();
     }
 
+     public LinkedList<Alert> getAllUnread() {
+        return alertRepository.getAllUnread();
+    }
+
 }

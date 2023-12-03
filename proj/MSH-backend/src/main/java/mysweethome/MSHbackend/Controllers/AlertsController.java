@@ -1,8 +1,9 @@
 package mysweethome.MSHbackend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.LinkedList;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(path = "/alerts")
 public class AlertsController {
 
@@ -46,7 +48,21 @@ public class AlertsController {
     }
     
     @GetMapping("/list")
-    public @ResponseBody LinkedList<Alert> getSources() {
+    public @ResponseBody LinkedList<Alert> getUnreadAlerts() {
+        LinkedList<Alert> alerts;
+
+        // Get the sources list
+        try {
+            alerts = alertService.getAllUnread();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        return alerts;
+    }
+
+    @GetMapping("/list/all")
+    public @ResponseBody LinkedList<Alert> getAll() {
         LinkedList<Alert> alerts;
 
         // Get the sources list
@@ -57,5 +73,32 @@ public class AlertsController {
         }
 
         return alerts;
+    }
+
+    @PostMapping("/mark")
+    public @ResponseBody String markAsRead(@RequestParam String id) {
+        Alert alert;
+
+        // Check if a alert with this ID exists
+        try {
+            alert = alertService.findByID(id);
+        } 
+        catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (alert == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An alert object with the specified ID does not exist!");
+        }
+
+        // Mark the alert as read
+        try {
+            alert.setMarked_as_read(true);
+            alertService.saveAlert(alert);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        return "Sucessfully marked alert as read!";
     }
 }
