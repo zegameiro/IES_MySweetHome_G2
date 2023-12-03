@@ -7,10 +7,11 @@ import { FaTemperatureHalf } from "react-icons/fa6";
 
 import OutputDeviceCard from "../layout/OutputDeviceCard";
 import InputDeviceCard from "../layout/InputDeviceCard";
-import axios from "axios";
-
 import Header from "../layout/Header";
 import Navbar from "../layout/Navbar";
+import Alert from "../layout/Alert";
+
+import axios from "axios";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,7 +24,9 @@ const Dashboard = () => {
   const [filteredOutDevices, setFilteredOutDevices] = useState([]);
   const [outputDevices, setOutputDevices] = useState([]);
   const [inputDevices, setInputDevices] = useState([]);
+  const [alerts, setAlerts] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
 
   const getOutputDevices = async () => {
     try {
@@ -59,11 +62,24 @@ const Dashboard = () => {
     }
   };
 
+  const getAlerts = async () => {
+    try {
+      const res = await axios.get(`${BASE_API_URL}/alerts/list`, null);
+      if (res.status === 200) {
+        console.log("Alerts -> ", res.data);
+        setAlerts(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       getOutputDevices();
       getInputDevices();
       getAllRooms();
+      getAlerts();
     } else {
       navigate("/login?redirect=dashboard");
     }
@@ -79,6 +95,15 @@ const Dashboard = () => {
       setFilteredOutDevices([]);
     }
   }, [selectedRoom, outputDevices]);
+
+  useEffect(() => {
+    setIsVisible(true);
+    const timer = setTimeout(() => {
+      setAlerts(alerts.filter((alert) => alert !== alert));
+      setIsVisible(false);
+    }, 15000);
+    return () => clearTimeout(timer);
+  }, [alerts])
 
   return (
     <div className="flex flex-col pt-4 ml-5 overflow-y-auto pb-[10vh]">
@@ -189,6 +214,17 @@ const Dashboard = () => {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col max-w-[75%] mt-5">
+              {alerts.length > 0 ? 
+                alerts.map((alert) => (
+                  <div className={`transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    <Alert key={alert.id} alert={alert} />
+                  </div>
+                ))
+              : 
+                null
+              }
             </div>
             <div className="pt-5 flex flex-row text-center items-center space-x-[15%]">
               <h1 className="text-6xl font-bold">Devices</h1>
