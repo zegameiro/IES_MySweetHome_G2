@@ -7,10 +7,12 @@ import java.util.LinkedList;
 
 public interface AlertRepository extends MongoRepository<Alert, String> {
     
-        // adicionar + cenas conforme for preciso
+        @Query("{'marked_as_read': false}")
+        public LinkedList<Alert> getAllUnread();
+
         @Query("{}")
         public LinkedList<Alert> getAll();
 
-        @Query("{'id': ?0}")
+        @Query("{'id': ?0 , 'marked_as_read': false}")
         public Alert findByAlertId(String id);
 }
