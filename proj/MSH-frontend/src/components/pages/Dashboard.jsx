@@ -96,7 +96,7 @@ const Dashboard = () => {
             </div>
             <div className={`hero rounded-3xl w-[100%] h-[100%] bg-[url('/src/assets/images/home1.jpg')]`}>
               <div className="hero-overlay rounded-3xl w-[100%] h-[100%] bg-[#101010] bg-opacity-50 "></div>
-              <div className="hero-content text-center text-white">
+              <div className="text-center text-white hero-content">
                 <div className="max-w-xl">
                   <h2 className="mb-5 text-5xl font-bold">Welcome Back {user.firstname}!</h2>
                   <p className="mb-5 text-2xl">
@@ -113,7 +113,7 @@ const Dashboard = () => {
             </div>
             <div className={`hero rounded-3xl bg-[url('/src/assets/images/home2.jpg')]`}>
               <div className="hero-overlay rounded-3xl bg-[#101010] bg-opacity-50 "></div>
-              <div className="hero-content text-center text-white">
+              <div className="text-center text-white hero-content">
                 <div className="max-w-xl">
                   <h1 className="mb-5 text-5xl font-bold">Today's Weather</h1>
                   <div className='flex flex-row items-center'>
@@ -133,7 +133,7 @@ const Dashboard = () => {
             </div>
             <div className={`hero rounded-3xl bg-[url('/src/assets/images/home3.jpg')]`}>
               <div className="hero-overlay rounded-3xl bg-[#101010] bg-opacity-50 "></div>
-              <div className="hero-content text-center text-white">
+              <div className="text-center text-white hero-content">
                 <div className="max-w-xl">
                   <h1 className="mb-5 text-5xl font-bold">Missing Something</h1>
                   <p className="mb-5 text-2xl">
@@ -147,7 +147,7 @@ const Dashboard = () => {
         <div className='pt-5 flex flex-row text-center items-center space-x-[15%]'>
           <h1 className='text-6xl font-bold'>Devices</h1>
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-primary m-1 text-xl text-white">{selectedRoom ? selectedRoom.name : "Select Room"} <IoIosArrowDown/></div>
+            <div tabIndex={0} role="button" className="m-1 text-xl text-white btn btn-primary">{selectedRoom ? selectedRoom.name : "Select Room"} <IoIosArrowDown/></div>
             <ul className="dropdown-content z-[10] menu p-2 shadow bg-base-100 rounded-box border primary border-[4px] border-primary w-52 text-xl">
               <li onClick={(e) => {e.stopPropagation(); setSelectedRoom("");}}>
                 <button>Select Room</button>
@@ -159,7 +159,7 @@ const Dashboard = () => {
               ))}
             </ul>
           </div>
-          <Link to='/devices'><p className='text-neutral font-semibold'>See more</p></Link>
+          <Link to='/devices'><p className='font-semibold text-neutral'>See more</p></Link>
         </div>
         <div className='divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]'> Output Devices </div>
         <div className='flex flex-row pl-[10%] max-w-[85vw] overflow-x-scroll overflow-y-hidden'>

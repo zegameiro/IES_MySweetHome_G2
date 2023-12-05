@@ -23,7 +23,10 @@ const AddPage = () => {
             </button>
           </div>
           <div className="w-full h-full m-2">
-            <button className="bg-[url('/src/assets/images/home2.jpg')] rounded-xl shadow-lg p-4 m-4 flex justify-start items-end font-bold text-3xl w-full h-[80vh] ">
+            <button
+              className="bg-[url('/src/assets/images/home2.jpg')] rounded-xl shadow-lg p-4 m-4 flex justify-start items-end font-bold text-3xl w-full h-[80vh] "
+              onClick={() => navigate('/adddevice')}
+            >
               <h1>ADD DEVICE</h1>
             </button>
           </div>
