@@ -7,7 +7,6 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 
-
 import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,10 +27,13 @@ public class Processor {
   String queueName;
 
   @Autowired
-  private DataService dataRepository ;
+  private DataService dataRepository;
 
   @Autowired
-  private DataSourceService dataSourceRepository ;
+  private AlertService alertRepository;
+
+  @Autowired
+  private DataSourceService dataSourceRepository;
 
   public Processor(@Qualifier("host") String host, @Qualifier("sensorQueue") String queueName) {
     this.host = host;
@@ -47,11 +49,11 @@ public class Processor {
     Connection connection = factory.newConnection();
     Channel channel = connection.createChannel();
     channel.queueDeclare(this.queueName, false, false, false, null);
-    //System.out.println("Processor is waiting for messages uwu ");
+    // System.out.println("Processor is waiting for messages uwu ");
 
     DeliverCallback deliverCallback = (consumerTag, delivery) -> {
       String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-      //System.out.println(" [Processor] Received '" + message + "'");
+      // System.out.println(" [Processor] Received '" + message + "'");
       processMessage(message);
     };
     channel.basicConsume(this.queueName, true, deliverCallback, consumerTag -> {
@@ -61,10 +63,10 @@ public class Processor {
 
   public void processMessage(String message) {
 
-    Map<String, Object> data = null;
+    Map<String, String> data = null;
 
     try {
-      data = objectMapper.readValue(message, new TypeReference<Map<String, Object>>() {
+      data = objectMapper.readValue(message, new TypeReference<Map<String, String>>() {
       });
     } catch (Exception e) {
       System.out.println("Error converting message data to JSON");
@@ -79,28 +81,39 @@ public class Processor {
       }
     }
 
-    int sensorId = Integer.parseInt((String)data.get("data_source_id"));
-
-    // check if this id is in the database
-
-
-    Long timestamp = Long.parseLong((String)data.get("timestamp"));
-    String sensorInformation = (String) data.get("sensor_information");
+    String sensorId =  data.get("device_id");
+    Long timestamp = Long.parseLong( data.get("timestamp"));
+    String sensorInformation = data.get("sensor_information");
 
     dataRepository.saveData(new SensorData(sensorId, timestamp, sensorInformation));
 
-    //System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
+     System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
 
   }
-  public  void registerSensor(Map<String, Object> data) {
 
-    String device_id = (String) data.get("device_id");
-    String device_category = (String) data.get("device_category");
-    String device_location = (String) data.get("device_location");
-    String device_name = (String) data.get("name");
+  public void registerSensor(Map<String, String> data) {
+
+    String device_id =  data.get("device_id");
+    String device_category =  data.get("device_category");
+    String device_name =  data.get("name");
+
+    String device_location = "None";
+
+    if (data.containsKey("device_location")) {
+      device_location = data.get("device_location");
+    }
 
     dataSourceRepository
-        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location, device_name));
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location , device_name));
+    
+    Alert newAlert = new Alert();
+    newAlert.setId(device_id);
+    newAlert.setAlert_header("New sensor added!");
+    newAlert.setAlert_level(3);
+    newAlert.setAlert_information("A new device called '" + device_name + "' has been registered in the application!");
+    newAlert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
+    alertRepository.saveAlert(newAlert);
+
     System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
 
   }

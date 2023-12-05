@@ -23,148 +23,153 @@ public class DefaultValues implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        System.out.println("Inserting default values into the Database");
-        // Insert default values
-        OutputDevice luz_cozinha = new OutputDevice();
-        luz_cozinha.setName("Luz da Cozinha");
-        luz_cozinha.setDevice_category(OutputDeviceType.LIGHT);
-        luz_cozinha.setDevice_location("Cozinha");
-        luz_cozinha.setCurrent_state("OFF");
-        luz_cozinha.setLaststatechange(System.currentTimeMillis());
-        luz_cozinha.setColor("white");
-
-        outputDeviceRepository.save(luz_cozinha);
-
-        OutputDevice candeeiro_sala = new OutputDevice();
-        candeeiro_sala.setName("Candeeiro da Sala");
-        candeeiro_sala.setDevice_category(OutputDeviceType.LIGHT);
-        candeeiro_sala.setDevice_location("Sala");
-        candeeiro_sala.setCurrent_state("ON");
-        candeeiro_sala.setLaststatechange(System.currentTimeMillis());
-        candeeiro_sala.setColor("white");
-
-        outputDeviceRepository.save(candeeiro_sala);
-
-        OutputDevice rgb_quarto = new OutputDevice();
-        rgb_quarto.setName("Luz RGB do Quarto");
-        rgb_quarto.setDevice_category(OutputDeviceType.LIGHT);
-        rgb_quarto.setDevice_location("Quarto");
-        rgb_quarto.setCurrent_state("ON");
-        rgb_quarto.setLaststatechange(System.currentTimeMillis());
-        rgb_quarto.setColor("red");
-
-        outputDeviceRepository.save(rgb_quarto);
-
-        OutputDevice ar_condicionado = new OutputDevice();
-        ar_condicionado.setName("Ar Condicionado Sala");
-        ar_condicionado.setDevice_category(OutputDeviceType.AIR_CONDITIONER);
-        ar_condicionado.setDevice_location("Quarto");
-        ar_condicionado.setCurrent_state("ON");
-        ar_condicionado.setLaststatechange(System.currentTimeMillis());
-        ar_condicionado.setTemperature(25);
-
-        outputDeviceRepository.save(ar_condicionado);
-
-        OutputDevice aquecedor_sotao = new OutputDevice();
-        aquecedor_sotao.setName("Aquecedor do Sótão");
-        aquecedor_sotao.setDevice_category(OutputDeviceType.AIR_CONDITIONER);
-        aquecedor_sotao.setDevice_location("Sótão");
-        aquecedor_sotao.setCurrent_state("OFF");
-        aquecedor_sotao.setLaststatechange(System.currentTimeMillis());
-        aquecedor_sotao.setTemperature(20);
-
-        outputDeviceRepository.save(aquecedor_sotao);
-
-        OutputDevice tv_sala = new OutputDevice();
-        tv_sala.setName("Televisão da Sala");
-        tv_sala.setDevice_category(OutputDeviceType.TELEVISION);
-        tv_sala.setDevice_location("Sala");
-        tv_sala.setCurrent_state("ON");
-        tv_sala.setLaststatechange(System.currentTimeMillis());
-        tv_sala.setCurrent_channel("RTP1");
-
-        outputDeviceRepository.save(tv_sala);
-
-        OutputDevice tv_quarto = new OutputDevice();
-        tv_quarto.setName("Televisão do Quarto");
-        tv_quarto.setDevice_category(OutputDeviceType.TELEVISION);
-        tv_quarto.setDevice_location("Quarto");
-        tv_quarto.setCurrent_state("ON");
-        tv_quarto.setLaststatechange(System.currentTimeMillis());
-        tv_quarto.setCurrent_channel("TVI");
-
-        outputDeviceRepository.save(tv_quarto);
-
-        OutputDevice radio_sala = new OutputDevice();
-        radio_sala.setName("Rádio da Sala");
-        radio_sala.setDevice_category(OutputDeviceType.SPEAKER);
-        radio_sala.setDevice_location("Sala");
-        radio_sala.setCurrent_state("ON");
-        radio_sala.setLaststatechange(System.currentTimeMillis());
-        radio_sala.setCurrent_music("Tony Carreira - Sonhos de Menino");
-
-        outputDeviceRepository.save(radio_sala);
-
-        OutputDevice desumidificador = new OutputDevice();
-        desumidificador.setName("Desumidificador");
-        desumidificador.setDevice_category(OutputDeviceType.DEHUMIDIFER);
-        desumidificador.setDevice_location("Sala");
-        desumidificador.setCurrent_state("ON");
-        desumidificador.setLaststatechange(System.currentTimeMillis());
-
-        outputDeviceRepository.save(desumidificador);
-
-        OutputDevice exaustor = new OutputDevice();
-        exaustor.setName("Exaustor");
-        exaustor.setDevice_category(OutputDeviceType.DEHUMIDIFER);
-        exaustor.setDevice_location("Cozinha");
-        exaustor.setCurrent_state("ON");
-        exaustor.setLaststatechange(System.currentTimeMillis());
-
-        outputDeviceRepository.save(exaustor);
 
         System.out.println("Inserted default output devices sucessfully! ");
 
-        Room sala = new Room();
-        sala.setName("Sala");
-        sala.setFloorNumber(0);
+        Room living_room = new Room();
+        living_room.setName("Living Room");
+        living_room.setFloorNumber(0);
 
-        Room quarto_putos = new Room();
-        quarto_putos.setName("Quarto das Crianças");
-        quarto_putos.setFloorNumber(1);
+        Room child_bedroom = new Room();
+        child_bedroom.setName("Children Bedroom");
+        child_bedroom.setFloorNumber(1);
 
-        Room quarto_casal = new Room();
-        quarto_casal.setName("Quarto do Casal");
-        quarto_casal.setFloorNumber(1);
+        Room couple_bedroom = new Room();
+        couple_bedroom.setName("Couple Bedroom");
+        couple_bedroom.setFloorNumber(1);
 
-        Room casa_de_banho_1 = new Room();
-        casa_de_banho_1.setName("Casa de Banho 1");
-        casa_de_banho_1.setFloorNumber(0);
+        Room bath_room_1 = new Room();
+        bath_room_1.setName("Bathroom 1");
+        bath_room_1.setFloorNumber(0);
 
-        Room casa_de_banho_quartos = new Room();
-        casa_de_banho_quartos.setName("Casa de Banho dos Quartos");
-        casa_de_banho_quartos.setFloorNumber(1);
+        Room bath_room_couple = new Room();
+        bath_room_couple.setName("Bathroom in Couple Bedroom");
+        bath_room_couple.setFloorNumber(1);
 
-        Room cozinha = new Room();
-        cozinha.setName("Cozinha");
-        cozinha.setFloorNumber(0);
+        Room kitchen = new Room();
+        kitchen.setName("Kitchen");
+        kitchen.setFloorNumber(0);
 
-        cozinha.addDevice(exaustor.getID());
-        cozinha.addDevice(luz_cozinha.getID());
-        sala.addDevice(candeeiro_sala.getID());
-        sala.addDevice(tv_sala.getID());
-        sala.addDevice(radio_sala.getID());
-        quarto_casal.addDevice(rgb_quarto.getID());
-        quarto_casal.addDevice(tv_quarto.getID());
+        Room attic = new Room();
+        attic.setName("Attic");
+        attic.setFloorNumber(2);
 
-        roomRepository.save(cozinha);
-        roomRepository.save(casa_de_banho_quartos);
-        roomRepository.save(casa_de_banho_1);
-        roomRepository.save(quarto_putos);
-        roomRepository.save(quarto_casal);
-        roomRepository.save(sala);
+        roomRepository.save(kitchen);
+        roomRepository.save(bath_room_couple);
+        roomRepository.save(bath_room_1);
+        roomRepository.save(child_bedroom);
+        roomRepository.save(couple_bedroom);
+        roomRepository.save(living_room);
+        roomRepository.save(attic);
 
         System.out.println("Inserted default rooms sucessfully! ");
 
+        System.out.println("Inserting default values into the Database");
+        // Insert default values
+        OutputDevice ceiling_light = new OutputDevice();
+        ceiling_light.setName("Ceiling Light");
+        ceiling_light.setDevice_category(OutputDeviceType.LIGHT);
+        ceiling_light.setDevice_location(kitchen.getUid());
+        ceiling_light.setCurrent_state("0");
+        ceiling_light.setLaststatechange(System.currentTimeMillis());
+        ceiling_light.setColor("white");
+
+        outputDeviceRepository.save(ceiling_light);
+
+        OutputDevice lamp_living = new OutputDevice();
+        lamp_living.setName("Lamp");
+        lamp_living.setDevice_category(OutputDeviceType.LIGHT);
+        lamp_living.setDevice_location(living_room.getUid());
+        lamp_living.setCurrent_state("1");
+        lamp_living.setLaststatechange(System.currentTimeMillis());
+        lamp_living.setColor("white");
+
+        outputDeviceRepository.save(lamp_living);
+
+        OutputDevice leds_ligits = new OutputDevice();
+        leds_ligits.setName("LEDS Lights");
+        leds_ligits.setDevice_category(OutputDeviceType.LIGHT);
+        leds_ligits.setDevice_location(child_bedroom.getUid());
+        leds_ligits.setCurrent_state("1");
+        leds_ligits.setLaststatechange(System.currentTimeMillis());
+        leds_ligits.setColor("red");
+
+        outputDeviceRepository.save(leds_ligits);
+
+        OutputDevice air_conditioner = new OutputDevice();
+        air_conditioner.setName("Air Conditioner");
+        air_conditioner.setDevice_category(OutputDeviceType.AIR_CONDITIONER);
+        air_conditioner.setDevice_location(couple_bedroom.getUid());
+        air_conditioner.setCurrent_state("1");
+        air_conditioner.setLaststatechange(System.currentTimeMillis());
+        air_conditioner.setTemperature(25);
+
+        outputDeviceRepository.save(air_conditioner);
+
+        OutputDevice attic_heater = new OutputDevice();
+        attic_heater.setName("Heater");
+        attic_heater.setDevice_category(OutputDeviceType.AIR_CONDITIONER);
+        attic_heater.setDevice_location(attic.getUid());
+        attic_heater.setCurrent_state("0");
+        attic_heater.setLaststatechange(System.currentTimeMillis());
+        attic_heater.setTemperature(20);
+
+        outputDeviceRepository.save(attic_heater);
+
+        OutputDevice tv_living = new OutputDevice();
+        tv_living.setName("Television");
+        tv_living.setDevice_category(OutputDeviceType.TELEVISION);
+        tv_living.setDevice_location(living_room.getUid());
+        tv_living.setCurrent_state("1");
+        tv_living.setLaststatechange(System.currentTimeMillis());
+        tv_living.setCurrent_channel("Fox");
+
+        outputDeviceRepository.save(tv_living);
+
+        OutputDevice tv_couple_bedr = new OutputDevice();
+        tv_couple_bedr.setName("Tevelision");
+        tv_couple_bedr.setDevice_category(OutputDeviceType.TELEVISION);
+        tv_couple_bedr.setDevice_location(couple_bedroom.getUid());
+        tv_couple_bedr.setCurrent_state("1");
+        tv_couple_bedr.setLaststatechange(System.currentTimeMillis());
+        tv_couple_bedr.setCurrent_channel("Axn HD");
+
+        outputDeviceRepository.save(tv_couple_bedr);
+
+        OutputDevice radio_living_room = new OutputDevice();
+        radio_living_room.setName("Radio");
+        radio_living_room.setDevice_category(OutputDeviceType.SPEAKER);
+        radio_living_room.setDevice_location(living_room.getUid());
+        radio_living_room.setCurrent_state("1");
+        radio_living_room.setLaststatechange(System.currentTimeMillis());
+        radio_living_room.setCurrent_music("Tony Carreira - Sonhos de Menino");
+
+        outputDeviceRepository.save(radio_living_room);
+
+        OutputDevice dehumidifier = new OutputDevice();
+        dehumidifier.setName("Dehumidifier");
+        dehumidifier.setDevice_category(OutputDeviceType.DEHUMIDIFER);
+        dehumidifier.setDevice_location(living_room.getUid());
+        dehumidifier.setCurrent_state("1");
+        dehumidifier.setLaststatechange(System.currentTimeMillis());
+
+        outputDeviceRepository.save(dehumidifier);
+
+        OutputDevice ventilator = new OutputDevice();
+        ventilator.setName("Ventilator");
+        ventilator.setDevice_category(OutputDeviceType.DEHUMIDIFER);
+        ventilator.setDevice_location(kitchen.getUid());
+        ventilator.setCurrent_state("1");
+        ventilator.setLaststatechange(System.currentTimeMillis());
+
+        outputDeviceRepository.save(ventilator);
+
+        kitchen.addDevice(ventilator.getID());
+        kitchen.addDevice(ceiling_light.getID());
+        living_room.addDevice(lamp_living.getID());
+        living_room.addDevice(tv_living.getID());
+        living_room.addDevice(radio_living_room.getID());
+        couple_bedroom.addDevice(leds_ligits.getID());
+        child_bedroom.addDevice(tv_couple_bedr.getID());
     }
 }

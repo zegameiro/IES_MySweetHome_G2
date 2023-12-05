@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BASE_API_URL } from '../../constants';
 
@@ -10,103 +8,104 @@ import { PiMonitorBold, PiMonitorFill } from 'react-icons/pi';
 import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
+<<<<<<< HEAD:proj/MSH-frontend/src/components/layout/DeviceCard.jsx
 const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
   const [device, setDevice] = useState(Device ? Device : null);
+=======
+const OutputDeviceCard = ({ isBig, device, room }) => {
+>>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195:proj/MSH-frontend/src/components/layout/OutputDeviceCard.jsx
 
-  const [isChecked, setIsChecked] = useState(
-    device['state'] === 'on' ? true : false
-  );
+  const [isChecked, setIsChecked] = useState(device.state === '1');
   const [durationTime, setDurationTime] = useState(`0min`);
+  const [uptimeInterval, setUptimeInterval] = useState(null);
 
-  const getDurationTime = (device) => {
-    const laststatechange = device['laststatechange'];
+  const getDurationTime = (d) => {
+    const laststatechange = d.laststatechange; // Move this line inside the function
     const now = Date.now();
     let diff = now - laststatechange;
-
+  
     const hours = Math.floor(diff / (1000 * 60 * 60));
-
+  
     diff -= hours * (1000 * 60 * 60);
-
+  
     const minutes = Math.floor(diff / 1000 / 60);
-
-    if (hours === 0) {
-      setDurationTime(`${minutes}m`);
-    } else {
-      setDurationTime(`${hours}h ${minutes}m`);
-    }
+    if (isChecked) 
+      hours === 0 ?  setDurationTime(`${minutes}min`) : setDurationTime(`${hours}h ${minutes}min`);
+    else
+      setDurationTime(`0min`);
   };
 
+  const startUptimeInterval = () => {
+    // Set up an interval to update device uptime every minute
+    const intervalId = setInterval(() => {
+      getDurationTime(device);
+    }, 60000);
+    setUptimeInterval(intervalId);
+  };
+
+
   useEffect(() => {
+
     getDurationTime(device);
-  }, [device]);
+
+    if (isChecked)
+      startUptimeInterval();
+
+    else {
+      clearInterval(uptimeInterval);
+      setUptimeInterval(null);
+    }
+    return () => {
+      clearInterval(uptimeInterval);
+    }
+  }, [isChecked, device]);
 
   const getIcon = (category, state) => {
     switch (category) {
       case '0':
-        if (state) {
-          return <FaLightbulb />;
-        } else {
-          return <FaRegLightbulb />;
-        }
+        return state ? <FaLightbulb /> : <FaRegLightbulb />;
+
       case '1':
-        if (state) {
-          return <TbAirConditioning />;
-        } else {
-          return <TbAirConditioningDisabled />;
-        }
+        return state ? <TbAirConditioning /> :  <TbAirConditioningDisabled />;
+
       case '2':
-        if (state) {
-          return <PiMonitorBold />;
-        } else {
-          return <PiMonitorFill />;
-        }
+        return state ? <PiMonitorBold /> : <PiMonitorFill />;
+
       case '3':
-        if (state) {
-          return <MdSpeaker />;
-        } else {
-          return <MdOutlineSpeaker />;
-        }
+        return state ? <MdSpeaker /> : <MdOutlineSpeaker />;
+
       case '4':
         return <WiHumidity />;
     }
   };
 
-  const getDescription = (device) => {
-    let category = device['category'];
+  const getDescription = (device, state) => {
+    let category = device.category;
 
     switch (category) {
       case '0':
-        if (device['state'] === 'on') {
-          if (device['color'] !== 'white') return `Color: ${device['color']}`;
-          else return `Light on`;
-        }
+        if (state)
+          return device.color !== 'white' ? `Color: ${device.color}` : `${device.name} on`;
         break;
 
       case '1':
-        if (device['state'] === 'on') {
-          if (device['temperature'] !== 0)
-            return `Temperature: ${device['temperature']}°C`;
-          else return `Air conditioner on`;
-        }
+        if (state)
+          return device.temperature !== 0 ? `Temperature: ${device.temperature}°C` : `${device.name} on`;
         break;
+
       case '2':
-        if (device['state'] === 'on') {
-          if (device['channel'] !== 'None')
-            return `Tv on channel ${device['channel']}`;
-          else return `Reproducing Tv`;
-        }
+        if (state) 
+          return device.channel !== 'None' ? `Tv on channel ${device.channel}` : `Reproducing Tv`;
         break;
 
       case '3':
-        if (device['state'] === 'on') {
-          if (device['music'] !== 'None') return `Playing ${device['music']}`;
-          else return `Playing music`;
-        }
+        if (state)
+          return device.music !== 'None' ? `Playing ${device.music}` : `Playing music`;
         break;
+
       case '4':
-        if (device['state'] === 'on') {
-          return `Dehumidifier on`;
-        }
+        if (state)
+          return `${device.name} on`;
         break;
     }
   };
@@ -121,7 +120,23 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
       );
       if (res.status === 200) {
         console.log('changed state');
+<<<<<<< HEAD:proj/MSH-frontend/src/components/layout/DeviceCard.jsx
         setDevice(res.data);
+=======
+
+        const newdevice = res.data;
+        setIsChecked(newState === '1');
+
+        if (newState === '1' && !uptimeInterval)
+          startUptimeInterval();
+
+        else if (newState === '0' && uptimeInterval) {
+          clearInterval(uptimeInterval);
+          setUptimeInterval(null);
+        }
+
+        getDurationTime(newdevice);
+>>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195:proj/MSH-frontend/src/components/layout/OutputDeviceCard.jsx
       }
     } catch (error) {
       console.log(error);
@@ -132,7 +147,7 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
     <>
       {isBig ? (
         <div
-          className={`card w-[310px] h-[180px] border-solid border-[3px] ${
+          className={`card w-[35vh] h-[100%] border-solid border-[3px] ${
             isChecked ? 'border-primary' : 'border-accent'
           } flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}
         >
@@ -153,7 +168,7 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
                 checked={isChecked ? true : false}
                 onChange={(e) => {
                   setIsChecked(e.target.checked);
-                  changeState(device?.id, e.target.checked ? 'on' : 'off');
+                  changeState(device?.id, e.target.checked ? '1' : '0');
                 }}
               />
             </div>
@@ -165,7 +180,7 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
                   isChecked ? 'text-primary' : 'text-accent'
                 }`}
               >
-                {getIcon(device['category'], isChecked)}
+                {getIcon(device.category, isChecked)}
               </div>
               <div>
                 <div
@@ -173,16 +188,11 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
                     isChecked ? 'text-primary' : 'text-accent'
                   }`}
                 >
-                  <h1>{device['name']}</h1>
+                  <h1>{device.name}</h1>
                 </div>
-                {rooms[0]['devices'].includes(device['id']) ? (
-                  <p className="items-centers text-sm">
-                    {' '}
-                    On <strong>{rooms[0]['name']}</strong>{' '}
-                  </p>
-                ) : (
-                  <p className="text-sm">Room Unknown</p>
-                )}
+                <p className="text-sm">
+                  On <strong>{room.name}</strong>
+                </p>
               </div>
             </div>
             <div className="flex justify-end">
@@ -190,7 +200,7 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
                 <div className="flex-col pr-4">
                   <div className="flex text-sm pt-[30px]">
                     <span className="font-semibold">
-                      {getDescription(device)}
+                      {getDescription(device, isChecked)}
                     </span>
                   </div>
                   <div className="flex flex-col items-center pt-[40px] text-slate-500">
@@ -232,7 +242,7 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
               checked={isChecked ? true : false}
               onChange={(e) => {
                 setIsChecked(e.target.checked);
-                changeState(device['id'], e.target.checked ? 'on' : 'off');
+                changeState(device.id, e.target.checked ? '1' : '0');
               }}
             />
           </div>
@@ -242,10 +252,10 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
             }`}
           >
             <div className="text-5xl mb-[10px]">
-              {getIcon(device['category'], isChecked)}
+              {getIcon(device.category, isChecked)}
             </div>
             <div className="text-base">
-              <p>{device['name']}</p>
+              <p>{device.name}</p>
             </div>
           </div>
         </div>
@@ -254,4 +264,4 @@ const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
   );
 };
 
-export default DeviceCard;
+export default OutputDeviceCard;
