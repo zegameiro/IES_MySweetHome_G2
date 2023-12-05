@@ -1,4 +1,5 @@
 package mysweethome.MSHbackend.Controllers;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,8 +9,7 @@ import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
-
-
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(path = "/routines")
@@ -22,28 +22,46 @@ public class RoutinesController {
     private OutputDeviceRepository outputDeviceRepository;
 
     @PostMapping("/add")
-    public void addRoutine(Action action)
-    {
+    public void addRoutine(@RequestBody Routine routine) {
 
-        String device_id = action.getOutputDeviceID();
+        System.out.println(routine.toString());
 
-        if (outputDeviceRepository.findByID(device_id) == null)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An output device with the specified ID does not exist!");
+        Action act = routine.getAssociated_action();
+
+        if (act == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Action not found.");
         }
 
-        if (PossibleActions.valueOf(action.getAction_description()) == null)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The specified action is not supported!");
+        String associated_device_id = act.getOutputDeviceID(); // device associated to this action
+
+        if (outputDeviceRepository.findById(associated_device_id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
         }
 
-        if (PossibleActions.valueOf(action.getAction_description()).isApplicableTo(outputDeviceRepository.findByID(device_id).getDevice_category()) == false)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The specified action is not applicable to the specified output device!");
+        String action_description = act.getAction_description();
+
+        OutputDevice device = outputDeviceRepository.findById(associated_device_id).get();
+
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
+        }
+        
+
+        PossibleActions ola = PossibleActions.valueOf(device.getDevice_category().toString());
+
+        if (ola == null) {
+            System.out.println("cock");
+        }
+        else{
+            System.out.println(ola.toString());
         }
 
-        actionService.addAction(action);
+
+
+
+
+
 
     }
-    
+
 }

@@ -9,24 +9,22 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Document("actions")
-public class Action {
+@Document("routines")
+public class Routine {
 
     @Id
     private int id;
-    @NotBlank 
-    private long timestamp;
     @NotBlank
-    private String action_title;
+    private List<String> trigger_values;
     @NotBlank
-    private String action_description;
+    private Action associated_action;
     @NotBlank
-    private String outputDeviceID; // id of the output device that will be affected by this action
-
+    private boolean triggered = false;
 }
