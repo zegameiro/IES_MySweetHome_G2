@@ -184,8 +184,6 @@ public class UsersController {
         }
 
         if (!token.equals(user.getActive_Token())) {
-            System.out.println(token);
-            System.out.println(user.getActive_Token());
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The given token is not active for this user!");
         }
         return "OK";
