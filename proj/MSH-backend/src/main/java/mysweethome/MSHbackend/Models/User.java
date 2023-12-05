@@ -31,6 +31,9 @@ public class User {
     @NotBlank
     private String password;
 
+    private String active_token;
+    private String salt;
+    
     List<String> dislikedPreferences = new LinkedList<>();
 
     public String getUid() {
@@ -72,5 +75,16 @@ public class User {
     public void addDislike(String dislike) {
         this.dislikedPreferences.add(dislike);
     }
-    
+    public String getActive_Token() {
+        return active_token;
+    }
+    public void setActive_Token(String active_Token) {
+        this.active_token = active_Token;
+    }
+    public String getSalt() {
+        return salt;
+    }
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 }
