@@ -8,12 +8,7 @@ import { PiMonitorBold, PiMonitorFill } from 'react-icons/pi';
 import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
-<<<<<<< HEAD:proj/MSH-frontend/src/components/layout/DeviceCard.jsx
-const DeviceCard = ({ isBig, rooms, Device, ...props}) => {
-  const [device, setDevice] = useState(Device ? Device : null);
-=======
 const OutputDeviceCard = ({ isBig, device, room }) => {
->>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195:proj/MSH-frontend/src/components/layout/OutputDeviceCard.jsx
 
   const [isChecked, setIsChecked] = useState(device.state === '1');
   const [durationTime, setDurationTime] = useState(`0min`);
@@ -120,9 +115,6 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
       );
       if (res.status === 200) {
         console.log('changed state');
-<<<<<<< HEAD:proj/MSH-frontend/src/components/layout/DeviceCard.jsx
-        setDevice(res.data);
-=======
 
         const newdevice = res.data;
         setIsChecked(newState === '1');
@@ -136,7 +128,6 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
         }
 
         getDurationTime(newdevice);
->>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195:proj/MSH-frontend/src/components/layout/OutputDeviceCard.jsx
       }
     } catch (error) {
       console.log(error);
@@ -151,15 +142,15 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
             isChecked ? 'border-primary' : 'border-accent'
           } flex flex-col justify-between hover:shadow-xl transition-shadow duration-300`}
         >
-          <div className="flex justify-between items-center">
-            <div className="flex text-lg font-medium pl-5 pt-2">
+          <div className="flex items-center justify-between">
+            <div className="flex pt-2 pl-5 text-lg font-medium">
               {isChecked ? (
                 <h1 className="text-primary">On</h1>
               ) : (
                 <h1 className="text-accent">Off</h1>
               )}
             </div>
-            <div className="flex pr-5 pt-2">
+            <div className="flex pt-2 pr-5">
               <input
                 type="checkbox"
                 className={`toggle ${
@@ -173,8 +164,8 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
               />
             </div>
           </div>
-          <div className="justify-between flex">
-            <div className="card-body flex justify-between pl-4 pt-2">
+          <div className="flex justify-between">
+            <div className="flex justify-between pt-2 pl-4 card-body">
               <div
                 className={`text-6xl pl-5 mb-[10px] font-medium ${
                   isChecked ? 'text-primary' : 'text-accent'
@@ -225,12 +216,12 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
             isChecked ? 'border-primary' : 'border-accent'
           } flex flex-col text-center justify-between hover:shadow-xl transition-shadow duration-300`}
         >
-          <div className="flex justify-between pt-3 pr-3 pl-3">
+          <div className="flex justify-between pt-3 pl-3 pr-3">
             <div className="flex">
               {isChecked ? (
-                <h1 className="text-md font-medium text-primary">On</h1>
+                <h1 className="font-medium text-md text-primary">On</h1>
               ) : (
-                <h1 className="text-md font-medium text-accent">Off</h1>
+                <h1 className="font-medium text-md text-accent">Off</h1>
               )}
             </div>
 
