@@ -21,6 +21,7 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.security.spec.KeySpec;
 import javax.crypto.spec.PBEKeySpec;
+import javax.faces.annotation.RequestParameterMap;
 import javax.crypto.SecretKeyFactory;
 
 @Controller
@@ -118,7 +119,6 @@ public class UsersController {
         System.out.println("Logging in user: " + email + " " + password);
         User user;
 
-
         // Check if a User with this login information exists or nor
         try {
             user = userService.findByEmail(email);
@@ -166,6 +166,29 @@ public class UsersController {
         out.put("token", user.getActive_Token());
 
         return out.toString(1);
+    }
+
+    @GetMapping(path = "/checkToken")
+    public @ResponseBody String checkToken(@RequestParam String email, @RequestParam String token) {
+        User user;
+
+        // Check if a User with this login information exists or nor
+        try {
+            user = userService.findByEmail(email);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+    
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User email has no account associated!");
+        }
+
+        if (!token.equals(user.getActive_Token())) {
+            System.out.println(token);
+            System.out.println(user.getActive_Token());
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The given token is not active for this user!");
+        }
+        return "OK";
     }
 
     //  Edit User information
