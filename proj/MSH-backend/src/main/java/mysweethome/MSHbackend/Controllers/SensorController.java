@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
@@ -108,7 +107,7 @@ public class SensorController {
     
     @Operation(summary = "List device IDs", description = "List all device IDs available")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Returns a list of all device IDS"), 
+        @ApiResponse(responseCode = "200", description = "Returns a list of all device IDs"), 
         @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
     })
     @GetMapping("/list/ids")

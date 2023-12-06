@@ -8,11 +8,17 @@ import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 
 @RestController
 @RequestMapping(path = "/routines")
+@Tag(name = "Routine and Action Endpoints")
 public class RoutinesController {
 
     @Autowired
@@ -21,8 +27,15 @@ public class RoutinesController {
     @Autowired
     private OutputDeviceRepository outputDeviceRepository;
 
+    @Operation(summary = "Add a new action", description = "Add a new action to a specific output device")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a OK string"), 
+        @ApiResponse(responseCode = "422", description = "An output device with the specified ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "422", description = "The specified action is not supported!",  content = @Content),
+        @ApiResponse(responseCode = "422", description = "The specified action is not applicable to the specified output device!",  content = @Content)
+    })
     @PostMapping("/add")
-    public void addRoutine(Action action)
+    public String addRoutine(Action action)
     {
 
         String device_id = action.getOutputDeviceID();
@@ -43,6 +56,8 @@ public class RoutinesController {
         }
 
         actionService.addAction(action);
+
+        return "Saved";
 
     }
     
