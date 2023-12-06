@@ -5,7 +5,7 @@ import { BASE_API_URL } from '../../constants';
 
 import axios from 'axios';
 import Header from '../layout/Header';
-import DeviceCard from '../layout/DeviceCard';
+import OutputDeviceCard from '../layout/OutputDeviceCard';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -57,6 +57,11 @@ const DevicesPage = () => {
     }
   };
 
+  const getRoomDevice = (location) => {
+    const room = rooms.find((room) => room.id === location);
+    return room;
+  }
+
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
@@ -85,10 +90,10 @@ const DevicesPage = () => {
                         className="m-2"
                         key={device?.uid}
                       >
-                        <DeviceCard
+                        <OutputDeviceCard
                           device={device}
                           isBig
-                          rooms={rooms}
+                          room={getRoomDevice(device?.location)}
                         />
                       </span>
                     );

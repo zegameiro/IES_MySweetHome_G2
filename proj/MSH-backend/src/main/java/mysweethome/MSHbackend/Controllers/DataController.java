@@ -2,6 +2,7 @@ package mysweethome.MSHbackend.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping(path = "/data")
 public class DataController {
 
