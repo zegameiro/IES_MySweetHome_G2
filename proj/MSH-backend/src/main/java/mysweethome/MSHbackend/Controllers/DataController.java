@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/data")
-@Tag(name = "Source Data Management Endpoints")
+@Tag(name = "Saved Data Management Endpoints")
 public class DataController {
 
     @Autowired

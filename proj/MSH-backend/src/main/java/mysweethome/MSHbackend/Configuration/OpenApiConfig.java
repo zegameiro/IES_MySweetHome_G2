@@ -37,4 +37,44 @@ public class OpenApiConfig implements WebMvcConfigurer {
             .pathsToMatch("/sources/**")
             .build();
     }
+
+    @Bean
+    public GroupedOpenApi routinesApi() {
+        return GroupedOpenApi.builder()
+            .group("Routines and Actions API")
+            .pathsToMatch("/routines/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi roomApi() {
+        return GroupedOpenApi.builder()
+            .group("Room API")
+            .pathsToMatch("/room/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi outputDevApi() {
+        return GroupedOpenApi.builder()
+            .group("Output devices API")
+            .pathsToMatch("/outputs/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi dataApi() {
+        return GroupedOpenApi.builder()
+            .group("Saved Data API")
+            .pathsToMatch("/data/**")
+            .build();
+    }
+
+    @Bean
+    public GroupedOpenApi alertsApi() {
+        return GroupedOpenApi.builder()
+            .group("Alerts API")
+            .pathsToMatch("/alerts/**")
+            .build();
+    }
 }
