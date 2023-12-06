@@ -28,5 +28,7 @@ public class Action {
     private String action_description;
     @NotBlank
     private String outputDeviceID; // id of the output device that will be affected by this action
+    @NotBlank
+    private boolean done = false;
 
 }

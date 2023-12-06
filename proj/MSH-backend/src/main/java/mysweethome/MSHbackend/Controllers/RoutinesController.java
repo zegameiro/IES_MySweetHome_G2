@@ -4,25 +4,33 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
+
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping(path = "/routines")
 public class RoutinesController {
 
     @Autowired
-    private ActionsService actionService;
+    private RoutineService routines;
+
+    @Autowired
+    private ActionsService actions;
 
     @Autowired
     private OutputDeviceRepository outputDeviceRepository;
 
     @PostMapping("/add")
-    public void addRoutine(@RequestBody Routine routine) {
+    public @ResponseBody String addRoutine(@RequestBody Routine routine) {
 
         System.out.println(routine.toString());
 
@@ -45,22 +53,30 @@ public class RoutinesController {
         if (device == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
         }
-        
 
-        PossibleActions ola = PossibleActions.valueOf(device.getDevice_category().toString());
-
-        if (ola == null) {
-            System.out.println("cock");
-        }
-        else{
-            System.out.println(ola.toString());
+        // check if action is supported by this device
+        if (!device.getDevice_category().getPossibleActions().contains(action_description)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Action not supported by this device.");
         }
 
+        act.setTimestamp(System.currentTimeMillis());
 
+        routines.saveRoutine(routine);
+        actions.saveAction(act);
 
+        return "Routine added successfully.";
+    }
 
+    @GetMapping("/check")
+    public @ResponseBody List<String> checkActions(@RequestParam String device_id){
 
+        OutputDevice device = outputDeviceRepository.findById(device_id).get();
 
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
+        }
+
+        return device.getDevice_category().getPossibleActions();
 
     }
 
