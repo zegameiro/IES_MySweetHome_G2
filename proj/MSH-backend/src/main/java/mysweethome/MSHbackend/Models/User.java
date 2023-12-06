@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @ToString
 @NoArgsConstructor
@@ -33,6 +34,7 @@ public class User {
 
     List<String> dislikedPreferences = new LinkedList<>();
 
+    @JsonIgnore
     public String getUid() {
         return uid;
     }
@@ -57,6 +59,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
