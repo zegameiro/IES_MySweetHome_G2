@@ -16,14 +16,27 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/data")
+@Tag(name = "Source Data Management Endpoints")
 public class DataController {
 
     @Autowired
     private DataService dataService;
 
+    @Operation(summary = "View data by time", description = "Retrieve data of a specific sensor filtered by last hour, day, week, month, latest or all")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns list of sensor data instances"),
+        @ApiResponse(responseCode = "404", description = "Error retrieving data or there is no data!", content = @Content),
+        @ApiResponse(responseCode = "404", description = "There is no data!", content = @Content)
+    })
     @GetMapping("/view")
     public ResponseEntity<List<SensorData>> listDataBySensor(
             @RequestParam("sensor_id") String sensor_id,
@@ -45,10 +58,14 @@ public class DataController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "List all data", description = "Retrieve all the data of all the sensors")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns list of all sensor data instances"),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/list") // get all data from all sensors
     public ResponseEntity<List<SensorData>> listAllData() {
         try {
-
             List<SensorData> data = dataService.listAllData();
             return ResponseEntity.ok(data);
         } catch (Exception e) {

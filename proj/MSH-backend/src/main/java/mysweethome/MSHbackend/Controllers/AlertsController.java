@@ -18,16 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedList;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/alerts")
+@Tag(name = "Alert Management Endpoints")
 public class AlertsController {
 
     @Autowired
     private AlertService alertService;
 
-
     // View all information of a specific object based on ID
+    @Operation(summary = "View alerts information", description = "Retrieve all the information about a specific alert")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns alert instance"),
+        @ApiResponse(responseCode = "422", description = "An alert object with the specified ID does not exist!", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/view")
     public @ResponseBody Alert viewSource(@RequestParam String id) {
         Alert alert;
@@ -47,6 +59,11 @@ public class AlertsController {
         return alert;
     }
     
+    @Operation(summary = "List active alerts", description = "Retrieve all the current active (unread) alerts")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns list alert instances"),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/list")
     public @ResponseBody LinkedList<Alert> getUnreadAlerts() {
         LinkedList<Alert> alerts;
@@ -61,6 +78,11 @@ public class AlertsController {
         return alerts;
     }
 
+    @Operation(summary = "List all alerts", description = "Retrieve all the ongoing and past alerts")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns list alert instances"),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/list/all")
     public @ResponseBody LinkedList<Alert> getAll() {
         LinkedList<Alert> alerts;
@@ -75,6 +97,12 @@ public class AlertsController {
         return alerts;
     }
 
+    @Operation(summary = "Mark an alert as read", description = "Mark a specific alert as read")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a OK String"),
+        @ApiResponse(responseCode = "422", description = "An alert object with the specified ID does not exist!", content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @PostMapping("/mark")
     public @ResponseBody String markAsRead(@RequestParam String id) {
         Alert alert;
@@ -99,6 +127,6 @@ public class AlertsController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
-        return "Sucessfully marked alert as read!";
+        return "OK";
     }
 }
