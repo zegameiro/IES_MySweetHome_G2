@@ -19,19 +19,19 @@ import javax.validation.constraints.NotBlank;
 public class Room {
 
     @Id
-    private String uid;
+    private String id;
     @NotBlank
     private String name;
     @NotBlank
-    private Integer floorNumber;
+    private Integer floornumber;
 
     List<String> devices = new LinkedList<String>();
 
-    public String getUid() {
-        return uid;
+    public String getId() {
+        return id;
     }
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setId(String uid) {
+        this.id = uid;
     }
 
     public String getName() {
@@ -41,11 +41,11 @@ public class Room {
         this.name = name;
     }
 
-    public Integer getFloorNumber() {
-        return floorNumber;
+    public Integer getFloornumber() {
+        return floornumber;
     }
-    public void setFloorNumber(Integer floorNumber) {
-        this.floorNumber = floorNumber;
+    public void setFloornumber(Integer floornumber) {
+        this.floornumber = floornumber;
     }
 
     public List<String> getDevices() {

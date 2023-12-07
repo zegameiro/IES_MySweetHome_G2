@@ -23,7 +23,7 @@ public class DataService {
         List<SensorData> data = new ArrayList<SensorData>();
 
         if (filter.equals("none")) {
-            return dataRepository.findBySourceid(sensor_id);
+            return dataRepository.findByID(sensor_id);
         } else if (filter.equals("last_hour")) {
             Long current_time = System.currentTimeMillis();
             return dataRepository.findByIDTimeStamped(sensor_id, current_time - 3600000);
@@ -38,8 +38,8 @@ public class DataService {
             return dataRepository.findByIDTimeStamped(sensor_id, current_time - 86400000);
 
         } else if (filter.equals("latest")) {
-            if (dataRepository.findBySourceid(sensor_id).size() > 0) {
-                data.add(dataRepository.findBySourceid(sensor_id).get(dataRepository.findBySourceid(sensor_id).size() - 1));
+            if (dataRepository.findByID(sensor_id).size() > 0) {
+                data.add(dataRepository.findByID(sensor_id).get(dataRepository.findByID(sensor_id).size() - 1));
             
             }
         }

@@ -25,7 +25,7 @@ public class RoomService {
     }
 
     public Room findByID(String id) {
-        return roomRepository.findByUid(id);
+        return roomRepository.findByID(id);
     }
    
 }

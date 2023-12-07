@@ -12,6 +12,7 @@ public interface RoomRepository extends MongoRepository<Room, String> {
     @Query("{}")
     public List<Room> findAllRoom();
     public Room findByName(String name);
-    public Room findByUid(String uid);
+    @Query("{'id': ?0}")
+    public Room findByID(String id);
 
 }

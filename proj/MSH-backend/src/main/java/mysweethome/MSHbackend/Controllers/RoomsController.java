@@ -55,7 +55,7 @@ public class RoomsController {
         room = new Room();
 
         room.setName(name);
-        room.setFloorNumber(floornumber);
+        room.setFloornumber(floornumber);
         
         roomService.saveRoom(room);
         return ResponseEntity.ok(room);

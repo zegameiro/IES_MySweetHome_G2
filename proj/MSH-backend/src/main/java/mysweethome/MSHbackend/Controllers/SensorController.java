@@ -72,7 +72,7 @@ public class SensorController {
 
         roomService.saveRoom(room);
 
-        source.setDevice_location(roomID);
+        source.setLocation(roomID);
         dataSourceService.saveDataSource(source);
 
         return "Saved";
@@ -123,7 +123,7 @@ public class SensorController {
         }
 
         for (DataSource src : sources) {
-            sourceIDs.add(src.getDevice_id());
+            sourceIDs.add(src.getID());
         }
 
         return ResponseEntity.ok(sourceIDs);
