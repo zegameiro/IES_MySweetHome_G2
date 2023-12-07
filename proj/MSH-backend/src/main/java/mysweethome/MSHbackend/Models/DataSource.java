@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @ToString
 @Document("sensors")
-public class DataSource extends Device {
+public class DataSource  {
 
     @Id
     private String ID;

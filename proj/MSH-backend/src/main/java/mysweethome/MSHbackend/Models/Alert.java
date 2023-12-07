@@ -32,5 +32,4 @@ public class Alert {
     @NotBlank
     private boolean marked_as_read = false;
 
-
 }

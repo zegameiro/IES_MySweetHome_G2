@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "cd0bbb76-aaef-4def-8f3e-d6538add5c50",
+		"_postman_id": "6a07d913-5e18-493d-847f-a2da0d7adc78",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "28375958"
+		"_exporter_id": "19001359"
 	},
 	"item": [
 		{
@@ -362,10 +362,7 @@
 					"name": "Associate Device to Room",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
+						"header": []
 					},
 					"response": []
 				}
@@ -554,50 +551,32 @@
 			]
 		},
 		{
-			"name": "Alerts",
+			"name": "Routines",
 			"item": [
 				{
-					"name": "List Alerts",
+					"name": "Add Routine",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/alerts/list",
+							"raw": "localhost:8080/routines/add",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"alerts",
-								"list"
+								"routines",
+								"add"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "View Alerts",
+					"name": "Check Actions",
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/alerts/view?id=845ec5b7-128f-41db-8fa2-55c0388d3ce4",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"alerts",
-								"view"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "845ec5b7-128f-41db-8fa2-55c0388d3ce4"
-								}
-							]
-						}
+						"header": []
 					},
 					"response": []
 				}

@@ -1,8 +1,12 @@
 package mysweethome.MSHbackend.Controllers;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.List;
+
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
 import mysweethome.MSHbackend.Services.*;
@@ -15,14 +19,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 
-
 @RestController
 @RequestMapping(path = "/routines")
 @Tag(name = "Routine and Action Endpoints")
 public class RoutinesController {
 
     @Autowired
-    private ActionsService actionService;
+    private RoutineService routines;
+
+    @Autowired
+    private ActionsService actions;
 
     @Autowired
     private OutputDeviceRepository outputDeviceRepository;
@@ -35,30 +41,57 @@ public class RoutinesController {
         @ApiResponse(responseCode = "422", description = "The specified action is not applicable to the specified output device!",  content = @Content)
     })
     @PostMapping("/add")
-    public String addRoutine(Action action)
-    {
+    public @ResponseBody String addRoutine(@RequestBody Routine routine) {
 
-        String device_id = action.getOutputDeviceID();
 
-        if (outputDeviceRepository.findByID(device_id) == null)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An output device with the specified ID does not exist!");
+        System.out.println(routine.toString());
+
+        Action act = routine.getAssociated_action();
+
+        if (act == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Action not found.");
         }
 
-        if (PossibleActions.valueOf(action.getAction_description()) == null)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The specified action is not supported!");
+        String associated_device_id = act.getOutputDeviceID(); // device associated to this action
+
+        if (outputDeviceRepository.findById(associated_device_id).isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
         }
 
-        if (PossibleActions.valueOf(action.getAction_description()).isApplicableTo(outputDeviceRepository.findByID(device_id).getDevice_category()) == false)
-        {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "The specified action is not applicable to the specified output device!");
+        String action_description = act.getAction_description();
+
+        OutputDevice device = outputDeviceRepository.findById(associated_device_id).get();
+
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
         }
 
-        actionService.addAction(action);
+        // check if action is supported by this device
+        if (!device.getDevice_category().getPossibleActions().contains(action_description)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Action not supported by this device.");
+        }
+
+        act.setTimestamp(System.currentTimeMillis());
+
+        routines.saveRoutine(routine);
+        actions.saveAction(act);
+
+        return "Routine added successfully.";
+    }
+
+    @GetMapping("/check")
+    public @ResponseBody List<String> checkActions(@RequestParam String device_id){
+
+        OutputDevice device = outputDeviceRepository.findById(device_id).get();
+
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Output device not found.");
+        }
+
+        return device.getDevice_category().getPossibleActions();
 
         return "Saved";
 
     }
-    
+
 }

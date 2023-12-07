@@ -11,7 +11,7 @@ public class ActionsService {
     @Autowired
     private ActionRepository actionRepository;
 
-    public void addAction(Action action) {
+    public void saveAction(Action action) {
         actionRepository.save(action);
     }
     
