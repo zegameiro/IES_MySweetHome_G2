@@ -101,6 +101,35 @@
 					"response": []
 				},
 				{
+					"name": "Check User Token",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/user/checkToken?email=jose@fino.com&token=_xBDyc5PUm9Bu_lO0_o4kNu6N0F8GtE_9c4argtAwYTIciM_xkx08CPbJa8belnePa77LkURV0q7Ko6A5w3O0w",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"user",
+								"checkToken"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "jose@fino.com"
+								},
+								{
+									"key": "token",
+									"value": "_xBDyc5PUm9Bu_lO0_o4kNu6N0F8GtE_9c4argtAwYTIciM_xkx08CPbJa8belnePa77LkURV0q7Ko6A5w3O0w"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Edit User",
 					"request": {
 						"method": "POST",
