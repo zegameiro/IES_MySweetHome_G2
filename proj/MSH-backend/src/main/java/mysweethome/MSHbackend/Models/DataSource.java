@@ -10,45 +10,45 @@ import javax.validation.constraints.NotBlank;
 public class DataSource  {
 
     @Id
-    private String id;
+    private String ID;
     @NotBlank
-    private int category;
-    private String location;
+    private int device_category;
+    private String device_location;
     @NotBlank
     private String name;
 
-    public DataSource(String id, int category,String location, String name) {
-        this.id = id;
-        this.category = category;
-        this.location = location;
+    public DataSource(String device_id, int device_category,String device_location, String name) {
+        this.ID = device_id;
+        this.device_category = device_category;
+        this.device_location = device_location;
         this.name = name;
     }
 
     public DataSource() {
     }
 
-    public String getID() {
-        return id;
+    public String getDevice_id() {
+        return ID;
     }
 
-    public void setID(String id) {
-        this.id = id;
+    public void setDevice_id(String device_id) {
+        this.ID = device_id;
     }
 
-    public int getCategory() {
-        return category;
+    public int getDevice_category() {
+        return device_category;
     }
 
-    public void setCategory(int category) {
-        this.category = category;
+    public void setDevice_category(int device_category) {
+        this.device_category = device_category;
     }
 
-    public String getLocation() {
-        return location;
+    public String getDevice_location() {
+        return device_location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDevice_location(String device_location) {
+        this.device_location = device_location;
     }
 
         public String getName() {

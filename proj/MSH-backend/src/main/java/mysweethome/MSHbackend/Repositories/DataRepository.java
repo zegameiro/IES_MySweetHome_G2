@@ -10,12 +10,11 @@ import org.springframework.data.mongodb.repository.Query;
 @Repository
 public interface DataRepository extends MongoRepository<SensorData, String> {
 
-    @Query("{'id': ?0}")
-    public List<SensorData> findByID(String sensor_id);
+    public List<SensorData> findBySourceid(String sensor_id);
 
     public List<SensorData> findAll();
 
-    @Query("{'id': ?0, 'timestamp': {$gte: ?1}}")
+    @Query("{'sourceid': ?0, 'timestamp': {$gte: ?1}}")
     public List<SensorData> findByIDTimeStamped(String sensor_id, long timestamp);
 
 
