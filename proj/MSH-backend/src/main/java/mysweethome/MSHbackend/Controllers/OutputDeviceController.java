@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
@@ -18,10 +17,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.LinkedList;
+import org.json.JSONObject;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/outputs")
+@Tag(name = "Output device Endpoints")
 public class OutputDeviceController {
 
     @Autowired
@@ -30,9 +37,12 @@ public class OutputDeviceController {
     @Autowired
     private RoomService roomService;
 
+    @Operation(summary = "Add a new output device", description = "Add a new output device with a choosen category and a initial with a initial state")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Output Device instance")
+    })
     @PostMapping("/add")
-    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String name, @RequestParam String state,
-            @RequestParam int category) {
+    public ResponseEntity<OutputDevice> addOutputDevice(@RequestParam String name, @RequestParam String state, @RequestParam int category) {
         OutputDevice dev = new OutputDevice();
 
         OutputDeviceType dev_category = OutputDeviceType.valueOf(category);
@@ -64,6 +74,12 @@ public class OutputDeviceController {
         return ResponseEntity.ok(dev);
     }
 
+    @Operation(summary = "Associate a device to a room", description = "Associate an output device to a existing room")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+        @ApiResponse(responseCode = "422", description = "An output device with this ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "422", description = "A room with the specified ID does not exist!",  content = @Content)
+    })
     @PostMapping("/associate") // associate a device to a room
     public @ResponseBody String associateDevice(@RequestParam String deviceID, @RequestParam String roomID) {
         OutputDevice device;
@@ -78,13 +94,11 @@ public class OutputDeviceController {
         }
 
         if (device == null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
-                    "An output device with this ID does not exist!");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An output device with this ID does not exist!");
         }
 
         if (room == null) {
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
-                    "A room with the specified ID does not exist!");
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "A room with the specified ID does not exist!");
         }
 
         device.setDevice_location(roomID);
@@ -95,9 +109,15 @@ public class OutputDeviceController {
         }
         roomService.saveRoom(room);
 
-        return "Device " + deviceID + " associated to room " + roomID;
+        return "Saved";
     }
 
+    @Operation(summary = "View a output device", description = "Get all the known information about a specific output device")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Output Device instance"),
+        @ApiResponse(responseCode = "422", description = "An output device with this ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @GetMapping("/view")
     public @ResponseBody String viewOutputDevice(@RequestParam String id) {
         OutputDevice device;
@@ -142,6 +162,12 @@ public class OutputDeviceController {
     }
 
     // Change the state of an output device
+    @Operation(summary = "Change the state of a device", description = "Alter the current state of a output device to a new one")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Output Device instance"),
+        @ApiResponse(responseCode = "422", description = "An output device with this ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @PostMapping("/changeState")
     public String changeState(@RequestParam String id, @RequestBody String request_body) {
         OutputDevice device;
@@ -206,6 +232,11 @@ public class OutputDeviceController {
     }
 
     // Get a full list of all the output devices
+    @Operation(summary = "List all devices", description = "List all the known output devices")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a list of Output Device instances"),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @GetMapping("/list")
     public @ResponseBody String getOutputs() {
         LinkedList<OutputDevice> sources;
@@ -254,6 +285,10 @@ public class OutputDeviceController {
     }
 
     // Get a full list of all the output devices
+    @Operation(summary = "List all categories", description = "List all the categories of output devices")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a list of Output Device Categories")
+    })
     @GetMapping("/listCategories")
     public @ResponseBody String getCategories() {
         List<JSONObject> output = new LinkedList<JSONObject>();

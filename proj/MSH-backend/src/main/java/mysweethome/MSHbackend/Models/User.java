@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @ToString
 @NoArgsConstructor
@@ -31,8 +32,12 @@ public class User {
     @NotBlank
     private String password;
 
+    private String active_token;
+    private String salt;
+    
     List<String> dislikedPreferences = new LinkedList<>();
 
+    @JsonIgnore
     public String getUid() {
         return uid;
     }
@@ -57,6 +62,7 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -72,5 +78,16 @@ public class User {
     public void addDislike(String dislike) {
         this.dislikedPreferences.add(dislike);
     }
-    
+    public String getActive_Token() {
+        return active_token;
+    }
+    public void setActive_Token(String active_Token) {
+        this.active_token = active_Token;
+    }
+    public String getSalt() {
+        return salt;
+    }
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 }
