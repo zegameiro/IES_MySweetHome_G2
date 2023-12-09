@@ -24,7 +24,7 @@ const ProfileButton = () => {
             <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
           </div>
         </div>
-        {user?.firstname} <IoIosArrowDown />
+        {user?.firstName} <IoIosArrowDown />
       </summary>
       <ul className="shadow menu dropdown-content z-[1] gradient-blue text-white text-xl font-bold rounded-box w-60">
         <li>
