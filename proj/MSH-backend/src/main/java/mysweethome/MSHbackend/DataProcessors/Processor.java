@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
+import java.util.List;
 
 @Component
 public class Processor {
@@ -27,7 +28,7 @@ public class Processor {
   String queueName;
 
   @Autowired
-  private DataService dataRepository;
+  private DataService dataService;
 
   @Autowired
   private AlertService alertRepository;
@@ -81,21 +82,24 @@ public class Processor {
       }
     }
 
-    String sensorId =  data.get("device_id");
-    Long timestamp = Long.parseLong( data.get("timestamp"));
+    String sensorId = data.get("device_id");
+    Long timestamp = Long.parseLong(data.get("timestamp"));
     String sensorInformation = data.get("sensor_information");
+    String unit = data.get("unit");
 
-    dataRepository.saveData(new SensorData(sensorId, timestamp, sensorInformation));
+    checkForAlerts(sensorId, sensorInformation, unit);
 
-     System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
+    dataService.saveData(new SensorData(sensorId, timestamp, sensorInformation, unit));
+
+    System.out.println("Data from sensor with ID " + sensorId + " saved sucessfully!");
 
   }
 
   public void registerSensor(Map<String, String> data) {
 
-    String device_id =  data.get("device_id");
-    String device_category =  data.get("device_category");
-    String device_name =  data.get("name");
+    String device_id = data.get("device_id");
+    String device_category = data.get("device_category");
+    String device_name = data.get("name");
 
     String device_location = "None";
 
@@ -104,8 +108,8 @@ public class Processor {
     }
 
     dataSourceRepository
-        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location , device_name));
-    
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location, device_name));
+
     Alert newAlert = new Alert();
     newAlert.setId(device_id);
     newAlert.setAlert_header("New sensor added!");
@@ -115,6 +119,59 @@ public class Processor {
     alertRepository.saveAlert(newAlert);
 
     System.out.println("Sensor with ID -> " + device_id + " registered sucessfully!");
+
+  }
+
+  public void checkForAlerts(String sensorId, String sensorInformation, String unit) {
+
+    DataSource sensor = dataSourceRepository.findByID(sensorId);
+
+    if (sensor == null) {
+      System.out.println("Sensor with ID -> " + sensorId + " not found while checking for alerts!");
+      return;
+    }
+
+    // get the last 3 values
+
+    List<SensorData> last3Values = dataService.listDataBySensor(sensorId, "last_hour"); // last hour is enough for 3
+                                                                                        // values
+
+
+    if (last3Values.size() < 5) {
+      return;
+    }                                                                                    
+    if (last3Values.size() > 5) {
+      last3Values = last3Values.subList(0, 5);
+    }
+
+ 
+    // get the average of the last 3 values
+
+    double average = 0;
+
+    for (SensorData value : last3Values) {
+      average += Double.parseDouble(value.getSensor_information());
+    }
+
+    average = average / 5;
+
+    // check if the current values is above or below 30% of the average
+
+    double currentValue = Double.parseDouble(sensorInformation);
+
+    if (currentValue > average * 1.3 || currentValue < average * 0.7) {
+
+      Alert newAlert = new Alert();
+      newAlert.setId(sensorId);
+      newAlert.setAlert_header("Unusual value detected!");
+      newAlert.setAlert_level(2);
+      newAlert.setAlert_information(
+          "The sensor '" + sensor.getName() + "' has detected an unusual value of " + currentValue + " " + unit + "!");
+      newAlert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
+      alertRepository.saveAlert(newAlert);
+
+      System.out.println("Alert generated for sensor with ID -> " + sensorId + "!");
+    }
 
   }
 

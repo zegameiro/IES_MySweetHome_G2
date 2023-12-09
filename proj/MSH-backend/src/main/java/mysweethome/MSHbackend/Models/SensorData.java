@@ -22,29 +22,46 @@ public class SensorData {
     private Long timestamp;
     @NotBlank
     private String sensor_information;
+    @NotBlank
+    private String unit;
 
-    public SensorData(String data_source_id, @NotBlank Long timestamp, @NotBlank String sensor_information) {
+    public SensorData(String data_source_id, @NotBlank Long timestamp, @NotBlank String sensor_information,
+            @NotBlank String unit) {
         this.sourceid = data_source_id;
         this.timestamp = timestamp;
         this.sensor_information = sensor_information;
+        this.unit = unit;
     }
 
     public String getData_source_id() {
         return sourceid;
     }
+
     public void setData_source_id(String data_source_id) {
         this.sourceid = data_source_id;
     }
+
     public Long getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
+
     public String getSensor_information() {
         return sensor_information;
     }
+
     public void setSensor_information(String sensor_information) {
         this.sensor_information = sensor_information;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }
