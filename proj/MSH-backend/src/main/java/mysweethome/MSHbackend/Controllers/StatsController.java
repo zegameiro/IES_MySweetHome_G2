@@ -48,7 +48,7 @@ public class StatsController {
 
         average = average / amostras;
 
-        int hourly_average = (int) (average * 360); // interpolar para 1 hora (3600 segundos)
+        double hourly_average = (average * 360); // interpolar para 1 hora (3600 segundos)
 
         Random random = new Random();
 
@@ -82,7 +82,7 @@ public class StatsController {
 
         average = average / amostras;
 
-        int daily_average = (int) (average * 360 * 24); // interpolar para 1 hora (3600 segundos)
+        double daily_average = (average * 360 * 24); // interpolar para 1 hora (3600 segundos)
 
         Random random = new Random();
 
