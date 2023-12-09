@@ -52,4 +52,11 @@ public class DataService {
     }
 
 
+    public List<SensorData> dailyConsume(String sensor_id, Long timestamp){
+        return dataRepository.findByIDTimeStamped(sensor_id, timestamp);
+    }
+
+    
+
+
 }
