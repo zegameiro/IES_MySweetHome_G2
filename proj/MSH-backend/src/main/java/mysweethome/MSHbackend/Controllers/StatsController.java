@@ -60,19 +60,18 @@ public class StatsController {
         if (data_source.getDevice_category() == 1) { // temperatura
 
             for (int i = 0; i < 24; i++) {
-            hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
             }
-        }
-        else if (data_source.getDevice_category() == 2) { // eletricidade
+        } else if (data_source.getDevice_category() == 2) { // eletricidade
 
             for (int i = 0; i < 24; i++) {
-            hourly_stats.add(String.valueOf((average * hourly_multiplier * (0.2 * random.nextDouble() + 0.9))));
+                hourly_stats.add(String.valueOf((average * hourly_multiplier * (0.2 * random.nextDouble() + 0.9))));
             }
 
         } else { // implementar para o resto dos sensores, este ta a dar a media
 
             for (int i = 0; i < 24; i++) {
-            hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
             }
 
         }
