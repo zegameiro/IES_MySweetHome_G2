@@ -12,7 +12,6 @@ public class EletricitySensor {
     String queue_name = null, device_category, name;
     String uniqueID = UUID.randomUUID().toString();
 
-
     private static final ObjectMapper MAPPER = new ObjectMapper();
     static Random RANDOM = new Random();
 
@@ -25,28 +24,18 @@ public class EletricitySensor {
 
     public void run() throws Exception {
 
-        // send register message
         String register_msg = MAPPER
-                .writeValueAsString(Map.of("register_msg", "1", "device_category", device_category, "name", name , "device_id", uniqueID));
+                .writeValueAsString(Map.of("register_msg", "1", "device_category", device_category, "name", name,
+                        "device_id", uniqueID));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
 
         while (true) {
-            try {
-                String message = MAPPER.writeValueAsString(
-                        Map.of(
-                                "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
-                                String.valueOf(getRandomElectricityUsage()), "device_id", uniqueID));
-                broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
-                // System.out.println(" [EletricitySensor] Sent '" + message + "'");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-                TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String message = MAPPER.writeValueAsString(
+                    Map.of(
+                            "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
+                            String.valueOf(getRandomElectricityUsage()), "device_id", uniqueID , "unit", "kWh"));
+            broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
+            TimeUnit.SECONDS.sleep(10);
         }
 
     }
@@ -56,13 +45,19 @@ public class EletricitySensor {
         if (RANDOM.nextDouble() < 0.05) {
             // Simulate an unusually high electricity usage, e.g., 0.1 kWh to 1 kWh
             return 0.1 + 0.9 * RANDOM.nextDouble();
+        } else if (RANDOM.nextDouble() < 0.08) {
+            // 10% chance of generating a very high value, e.g., 5 kWh to 10 kWh
+            return 5.0 + 5.0 * RANDOM.nextDouble();
         } else {
-            // Simulate electricity usage for 10 seconds in the estimated range of 0.001 kWh
-            // to 0.02 kWh
-            return 0.001 + (0.02 - 0.001) * RANDOM.nextDouble();
+            // Simulate electricity usage for 10 seconds with varying patterns
+    
+            // Base electricity usage in the estimated range of 0.001 kWh to 0.02 kWh
+            double baseUsage = 0.003 * RANDOM.nextDouble();
+
+            return baseUsage;
         }
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
