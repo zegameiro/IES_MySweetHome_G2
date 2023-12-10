@@ -74,6 +74,10 @@ const Dashboard = () => {
     }
   }
 
+  const removeAlert = (alertId) => {
+    setAlerts(alerts.filter(alert => alert.id !== alertId));
+  }
+
   useEffect(() => {
     if (localStorage.getItem("user")) {
       getOutputDevices();
@@ -109,7 +113,7 @@ const Dashboard = () => {
 
       setAlerts(alerts.filter((alert) => alert !== alert));
       setIsVisible(false);
-    }, 15000);
+    }, 15000000000000);
     return () => clearTimeout(timer);
   }, [alerts])
 
@@ -226,8 +230,8 @@ const Dashboard = () => {
             <div className="flex flex-col max-w-[75%] mt-5">
               {alerts.length > 0 ? 
                 alerts.map((alert) => (
-                  <div className={`transition-opacity duration-500 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-                    <Alert key={alert.id} alert={alert} />
+                  <div className={`transition-opacity duration-500 ease-in-out pb-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
                   </div>
                 ))
               : 
