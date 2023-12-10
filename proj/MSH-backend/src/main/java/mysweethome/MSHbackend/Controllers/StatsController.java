@@ -88,7 +88,7 @@ public class StatsController {
 
         List<String> daily_stats = new ArrayList<String>();
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 7; i++) {
             daily_stats.add(String.valueOf( (daily_average * (random.nextDouble() + 0.5))));
         }
 
