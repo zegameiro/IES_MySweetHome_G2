@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
+import mysweethome.MSHbackend.Models.DataSource;
 import java.util.Random;
 
 @CrossOrigin("*")
@@ -113,12 +114,24 @@ public class StatsController {
 
         List<SensorData> data = dataService.dailyConsume(sensor_id, start_of_day);
 
-        Double total = 0.0;
-
+        Double return_value = 0.0;
         for (SensorData amostra : data) {
-            total += Double.parseDouble(amostra.getSensor_information());
+            return_value += Double.parseDouble(amostra.getSensor_information());
         }
 
-        return new ResponseEntity<Double>(total, HttpStatus.OK);
+        DataSource sensor = dataSourceService.findByID(sensor_id);
+
+        if (sensor.getDevice_category() == 1){ // temperatura , média
+            double average = return_value / data.size();
+            return new ResponseEntity<Double>(average, HttpStatus.OK);
+        }
+        else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
+        {
+            return new ResponseEntity<Double>(return_value, HttpStatus.OK);
+        }
+        else { // ainda nao ta implementado, para os outros
+            return new ResponseEntity<Double>(return_value, HttpStatus.OK);
+        }
+
     }
 }
