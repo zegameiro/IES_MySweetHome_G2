@@ -49,14 +49,32 @@ public class StatsController {
 
         average = average / amostras;
 
-        double hourly_average = (average * 360); // interpolar para 1 hora (3600 segundos)
+        double hourly_multiplier = 360;
 
         Random random = new Random();
 
         List<String> hourly_stats = new ArrayList<String>();
 
-        for (int i = 0; i < 24; i++) {
-            hourly_stats.add(String.valueOf( (hourly_average * (random.nextDouble() + 0.5))));
+        DataSource data_source = dataSourceService.findByID(sensor_id);
+
+        if (data_source.getDevice_category() == 1) { // temperatura
+
+            for (int i = 0; i < 24; i++) {
+            hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+        }
+        else if (data_source.getDevice_category() == 2) { // eletricidade
+
+            for (int i = 0; i < 24; i++) {
+            hourly_stats.add(String.valueOf((average * hourly_multiplier * (0.2 * random.nextDouble() + 0.9))));
+            }
+
+        } else { // implementar para o resto dos sensores, este ta a dar a media
+
+            for (int i = 0; i < 24; i++) {
+            hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+
         }
 
         return new ResponseEntity<List<String>>(hourly_stats, HttpStatus.OK);
@@ -83,14 +101,28 @@ public class StatsController {
 
         average = average / amostras;
 
-        double daily_average = (average * 360 * 24); // interpolar para 1 hora (3600 segundos)
+        DataSource data_source = dataSourceService.findByID(sensor_id);
 
-        Random random = new Random();
+        int daily_multiplier = 360 * 24;
 
         List<String> daily_stats = new ArrayList<String>();
+        Random random = new Random();
 
-        for (int i = 0; i < 7; i++) {
-            daily_stats.add(String.valueOf( (daily_average * (random.nextDouble() + 0.5))));
+        if (data_source.getDevice_category() == 1) { // temperatura
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+        } else if (data_source.getDevice_category() == 2) { // eletricidade
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * daily_multiplier * (0.2 * random.nextDouble() + 0.9))));
+            }
+
+        } else { // implementar para o resto dos sensores, este ta a dar a media
+
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+
         }
 
         return new ResponseEntity<List<String>>(daily_stats, HttpStatus.OK);
@@ -121,15 +153,13 @@ public class StatsController {
 
         DataSource sensor = dataSourceService.findByID(sensor_id);
 
-        if (sensor.getDevice_category() == 1){ // temperatura , média
+        if (sensor.getDevice_category() == 1) { // temperatura , média
             double average = return_value / data.size();
             return new ResponseEntity<Double>(average, HttpStatus.OK);
-        }
-        else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
+        } else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
         {
             return new ResponseEntity<Double>(return_value, HttpStatus.OK);
-        }
-        else { // ainda nao ta implementado, para os outros
+        } else { // ainda nao ta implementado, para os outros
             return new ResponseEntity<Double>(return_value, HttpStatus.OK);
         }
 
