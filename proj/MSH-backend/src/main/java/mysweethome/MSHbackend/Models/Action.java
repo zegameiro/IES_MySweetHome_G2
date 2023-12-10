@@ -31,4 +31,11 @@ public class Action {
     @NotBlank
     private boolean done = false;
 
+
+    public void execute() {
+
+        System.out.println("Executing action: " + this.action_title);
+
+    }
+
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.ArrayList;
 import mysweethome.MSHbackend.Models.DataSource;
 import java.util.Random;
+import mysweethome.MSHbackend.Models.SensorStats;
 
 @CrossOrigin("*")
 @RestController
@@ -30,7 +31,7 @@ public class StatsController {
     private DataService dataService;
 
     @GetMapping("/sensor/view/daily")
-    public ResponseEntity<List<String>> getSensorStats(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getSensorStats(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -53,7 +54,7 @@ public class StatsController {
 
         Random random = new Random();
 
-        List<String> hourly_stats = new ArrayList<String>();
+        ArrayList<String> hourly_stats = new ArrayList<String>();
 
         DataSource data_source = dataSourceService.findByID(sensor_id);
 
@@ -76,12 +77,14 @@ public class StatsController {
 
         }
 
-        return new ResponseEntity<List<String>>(hourly_stats, HttpStatus.OK);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),hourly_stats);
+
+        return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
 
     }
 
     @GetMapping("/sensor/view/weekly")
-    public ResponseEntity<List<String>> getSensorStatsWeekly(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getSensorStatsWeekly(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -104,7 +107,7 @@ public class StatsController {
 
         int daily_multiplier = 360 * 24;
 
-        List<String> daily_stats = new ArrayList<String>();
+        ArrayList<String> daily_stats = new ArrayList<String>();
         Random random = new Random();
 
         if (data_source.getDevice_category() == 1) { // temperatura
@@ -124,11 +127,13 @@ public class StatsController {
 
         }
 
-        return new ResponseEntity<List<String>>(daily_stats, HttpStatus.OK);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),daily_stats);
+
+        return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
     }
 
     @GetMapping("/sensor/view/dailytotal")
-    public ResponseEntity<Double> getDailyConsume(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getDailyConsume(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -152,15 +157,24 @@ public class StatsController {
 
         DataSource sensor = dataSourceService.findByID(sensor_id);
 
+        SensorStats sensor_stats = new SensorStats();
+        sensor_stats.setCategory(sensor.getDevice_category());
+        sensor_stats.setUnit(data.get(0).getUnit());
+        sensor_stats.setValues(new ArrayList<String>());
+
         if (sensor.getDevice_category() == 1) { // temperatura , média
             double average = return_value / data.size();
-            return new ResponseEntity<Double>(average, HttpStatus.OK);
+            sensor_stats.getValues().add(String.valueOf(average));
+            return new ResponseEntity<SensorStats>( sensor_stats, HttpStatus.OK);
         } else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
         {
-            return new ResponseEntity<Double>(return_value, HttpStatus.OK);
+            sensor_stats.getValues().add(String.valueOf(return_value));
+            return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
         } else { // ainda nao ta implementado, para os outros
-            return new ResponseEntity<Double>(return_value, HttpStatus.OK);
+            sensor_stats.getValues().add(String.valueOf(return_value));
+            return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
         }
 
     }
+
 }
