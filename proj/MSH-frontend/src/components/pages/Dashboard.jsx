@@ -113,7 +113,7 @@ const Dashboard = () => {
 
       setAlerts(alerts.filter((alert) => alert !== alert));
       setIsVisible(false);
-    }, 15000000000000);
+    }, 15000);
     return () => clearTimeout(timer);
   }, [alerts])
 
