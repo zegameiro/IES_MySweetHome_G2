@@ -187,14 +187,13 @@ const StatisticsPage = () => {
         if (selectedCard) {
             getStatsWeekly(selectedCard);
             getStatsDaily(selectedCard);
+            getStatsCurrent(selectedCard);
         }
     }, [selectedCard]);
 
 
     useEffect(() => {
         if (selectedCard) {
-            
-            getStatsCurrent(selectedCard)
 
             const intervalId = setInterval(() => {
                 getStatsCurrent(selectedCard);
@@ -251,7 +250,6 @@ const StatisticsPage = () => {
                 <Header />
                 <div className="pl-[5%] pt-[3%]">
                     <h1 className="text-5xl font-bold">Statistics</h1>
-                    
                     <div className="flex flex-row pt-[3%] pb-[5%] justify-center space-x-[10%] w-[86%]">
                         {inputDevices.length > 0
                             ? 
