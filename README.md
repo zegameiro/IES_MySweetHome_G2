@@ -23,12 +23,29 @@
 
 <img src = "presentations/Report_Diagrams/architecture_diagram.png">
 
-## To execute our application:
+## How to run
+
+Our production environment is up and running most of the time at http://deti-ies-17.ua.pt ( you will need to be inside UA's network or with VPN for this to work )
+
+If you wanna run the project locally, clone the main branch and do the following:
+
 ```bash
 cd proj
 docker compose up
 ```
-Then, simply navigate to localhost:3000 to access the front-end application
+You will need to have your localhost tcp port 3000 free for this to work or you may change this port in the MSH-frontend dockerfile.
+
+Then, simply navigate to localhost:3000 to access the front-end application.
+
+The project will run in a 4 container setup:
+
+- RabbitMQ container ( message broker )
+
+- MongoDB container ( database ) 
+
+- Backend container ( spring boot api + sensors )
+
+- Frontend container ( React + Vite ) 
 
 
 ## Bookmarks
