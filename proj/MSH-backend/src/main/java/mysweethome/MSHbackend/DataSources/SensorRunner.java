@@ -36,11 +36,12 @@ public class SensorRunner {
         }
 
         // Use ExecutorService to run the sensors in separate threads
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
 
         executorService.submit(() -> {
             try {
                 TemperatureSensor temperatureSensor = new TemperatureSensor("Termómetro", channel, QUEUE_NAME, "1");
+                System.out.println("TemperatureSensor running");
                 temperatureSensor.run();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -50,11 +51,25 @@ public class SensorRunner {
         executorService.submit(() -> {
             try {
                 EletricitySensor eletricitySensor = new EletricitySensor("Contador de Energia",channel, QUEUE_NAME, "2");
+                System.out.println("EletricitySensor running");
                 eletricitySensor.run();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
+
+
+        /* 
+        executorService.submit(() -> {
+            try {
+                PeopleSensor peoplesensor = new PeopleSensor("Alarme da Porta da Sala",channel, QUEUE_NAME, "4");
+                System.out.println("PeopleSensor running");
+                peoplesensor.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        */
 
         // Shutdown the executorService when the tasks are done
         executorService.shutdown();

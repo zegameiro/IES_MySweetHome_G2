@@ -131,20 +131,36 @@ public class Processor {
       return;
     }
 
+    if (sensor.getDevice_category() == 4) { // sensor de pessoas
+      if (sensorInformation.equals("None")) {
+        return;
+      } else {
+        Alert newAlert = new Alert();
+        newAlert.setId(sensorId);
+        newAlert.setAlert_header(sensorInformation + " is at the door!");
+        newAlert.setAlert_level(1);
+        newAlert.setAlert_information(
+            "The sensor '" + sensor.getName() + "' has detected " + sensorInformation + " at the door!");
+        newAlert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
+        alertRepository.saveAlert(newAlert);
+        System.out.println("Alert generated for sensor with ID -> " + sensorId + "!");
+        return;
+      }
+
+    }
+
     // get the last 3 values
 
     List<SensorData> last3Values = dataService.listDataBySensor(sensorId, "last_hour"); // last hour is enough for 3
                                                                                         // values
 
-
     if (last3Values.size() < 5) {
       return;
-    }                                                                                    
+    }
     if (last3Values.size() > 5) {
       last3Values = last3Values.subList(0, 5);
     }
 
- 
     // get the average of the last 3 values
 
     double average = 0;
