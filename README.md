@@ -39,13 +39,13 @@ Then, simply navigate to localhost:3000 to access the front-end application.
 
 The project will run in a 4 container setup:
 
-- RabbitMQ container ( message broker )
+- RabbitMQ container ( message broker ) . Runs on port 5672 and 15672
 
-- MongoDB container ( database ) 
+- MongoDB container ( database ) . Runs on port 27017
 
-- Backend container ( spring boot api + sensors )
+- Backend container ( spring boot api + sensors ) . Runs on port 8080
 
-- Frontend container ( React + Vite ) 
+- Frontend container ( React + Vite ) . Runs on port 3000
 
 
 ## Bookmarks
