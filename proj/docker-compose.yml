@@ -67,11 +67,12 @@ services:
 
     volumes:
       - ./MSH-frontend:/app
+      - /app/node_modules
 
     ports:
-      - '3000:3000'
+      - '80:80'
 
-    command: yarn dev
+
   
 networks:
   frontend_network:

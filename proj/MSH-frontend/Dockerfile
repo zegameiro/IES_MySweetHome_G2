@@ -1,35 +1,38 @@
-
-
-# Use an official Node.js runtime as a build image
-FROM node:21-alpine3.17 as build-stage
-
-# Set the working directory
+FROM node:16.9.0-alpine3.12 as build
 WORKDIR /app
 
-# Copy package.json and yarn.lock to the working directory
+EXPOSE 3000
+
+ENV PATH /app/node_modules/.bin:$PATH
+
 COPY package.json .
+COPY package-lock.json .
+COPY postcss.config.js .
+COPY tailwind.config.js .
 COPY yarn.lock .
 
-# Install Node.js and Yarn dependencies
-RUN apk add --no-cache --virtual .gyp python3 make g++ \
-    && yarn \
-    && apk del .gyp
+ENV PATH /app/node_modules/.bin:$PATH
 
-# Copy the rest of the application code
+COPY package.json .
+COPY package-lock.json .
+COPY postcss.config.js .
+COPY tailwind.config.js .
+COPY yarn.lock .
+
+ENV REACT_APP_SERVER_URL http://deti-ies-17.ua.pt:3000
+
+RUN npm install
+
 COPY . .
 
-# Build the application
-RUN yarn build
+RUN npm run build
 
-# Use an official Nginx runtime as the production image
-FROM nginx:stable-alpine as production-stage
+FROM nginx:1.25.3
 
-# Copy the built app from the build stage to the Nginx web server directory
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose the port the app will run on
 EXPOSE 80
-
-# Command to run the application
 CMD ["nginx", "-g", "daemon off;"]
-
