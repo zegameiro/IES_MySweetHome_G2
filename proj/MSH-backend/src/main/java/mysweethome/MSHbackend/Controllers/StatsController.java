@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
+import mysweethome.MSHbackend.Models.DataSource;
 import java.util.Random;
+import mysweethome.MSHbackend.Models.SensorStats;
 
 @CrossOrigin("*")
 @RestController
@@ -29,7 +31,7 @@ public class StatsController {
     private DataService dataService;
 
     @GetMapping("/sensor/view/daily")
-    public ResponseEntity<List<String>> getSensorStats(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getSensorStats(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -48,22 +50,41 @@ public class StatsController {
 
         average = average / amostras;
 
-        double hourly_average = (average * 360); // interpolar para 1 hora (3600 segundos)
+        double hourly_multiplier = 360;
 
         Random random = new Random();
 
-        List<String> hourly_stats = new ArrayList<String>();
+        ArrayList<String> hourly_stats = new ArrayList<String>();
 
-        for (int i = 0; i < 24; i++) {
-            hourly_stats.add(String.valueOf( (hourly_average * (random.nextDouble() + 0.5))));
+        DataSource data_source = dataSourceService.findByID(sensor_id);
+
+        if (data_source.getDevice_category() == 1) { // temperatura
+
+            for (int i = 0; i < 24; i++) {
+                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+        } else if (data_source.getDevice_category() == 2) { // eletricidade
+
+            for (int i = 0; i < 24; i++) {
+                hourly_stats.add(String.valueOf((average * hourly_multiplier * (0.2 * random.nextDouble() + 0.9))));
+            }
+
+        } else { // implementar para o resto dos sensores, este ta a dar a media
+
+            for (int i = 0; i < 24; i++) {
+                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+
         }
 
-        return new ResponseEntity<List<String>>(hourly_stats, HttpStatus.OK);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),hourly_stats);
+
+        return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
 
     }
 
     @GetMapping("/sensor/view/weekly")
-    public ResponseEntity<List<String>> getSensorStatsWeekly(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getSensorStatsWeekly(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -82,21 +103,37 @@ public class StatsController {
 
         average = average / amostras;
 
-        double daily_average = (average * 360 * 24); // interpolar para 1 hora (3600 segundos)
+        DataSource data_source = dataSourceService.findByID(sensor_id);
 
+        int daily_multiplier = 360 * 24;
+
+        ArrayList<String> daily_stats = new ArrayList<String>();
         Random random = new Random();
 
-        List<String> daily_stats = new ArrayList<String>();
+        if (data_source.getDevice_category() == 1) { // temperatura
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+        } else if (data_source.getDevice_category() == 2) { // eletricidade
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * daily_multiplier * (0.2 * random.nextDouble() + 0.9))));
+            }
 
-        for (int i = 0; i < 8; i++) {
-            daily_stats.add(String.valueOf( (daily_average * (random.nextDouble() + 0.5))));
+        } else { // implementar para o resto dos sensores, este ta a dar a media
+
+            for (int i = 0; i < 7; i++) {
+                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+            }
+
         }
 
-        return new ResponseEntity<List<String>>(daily_stats, HttpStatus.OK);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),daily_stats);
+
+        return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
     }
 
     @GetMapping("/sensor/view/dailytotal")
-    public ResponseEntity<Double> getDailyConsume(@RequestParam String sensor_id) {
+    public ResponseEntity<SensorStats> getDailyConsume(@RequestParam String sensor_id) {
 
         if (dataSourceService.findByID(sensor_id) == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
@@ -113,12 +150,31 @@ public class StatsController {
 
         List<SensorData> data = dataService.dailyConsume(sensor_id, start_of_day);
 
-        Double total = 0.0;
-
+        Double return_value = 0.0;
         for (SensorData amostra : data) {
-            total += Double.parseDouble(amostra.getSensor_information());
+            return_value += Double.parseDouble(amostra.getSensor_information());
         }
 
-        return new ResponseEntity<Double>(total, HttpStatus.OK);
+        DataSource sensor = dataSourceService.findByID(sensor_id);
+
+        SensorStats sensor_stats = new SensorStats();
+        sensor_stats.setCategory(sensor.getDevice_category());
+        sensor_stats.setUnit(data.get(0).getUnit());
+        sensor_stats.setValues(new ArrayList<String>());
+
+        if (sensor.getDevice_category() == 1) { // temperatura , média
+            double average = return_value / data.size();
+            sensor_stats.getValues().add(String.valueOf(average));
+            return new ResponseEntity<SensorStats>( sensor_stats, HttpStatus.OK);
+        } else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
+        {
+            sensor_stats.getValues().add(String.valueOf(return_value));
+            return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
+        } else { // ainda nao ta implementado, para os outros
+            sensor_stats.getValues().add(String.valueOf(return_value));
+            return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
+        }
+
     }
+
 }

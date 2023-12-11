@@ -88,6 +88,7 @@ const InputDeviceCard = ({ device }) => {
 
       case 2:
         return <MdElectricBolt />
+        
       case 3:
         return state ? <FaUserCheck /> : <FaUserAltSlash />;
 
