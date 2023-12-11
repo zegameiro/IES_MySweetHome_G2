@@ -57,7 +57,15 @@ The project will run in a 4 container setup:
 ### Github Project
 - https://github.com/users/zegameiro/projects/1
 ### API Documentation
-- To be done
+
+    You can acess our api documentation while running the project locally:
+
+    - http://localhost:8080/swagger-ui/index.html
+
+    Or when the production environment is running :
+
+    - http://deti-ies-17:8080/swagger-ui/index.html
+
 ### Figma Mockup
 - https://www.figma.com/file/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?type=design&node-id=0%3A1&mode=design&t=O570V5XX2cdaccRS-1
 ### Figma Prototype
