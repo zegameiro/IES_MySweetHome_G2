@@ -193,7 +193,9 @@ const StatisticsPage = () => {
 
     useEffect(() => {
         if (selectedCard) {
-    
+            
+            getStatsCurrent(selectedCard)
+
             const intervalId = setInterval(() => {
                 getStatsCurrent(selectedCard);
             }, 5000); // Set an interval of 5 seconds to make calls to the API
@@ -249,6 +251,7 @@ const StatisticsPage = () => {
                 <Header />
                 <div className="pl-[5%] pt-[3%]">
                     <h1 className="text-5xl font-bold">Statistics</h1>
+                    
                     <div className="flex flex-row pt-[3%] pb-[5%] justify-center space-x-[10%] w-[86%]">
                         {inputDevices.length > 0
                             ? 
