@@ -33,7 +33,6 @@ const Alert = ({ alert, removeAl }) => {
         : <MdErrorOutline />;
 
     const removeAlert = async (alertId) => {
-        console.log(alertId);
         try {
             const res = await axios.post(`${BASE_API_URL}/alerts/mark?id=${alertId}`);
             removeAl(alertId);
@@ -43,7 +42,7 @@ const Alert = ({ alert, removeAl }) => {
     }
     
     return (
-        <div role="alert" class={`alert ${backgroundColor} shadow-lg text-white`}>
+        <div role="alert" className={`alert ${backgroundColor} shadow-lg text-white`}>
             <div className="text-3xl font-bold">{icon}</div>
             <div>
                 <div className="flex flex-row font-bold">
