@@ -39,7 +39,6 @@ const StatisticsPage = () => {
         try {
             const res = await axios.get(`${BASE_API_URL}/stats/sensor/view/daily?sensor_id=${deviceId}`);
             if (res.status === 200) {
-                console.log(res.data);
                 handleStats(false, res.data)
                 setCategory(res.data.category);
                 setUnit(res.data.unit);
@@ -183,12 +182,14 @@ const StatisticsPage = () => {
         }
     }, [selectedCard]);
 
+
     useEffect(() => {
         if (selectedCard) {
             getStatsWeekly(selectedCard);
             getStatsDaily(selectedCard);
         }
     }, [selectedCard]);
+
 
     useEffect(() => {
         if (selectedCard) {
@@ -206,6 +207,7 @@ const StatisticsPage = () => {
         };
       }, [selectedCard, currentInformation]);
 
+
     useEffect(() => {
         const now = new Date();
         const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
@@ -216,14 +218,28 @@ const StatisticsPage = () => {
         const timeout = setTimeout(() => {
             if (selectedCard) {
                 getStatsWeekly(selectedCard);
-                getStatsDaily(selectedCard);
-                console.log("Updated stats", statsWeekly);
-                console.log("Updated stats", statsDaily);
             }
         }, delay);
 
         return () => clearTimeout(timeout);
     }, [selectedCard]);
+
+
+    useEffect(() => {
+        const now = new Date();
+        const startOfHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), 0, 0);
+        let delay = startOfHour.getTime() - now.getTime();
+        if (delay < 0)
+            delay += 60 * 60 * 1000; // If it's already past the hour, wait until the next hour
+
+        const timeout = setTimeout(() => {
+            if (selectedCard) {
+                getStatsDaily(selectedCard);
+            }
+        }, delay);
+
+        return () => clearTimeout(timeout);
+    }, [selectedCard])
 
 
     return (
