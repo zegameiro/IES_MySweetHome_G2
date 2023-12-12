@@ -13,17 +13,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.LinkedList;
 
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/room")
+@Tag(name = "Room Management Endpoints")
 public class RoomsController {
 
     @Autowired
@@ -34,20 +39,37 @@ public class RoomsController {
     private OutputDeviceService outService;
 
     //  Create a new room
+    @Operation(summary = "Add a new room", description = "Add a new room to our application in a specific floor number")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Room instance"), 
+        @ApiResponse(responseCode = "422", description = "A room with this name already exists!",  content = @Content)
+    })
     @PostMapping("/add")
     public ResponseEntity<Room> addRoom(@RequestParam String name, @RequestParam Integer floornumber) {
-        Room room = new Room();
-        
+        Room room = roomService.findByName(name);
+
+        if (room != null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "A room with this name already exists!");
+        }
+
+        room = new Room();
+
         room.setName(name);
-        room.setFloorNumber(floornumber);
+        room.setFloornumber(floornumber);
         
         roomService.saveRoom(room);
         return ResponseEntity.ok(room);
     }
 
     //  View all information of a specific object based on ID
+    @Operation(summary = "View a room", description = "Retrieve all the information of a specific room")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Room instance"), 
+        @ApiResponse(responseCode = "422", description = "An room with the specified ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @GetMapping("/view")
-    public @ResponseBody String viewRoom(@RequestParam String id) {
+    public @ResponseBody ResponseEntity<Room> viewRoom(@RequestParam String id) {
         Room room;
 
         //  Check if a Room with this ID exists
@@ -62,21 +84,18 @@ public class RoomsController {
         throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "An room with the specified ID does not exist!");
         }
         
-        //  Generate the output room object for the frontend
-        JSONObject out = new JSONObject();
-        out.put("id", room.getUid());
-        out.put("name", room.getName());
-        out.put("floornumber", room.getFloorNumber());
-        out.put("devices", room.getDevices());
-
-        return out.toString(1);
+        return ResponseEntity.ok(room);
     }
 
     //  List all rooms
+    @Operation(summary = "List all rooms", description = "Retrieve all the known Rooms")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a list of all rooms"), 
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @GetMapping("/list")
-    public @ResponseBody String listRoom() {
-        List<Room> rooms;   
-        List<JSONObject> output = new LinkedList<JSONObject>();
+    public @ResponseBody ResponseEntity<List<Room>> listRoom() {
+        List<Room> rooms;
 
         //  Get the rooms list
         try {
@@ -86,22 +105,16 @@ public class RoomsController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
-        for (Room room : rooms) {
-            // Generate the output user object for the frontend
-            JSONObject out = new JSONObject();
-            
-            out.put("id", room.getUid());
-            out.put("name", room.getName());
-            out.put("floornumber", room.getFloorNumber());
-            out.put("devices", room.getDevices());
-    
-            output.add(out);
-        }
-
-        return output.toString();   
+        return ResponseEntity.ok(rooms);   
     }
 
     //  View all information of a specific object based on ID
+    @Operation(summary = "Associate a device", description = "Associate a device to this room")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns a Ok string"), 
+        @ApiResponse(responseCode = "422", description = "An room with the specified ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "422", description = "A device with the specified ID does not exist!",  content = @Content)
+    })
     @PostMapping(path = "/addDevice")
     public @ResponseBody String addDevice(@RequestParam String roomID, @RequestParam String deviceID) {
         Room room;

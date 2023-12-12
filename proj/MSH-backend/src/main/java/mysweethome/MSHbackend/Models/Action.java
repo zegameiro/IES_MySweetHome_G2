@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
-import java.util.HashMap;
 
 @ToString
 @NoArgsConstructor
@@ -21,17 +20,22 @@ public class Action {
 
     @Id
     private int id;
-    /* 
+    @NotBlank 
+    private long timestamp;
     @NotBlank
-    private int action_category;
-    */
+    private String action_title;
     @NotBlank
     private String action_description;
     @NotBlank
-    private HashMap<String, String> input_ranges;
-    @NotBlank
-    private HashMap<String,Integer> output_actions;
-    @NotBlank
     private String outputDeviceID; // id of the output device that will be affected by this action
+    @NotBlank
+    private boolean done = false;
+
+
+    public void execute() {
+
+        System.out.println("Executing action: " + this.action_title);
+
+    }
 
 }

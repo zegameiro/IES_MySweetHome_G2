@@ -44,6 +44,7 @@ const InputDeviceCard = ({ device }) => {
 
   const getSensorInformationLatest = async (deviceID) => {
     try {
+      console.log(deviceID)
       const res = await axios.get(`${BASE_API_URL}/data/view`, {
         params: {
           sensor_id: deviceID,
@@ -87,6 +88,7 @@ const InputDeviceCard = ({ device }) => {
 
       case 2:
         return <MdElectricBolt />
+        
       case 3:
         return state ? <FaUserCheck /> : <FaUserAltSlash />;
 

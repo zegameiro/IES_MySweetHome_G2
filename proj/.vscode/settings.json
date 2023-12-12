@@ -1,4 +1,0 @@
-{
-    "java.compile.nullAnalysis.mode": "disabled",
-    "glassit.force_sway": true
-}

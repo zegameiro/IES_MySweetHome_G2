@@ -13,9 +13,7 @@ public class TemperatureSensor {
     String queue_name = null, device_category, name;
     private static final ObjectMapper MAPPER = new ObjectMapper();
     Random RANDOM = new Random();
-    int lower_bound = 20, higher_bound = 25; // may be changed by user
     String uniqueID = UUID.randomUUID().toString();
-
 
     public TemperatureSensor(String name, Channel queue, String queue_name, String device_category) {
         this.broker_queue = queue;
@@ -24,56 +22,46 @@ public class TemperatureSensor {
         this.name = name;
     }
 
-    public void run() {
+    public void run() throws Exception {
 
-        try {
-            // send register message
-            String register_msg = MAPPER
-                    .writeValueAsString(Map.of("register_msg", "1",
-                            "device_category", device_category, "name", name, "device_id", uniqueID));
-            broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
-            // System.out.println(" [TemperatureSensor] Sent '" + register_msg + "'");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        
+        String register_msg = MAPPER
+                .writeValueAsString(Map.of("register_msg", "1",
+                        "device_category", device_category, "name", name, "device_id", uniqueID));
+        broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
 
         while (true) {
-            // send normal messages every 3sec
-            try {
-                String message = MAPPER.writeValueAsString(
-                        Map.of(
-                                "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
-                                String.valueOf(RANDOM.nextInt(higher_bound - lower_bound + 1) + lower_bound), "device_id", uniqueID));
-                broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
-                // System.out.println(" [TemperatureSensor] Sent '" + message + "'");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
-            try {
-                TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            String message = MAPPER.writeValueAsString(
+                    Map.of(
+                            "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
+                            String.valueOf(getRandomTemp()), "device_id",
+                            uniqueID, "unit" , "ºC"));
+            broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
+            TimeUnit.SECONDS.sleep(10);
         }
     }
 
-    public int getLower_bound() {
-        return lower_bound;
+
+    // Simulate a more realistic temperature with slight randomness and occasional extreme values
+    public int getRandomTemp() {
+        int currentTemperature = 23;  // Starting temperature
+        int temperatureChange = RANDOM.nextInt(4) - 2;  // Random change between -2 and 2
+
+        // Add the random change to the current temperature
+        currentTemperature += temperatureChange;
+
+        // Occasionally introduce extreme values for alerts (e.g., 15% chance)
+        if (RANDOM.nextDouble() < 0.25) {
+            currentTemperature += RANDOM.nextBoolean() ? 10 : -10;  // Either +10 or -10
+        }
+
+        // Ensure the temperature stays within a realistic range (e.g., 18 to 28 degrees Celsius)
+        currentTemperature = Math.max(18, Math.min(28, currentTemperature));
+
+        return currentTemperature;
     }
 
-    public void setLower_bound(int lower_bound) {
-        this.lower_bound = lower_bound;
-    }
-
-    public int getHigher_bound() {
-        return higher_bound;
-    }
-
-    public void setHigher_bound(int higher_bound) {
-        this.higher_bound = higher_bound;
-    }
 
     public String getName() {
         return name;

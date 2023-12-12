@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Document("outputdevices")
-public class OutputDevice extends Device {
+public class OutputDevice  {
 
     @Id
     private String ID;
