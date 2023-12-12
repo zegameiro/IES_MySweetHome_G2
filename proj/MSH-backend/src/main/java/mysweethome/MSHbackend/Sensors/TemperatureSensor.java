@@ -23,6 +23,8 @@ public class TemperatureSensor {
     }
 
     public void run() throws Exception {
+
+        
         String register_msg = MAPPER
                 .writeValueAsString(Map.of("register_msg", "1",
                         "device_category", device_category, "name", name, "device_id", uniqueID));
