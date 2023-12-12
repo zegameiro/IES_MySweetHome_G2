@@ -187,13 +187,14 @@ const StatisticsPage = () => {
         if (selectedCard) {
             getStatsWeekly(selectedCard);
             getStatsDaily(selectedCard);
+            getStatsCurrent(selectedCard);
         }
     }, [selectedCard]);
 
 
     useEffect(() => {
         if (selectedCard) {
-    
+
             const intervalId = setInterval(() => {
                 getStatsCurrent(selectedCard);
             }, 5000); // Set an interval of 5 seconds to make calls to the API
@@ -248,7 +249,10 @@ const StatisticsPage = () => {
             <div className="flex flex-col w-full h-full">
                 <Header />
                 <div className="pl-[5%] pt-[3%]">
-                    <h1 className="text-5xl font-bold">Statistics</h1>
+                    <h1 className="text-5xl font-bold pb-5">Statistics</h1>
+                    <div className="w-[70%] text-center pl-[10%]">
+                        <p className="text-xl">Welcome to the statistcs page, here you can obtain all the information about you're input devices, checkout the data collected through a hole week or the daily data gater by the input devices. <br /> Choose one to obtain this information </p>
+                    </div>
                     <div className="flex flex-row pt-[3%] pb-[5%] justify-center space-x-[10%] w-[86%]">
                         {inputDevices.length > 0
                             ? 
@@ -266,27 +270,31 @@ const StatisticsPage = () => {
                                 <h1>No input devices found</h1>
                         }
                     </div>
-                    <div className="flex flex-col w-[86%] text-center items-center pb-5">
-                        <h1 className="text-xl font-semibold">Current Information</h1> 
-                        <div className="stats shadow">
-                            <div className="stat">
-                                <div className="stat-title text-error text-lg font-semibold pb-2"> {selectedCard ? "Current " + getTitle(category) : null}</div>
-                                {currentInformation.length > 0 ?    
-                                    <div className="flex flex-row text-center justify-center stat-value">
-                                        {category === 2 ?
-                                            Number(currentInformation[0].sensor_information).toFixed(4)
-                                        :
-                                            Number(currentInformation[0].sensor_information).toFixed(2)
-                                        }
+                    {selectedCard ? 
+                        <div className="flex flex-col w-[86%] text-center items-center pb-5">
+                            <h1 className="text-xl font-semibold">Current Information</h1> 
+                            <div className="stats shadow">
+                                <div className="stat">
+                                    <div className="stat-title text-error text-lg font-semibold pb-2"> {selectedCard ? "Current " + getTitle(category) : null}</div>
+                                    {currentInformation.length > 0 ?    
+                                        <div className="flex flex-row text-center justify-center stat-value">
+                                            {category === 2 ?
+                                                Number(currentInformation[0].sensor_information).toFixed(4)
+                                            :
+                                                Number(currentInformation[0].sensor_information).toFixed(2)
+                                            }
 
-                                        {currentInformation[0].unit} ​ ​ <span className="text-warning">{getIcon(category)}</span>
-                                    </div>
-                                :
-                                    <div className="stat-value text-lg"><span className="loading loading-spinner loading-lg"></span></div>
-                                }
+                                            {currentInformation[0].unit} ​ ​ <span className="text-warning">{getIcon(category)}</span>
+                                        </div>
+                                    :
+                                        <div className="stat-value text-lg"><span className="loading loading-spinner loading-lg"></span></div>
+                                    }
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    : 
+                        null
+                    }
                     <div className="flex flex-row space-x-5 items-center ">
                         { statsDaily.length > 0 ?
                             <div className="flex flex-col text-center">
