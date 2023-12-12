@@ -23,12 +23,29 @@
 
 <img src = "presentations/Report_Diagrams/architecture_diagram.png">
 
-## To execute our application:
+## How to run
+
+Our production environment is up and running most of the time at http://deti-ies-17.ua.pt ( you will need to be inside UA's network or with VPN for this to work )
+
+If you wanna run the project locally, clone the main branch and do the following:
+
 ```bash
 cd proj
 docker compose up
 ```
-Then, simply navigate to localhost:3000 to access the front-end application
+You will need to have your localhost tcp port 3000 free for this to work or you may change this port in the MSH-frontend dockerfile.
+
+Then, simply navigate to localhost:3000 to access the front-end application.
+
+The project will run in a 4 container setup:
+
+- RabbitMQ container ( message broker ) . Runs on port 5672 and 15672
+
+- MongoDB container ( database ) . Runs on port 27017
+
+- Backend container ( spring boot api + sensors ) . Runs on port 8080
+
+- Frontend container ( React + Vite ) . Runs on port 3000
 
 
 ## Bookmarks
@@ -40,7 +57,15 @@ Then, simply navigate to localhost:3000 to access the front-end application
 ### Github Project
 - https://github.com/users/zegameiro/projects/1
 ### API Documentation
-- To be done
+
+    You can acess our api documentation while running the project locally:
+
+    - http://localhost:8080/swagger-ui/index.html
+
+    Or when the production environment is running :
+
+    - http://deti-ies-17:8080/swagger-ui/index.html
+
 ### Figma Mockup
 - https://www.figma.com/file/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?type=design&node-id=0%3A1&mode=design&t=O570V5XX2cdaccRS-1
 ### Figma Prototype
