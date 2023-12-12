@@ -42,10 +42,11 @@ public class EletricitySensor {
 
     private static double getRandomElectricityUsage() {
         // 5% chance of generating an unusually high value
-        if (RANDOM.nextDouble() < 0.05) {
+        double value = RANDOM.nextDouble();
+        if (value < 0.03) {
             // Simulate an unusually high electricity usage, e.g., 0.1 kWh to 1 kWh
             return 0.1 + 0.9 * RANDOM.nextDouble();
-        } else if (RANDOM.nextDouble() < 0.08) {
+        } else if (value < 0.04) {
             // 10% chance of generating a very high value, e.g., 5 kWh to 10 kWh
             return 5.0 + 5.0 * RANDOM.nextDouble();
         } else {
