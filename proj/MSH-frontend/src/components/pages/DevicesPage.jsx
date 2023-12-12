@@ -61,14 +61,10 @@ const DevicesPage = () => {
     }
   };
 
-<<<<<<< HEAD
-  console.log('User -> ', user);
-=======
   const getRoomDevice = (location) => {
     const room = rooms.find((room) => room.id === location);
     return room;
   }
->>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195
 
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
@@ -76,11 +72,11 @@ const DevicesPage = () => {
       <div className="flex flex-col w-full h-full">
         <Header />
         <div>
-          <h1 className="text-4xl font-bold m-4">
+          <h1 className="m-4 text-4xl font-bold">
             {user?.firstname}'s devices
           </h1>
           {loading ? (
-            <h1 className="text-4xl font-bold m-4">Loading...</h1>
+            <h1 className="m-4 text-4xl font-bold">Loading...</h1>
           ) : (
             <div className="flex flex-wrap mx-4">
               {devices != [] ? (
@@ -100,13 +96,8 @@ const DevicesPage = () => {
                         className="m-2"
                         key={device?.id}
                       >
-<<<<<<< HEAD
-                        <DeviceCard
-                          Device={device}
-=======
                         <OutputDeviceCard
                           device={device}
->>>>>>> f6013b5747aada8375d688dc1c3883f02a2cf195
                           isBig
                           room={getRoomDevice(device?.location)}
                         />
@@ -114,7 +105,7 @@ const DevicesPage = () => {
                     );
                   })
               ) : (
-                <h1 className="text-4xl font-bold m-4">No devices found</h1>
+                <h1 className="m-4 text-4xl font-bold">No devices found</h1>
               )}
             </div>
           )}
