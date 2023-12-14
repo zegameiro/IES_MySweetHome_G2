@@ -3,34 +3,53 @@ package mysweethome.MSHbackend.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import mysweethome.MSHbackend.Repositories.RoutineRepository;
-import mysweethome.MSHbackend.Models.Routine;
+
+import mysweethome.MSHbackend.Models.TimeBasedRoutine;
+import mysweethome.MSHbackend.Models.SensorBasedRoutine;
+import mysweethome.MSHbackend.Repositories.SBRepo;
+import mysweethome.MSHbackend.Repositories.TBRepo;
 import java.util.List;
 
 @Service
 public class RoutineService {
 
     @Autowired
-    private RoutineRepository routineRepository;
+    private TBRepo timeroutineRepository;
 
-    public void saveRoutine(Routine routine) {
-        routineRepository.save(routine);
+    @Autowired
+    private SBRepo sensorRoutineRepository;
+
+    public void saveTBRoutine(TimeBasedRoutine routine) {
+        timeroutineRepository.save(routine);
     }
 
-    public Routine saveGetRoutine(Routine routine) {
-        return routineRepository.save(routine);
+    public void saveSBRoutine(SensorBasedRoutine routine) {
+        sensorRoutineRepository.save(routine);
     }
 
-    public List<Routine> findAll() {
-        return routineRepository.findAll();
+    public List<TimeBasedRoutine> findAllTB() {
+        return timeroutineRepository.findAll();
     }
 
-    public List<Routine> findAllUntriggered() {
-        return routineRepository.findAllUntriggered();
+    public List<SensorBasedRoutine> findAllSB() {
+        return sensorRoutineRepository.findAll();
     }
 
-    public Routine findById(int id) {
-        return routineRepository.findById(id);
+    public List<TimeBasedRoutine> findAllTBUntriggered() {
+        return timeroutineRepository.findAllUntriggered();
     }
+
+    public List<SensorBasedRoutine> findAllSBUntriggered() {
+        return sensorRoutineRepository.findAllUntriggered();
+    }
+
+    public List<SensorBasedRoutine> findallSB() {
+        return sensorRoutineRepository.findAll();
+    }
+
+    public List<TimeBasedRoutine> findallTB() {
+        return timeroutineRepository.findAll();
+    }
+
 
 }
