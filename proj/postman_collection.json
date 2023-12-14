@@ -525,19 +525,84 @@
 			"name": "Routines",
 			"item": [
 				{
-					"name": "Add Routine",
+					"name": "Add Sensor Routine - Exact",
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"trigger_type\": \"exact\",\r\n    \"exact_value\": \"21\", // valor exacto do sensor que da trigger na rotina\r\n    \"source_id\":\"d2eef7a8-ed5b-4d09-a5b2-ed728d5cb339\",\r\n    \"associated_action\": {\r\n        \"action_title\": \"COCK AND BALLS\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657b190343426f3584f1ba05\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/routines/add",
+							"raw": "localhost:8080/routines/addSB",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"routines",
-								"add"
+								"addSB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Sensor Routine - Range",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"25\"],  // start value, end value\r\n    \"source_id\":\"d2eef7a8-ed5b-4d09-a5b2-ed728d5cb339\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"timestamp\": 123, // isto nao interessa o valor, leva override no backend com timestamp em ms\r\n        \"action_title\": \"Fazer projeto de IES ;(\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657b190343426f3584f1ba05\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/routines/addSB",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"addSB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Time Based Routine",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"trigger_timestamp\":\"1702565896597\",\r\n    \"routine_name\":\"uma cena qql\",\r\n    \"associated_action\": {\r\n        \"action_title\": \"Dar uma volta\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657b172cfb10ec5e34ae09e1\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/routines/addTB",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"addTB"
 							]
 						}
 					},
@@ -560,7 +625,26 @@
 					"name": "Daily Stats",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/stats/sensor/view/daily?sensor_id=e79a7ce0-51c4-4410-88e5-7e5e43e46b0b",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stats",
+								"sensor",
+								"view",
+								"daily"
+							],
+							"query": [
+								{
+									"key": "sensor_id",
+									"value": "e79a7ce0-51c4-4410-88e5-7e5e43e46b0b"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -570,7 +654,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/stats/sensor/view/weekly?sensor_id=b1a841ee-c77a-4ce3-9357-93b2ef4777e1",
+							"raw": "localhost:8080/stats/sensor/view/weekly?sensor_id=e79a7ce0-51c4-4410-88e5-7e5e43e46b0b",
 							"host": [
 								"localhost"
 							],
@@ -584,7 +668,7 @@
 							"query": [
 								{
 									"key": "sensor_id",
-									"value": "b1a841ee-c77a-4ce3-9357-93b2ef4777e1"
+									"value": "e79a7ce0-51c4-4410-88e5-7e5e43e46b0b"
 								}
 							]
 						}
@@ -595,7 +679,26 @@
 					"name": "Daily Consume",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/stats/sensor/view/dailytotal?sensor_id=e79a7ce0-51c4-4410-88e5-7e5e43e46b0b",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"stats",
+								"sensor",
+								"view",
+								"dailytotal"
+							],
+							"query": [
+								{
+									"key": "sensor_id",
+									"value": "e79a7ce0-51c4-4410-88e5-7e5e43e46b0b"
+								}
+							]
+						}
 					},
 					"response": []
 				}
