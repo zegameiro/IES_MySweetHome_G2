@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Navbar from '../layout/Navbar';
 import Header from '../layout/Header';
+
 import axios from 'axios';
 import { BASE_API_URL } from '../../constants';
 
@@ -10,11 +11,12 @@ import { useNavigate } from 'react-router-dom';
 const AddRoom = () => {
   const [roomName, setRoomName] = useState('');
   const [roomType, setRoomType] = useState('');
-  const [roomFloor, setRoomFloor] = useState('');
+  const [roomFloor, setRoomFloor] = useState(0);
 
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    console.log(roomType, roomFloor, roomName);
     axios
       .post(`${BASE_API_URL}/room/add`, null, {
         params: {
@@ -46,28 +48,68 @@ const AddRoom = () => {
           </h2>
           <hr />
           <div className="flex flex-wrap justify-around">
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-[url('/src/assets/images/bedroom1.jpg')] bg-contain overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Bedroom' && 'ring-4 ring-primary'
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] bg-contain m-2 rounded-2xl overflow-hidden`}
+              style={{
+                backgroundImage: 'url(/src/assets/images/bedroom1.jpg)',
+              }}
+              onClick={() => setRoomType('Bedroom')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Bedroom</h2>
               </span>
             </div>
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-[url('/src/assets/images/bathroom1.jpg')] bg-contain overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Bathroom' && 'ring-4 ring-primary'
+              } flex cursor-pointer flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              style={{
+                backgroundImage: 'url(/src/assets/images/bathroom1.jpg)',
+              }}
+              onClick={() => setRoomType('Bathroom')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Bathroom</h2>
               </span>
             </div>
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-[url('/src/assets/images/attic1.jpg')] bg-contain overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Attic' && 'ring-4 ring-primary'
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              style={{
+                backgroundImage: 'url(/src/assets/images/attic1.jpg)',
+              }}
+              onClick={() => setRoomType('Attic')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Attic</h2>
               </span>
             </div>
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-[url('/src/assets/images/living_room1.jpg')] bg-contain overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Living_Room' && 'ring-4 ring-primary'
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              style={{
+                backgroundImage: 'url(/src/assets/images/living_room1.jpg)',
+              }}
+              onClick={() => setRoomType('Living_Room')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Livinig Room</h2>
               </span>
             </div>
 
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-[url('/src/assets/images/kitchen1.jpg')] bg-contain overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Kitchen' && 'ring-4 ring-primary'
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              style={{
+                backgroundImage: 'url(/src/assets/images/kitchen1.jpg)',
+              }}
+              onClick={() => setRoomType('Kitchen')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Kitchen</h2>
               </span>
@@ -89,6 +131,7 @@ const AddRoom = () => {
                 <input
                   className="text-lg input input-primary "
                   type="text"
+                  defaultValue={roomType && roomType.split('_').join(' ') + ' Floor ' + roomFloor}
                   placeholder='e.g. "Bedroom 1"'
                   onChange={(e) => setRoomName(e.target.value)}
                 />
@@ -101,6 +144,7 @@ const AddRoom = () => {
                   className="text-lg input input-primary"
                   type="number"
                   placeholder="e.g. 1"
+                  defaultValue={roomFloor}
                   onChange={(e) => setRoomFloor(e.target.value)}
                 />
               </span>
