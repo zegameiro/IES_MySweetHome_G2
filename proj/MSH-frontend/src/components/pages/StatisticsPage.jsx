@@ -141,13 +141,13 @@ const StatisticsPage = () => {
     const getTitle = (cat) => {
         switch (cat) {
             case 1:
-                return "Avg Temperature";
+                return "Temperature";
 
             case 2:
-                return "Consume";
+                return "Eletricity Consume";
 
             case 3:
-                return "Avg Wind Strength";
+                return "Wind Strength";
 
             default:
                 return "Unknown";

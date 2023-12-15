@@ -73,7 +73,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                WindSensor windSensor = new WindSensor("Anemómetro",channel, QUEUE_NAME, "5");
+                WindSensor windSensor = new WindSensor("Anemómetro",channel, QUEUE_NAME, "3");
                 System.out.println("WindSensor running");
                 windSensor.run();
             } catch (Exception e) {
