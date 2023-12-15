@@ -15,6 +15,7 @@ const InputDeviceCard = ({ device }) => {
   const [avgSensorData, setAvgSensorData] = useState(null); 
   const [latestSensorData, setLatestSensorData] = useState(null);
   const [timeInterval, setTimeInterval] = useState(null);
+  const [deviceUnit, setDeviceUnit] = useState(null);
 
   const getAverageData = (data) => {
     const informationVal = data.map((item) => Number(item.sensor_information));
@@ -41,7 +42,7 @@ const InputDeviceCard = ({ device }) => {
       console.log(error);
     };
   };
-
+ 
   const getSensorInformationLatest = async (deviceID) => {
     try {
       console.log(deviceID)
@@ -54,6 +55,9 @@ const InputDeviceCard = ({ device }) => {
 
       if (res.status === 200) {
         setSensorDataLatest(res.data);
+        //console.log("dados sensor -> " , res.data)
+        //console.log("unit -> " , res.data[0].unit)
+        setDeviceUnit(res.data[0].unit)
         setLatestSensorData(res.data[0].sensor_information);
       }
     } catch (error) {
@@ -101,6 +105,10 @@ const InputDeviceCard = ({ device }) => {
   };
 
   const getDescriptionAvg = (device, info) => {
+    //console.log(device)
+    console.log(info)
+    return <p> Last Hour Average : <br/> <strong> {info} {deviceUnit} </strong></p>
+    /*
     switch (device.category) {
       case 1:
         return (<p>Avg Temperature (last hour): <br /> <strong>{info}°C</strong></p>);
@@ -114,10 +122,13 @@ const InputDeviceCard = ({ device }) => {
       case 4:
         return (<p>Avg Wind Strength (last hour): <br /> <strong>{info} km/h</strong></p>);
     }
+    */
   }
 
   const getDescriptionLatest = (device, info) => {
     let infor = Number(info)
+    return <p>{device.reading_type}: <br/> <strong> {infor} {deviceUnit} </strong></p>
+    /*
     switch (device.category) {
       case 1:
         return (<p>Current Temperature: <br /> <strong>{infor}°C</strong></p>);
@@ -131,6 +142,7 @@ const InputDeviceCard = ({ device }) => {
       case 4:
         return (<p>Current Wind Strength: <br /> <strong>{infor}km/h</strong></p>);
     }
+    */
   }
 
   return (

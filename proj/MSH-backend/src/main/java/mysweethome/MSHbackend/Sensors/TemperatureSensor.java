@@ -27,7 +27,7 @@ public class TemperatureSensor {
         
         String register_msg = MAPPER
                 .writeValueAsString(Map.of("register_msg", "1",
-                        "device_category", device_category, "name", name, "device_id", uniqueID));
+                        "device_category", device_category, "name", name, "device_id", uniqueID,  "reading_type", "House Temperature"));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
 
         while (true) {
