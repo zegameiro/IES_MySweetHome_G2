@@ -105,6 +105,7 @@ public class SensorController {
         out.put("name", source.getName());
         out.put("location", source.getDevice_location());
         out.put("category", source.getDevice_category());
+        out.put("reading_type", source.getReading_type());
 
         return out.toString(1);
     }
@@ -164,6 +165,7 @@ public class SensorController {
             out.put("id", src.getDevice_id());
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());
+            out.put("reading_type", src.getReading_type());
 
             output.add(out);
         }
