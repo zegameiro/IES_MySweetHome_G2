@@ -107,7 +107,7 @@ const InputDeviceCard = ({ device }) => {
   const getDescriptionAvg = (device, info) => {
     //console.log(device)
     console.log(info)
-    return <p> Last Hour Average : <br/> <strong> {info} {deviceUnit} </strong></p>
+    return <p> Last Hour Average : <br/> <strong> {Number(info).toPrecision(2)} {deviceUnit} </strong></p>
     /*
     switch (device.category) {
       case 1:
@@ -127,7 +127,7 @@ const InputDeviceCard = ({ device }) => {
 
   const getDescriptionLatest = (device, info) => {
     let infor = Number(info)
-    return <p>{device.reading_type}: <br/> <strong> {infor} {deviceUnit} </strong></p>
+    return <p>{device.reading_type}: <br/> <strong> {Number(infor).toPrecision(2)} {deviceUnit} </strong></p>
     /*
     switch (device.category) {
       case 1:
@@ -199,9 +199,9 @@ const InputDeviceCard = ({ device }) => {
               <div className="flex-col">
                 <div className="flex text-sm pr-4">
                   <span className="flex flex-col">
-                    {getDescriptionAvg(device, avgSensorData)}
+                  {getDescriptionLatest(device, latestSensorData)}
                     <br />
-                    {getDescriptionLatest(device, latestSensorData)}
+                    {getDescriptionAvg(device, avgSensorData)}
                   </span>
                 </div>
               </div>

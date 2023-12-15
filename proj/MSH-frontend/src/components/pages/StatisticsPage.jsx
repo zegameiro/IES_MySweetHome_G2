@@ -251,7 +251,7 @@ const StatisticsPage = () => {
                 <div className="pl-[5%] pt-[3%]">
                     <h1 className="text-5xl font-bold pb-5">Statistics</h1>
                     <div className="w-[70%] text-center pl-[10%]">
-                        <p className="text-xl">Welcome to the statistcs page, here you can obtain all the information about you're input devices, checkout the data collected through a hole week or the daily data gater by the input devices. <br /> Choose one to obtain this information </p>
+                        <p className="text-xl">Welcome to the statistics page, here you can obtain all the information about your input devices.<br/> Check out the data collected through a whole week or the daily data provided by your data sources. </p>
                     </div>
                     <div className="flex flex-row pt-[3%] pb-[5%] justify-center space-x-[10%] w-[86%]">
                         {inputDevices.length > 0
@@ -272,7 +272,6 @@ const StatisticsPage = () => {
                     </div>
                     {selectedCard ? 
                         <div className="flex flex-col w-[86%] text-center items-center pb-5">
-                            <h1 className="text-xl font-semibold">Current Information</h1> 
                             <div className="stats shadow">
                                 <div className="stat">
                                     <div className="stat-title text-error text-lg font-semibold pb-2"> {selectedCard ? "Current " + getTitle(category) : null}</div>
