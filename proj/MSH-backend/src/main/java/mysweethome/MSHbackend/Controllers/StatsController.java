@@ -15,9 +15,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import mysweethome.MSHbackend.Models.DataSource;
-import java.util.Random;
 import mysweethome.MSHbackend.Models.SensorStats;
+import java.util.Collections;
+import java.util.Comparator;
 
 @CrossOrigin("*")
 @RestController
@@ -38,46 +42,65 @@ public class StatsController {
                     "This sensor ID doesnt exist in the database!");
         }
 
-        List<SensorData> data = dataService.listDataBySensor(sensor_id, "last_hour");
-
-        int amostras = data.size();
-
-        double average = 0;
-
-        for (SensorData amostra : data) {
-            average += Double.parseDouble(amostra.getSensor_information());
-        }
-
-        average = average / amostras;
-
-        double hourly_multiplier = 360;
-
-        Random random = new Random();
+        List<SensorData> data = dataService.listDataBySensor(sensor_id, "last_day");
 
         ArrayList<String> hourly_stats = new ArrayList<String>();
 
-        DataSource data_source = dataSourceService.findByID(sensor_id);
+        double hourSUM = 0;
+        int hourCOUNT = 0;
+        int numHours = 0;
 
-        if (data_source.getDevice_category() == 1) { // temperatura
+        //  Create a calendar with the date set to the beginning of the previous hour
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        long nextHour = cal.getTimeInMillis() - 3600000;
+        long today = cal.getTimeInMillis();
 
-            for (int i = 0; i < 24; i++) {
-                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
+        Collections.sort(data, Comparator.comparing(SensorData::getTimestamp));
+        Collections.reverse(data);
+
+        for (SensorData amostra : data) {
+            if (amostra.getTimestamp() > today) {
+                continue;
             }
-        } else if (data_source.getDevice_category() == 2) { // eletricidade
-
-            for (int i = 0; i < 24; i++) {
-                hourly_stats.add(String.valueOf((average * hourly_multiplier * (0.2 * random.nextDouble() + 0.9))));
+            while (amostra.getTimestamp() < nextHour - ( 3600000 * numHours) && numHours < 24) {
+                if (hourCOUNT == 0) {
+                    hourly_stats.add("0");
+                }
+                else {
+                    hourly_stats.add(String.valueOf(hourSUM / hourCOUNT));
+                }
+                numHours++;          
+                hourSUM = 0;
+                hourCOUNT = 0; 
             }
-
-        } else { // implementar para o resto dos sensores, este ta a dar a media
-
-            for (int i = 0; i < 24; i++) {
-                hourly_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
-            }
-
+            if (numHours >= 24) {
+                break;
+            }   
+            hourSUM += Double.parseDouble(amostra.getSensor_information());
+            hourCOUNT++;
         }
 
-        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),hourly_stats);
+        //  Ran out of data before day finished
+        if (hourCOUNT != 0) {
+            hourly_stats.add(String.valueOf(hourSUM / hourCOUNT));
+            numHours++;
+        }
+
+        while (numHours < 24) {
+            hourly_stats.add("0");
+            numHours++;
+        }
+
+        System.out.println(hourly_stats);
+        
+        Collections.reverse(hourly_stats);
+
+        DataSource data_source = dataSourceService.findByID(sensor_id);
+
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(), data.get(0).getUnit(), hourly_stats);
 
         return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
 
@@ -91,43 +114,66 @@ public class StatsController {
                     "This sensor ID doesnt exist in the database!");
         }
 
-        List<SensorData> data = dataService.listDataBySensor(sensor_id, "last_hour");
+        List<SensorData> data = dataService.listDataBySensor(sensor_id, "last_week");
 
-        int amostras = data.size();
+        ArrayList<String> daily_stats = new ArrayList<String>();
 
-        double average = 0;
+        double daySUM = 0;
+        int dayCOUNT = 0;
+        int numDays = 0;
+
+        //  Create a calendar with the date set to the beginning of the previous hour
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        long nextDay = cal.getTimeInMillis() - 86400000;
+        long today = cal.getTimeInMillis();
+
+        Collections.sort(data, Comparator.comparing(SensorData::getTimestamp));
+        Collections.reverse(data);
 
         for (SensorData amostra : data) {
-            average += Double.parseDouble(amostra.getSensor_information());
+            if (amostra.getTimestamp() > today) {
+                continue;
+            }
+            while (amostra.getTimestamp() < nextDay - ( 86400000 * numDays) && numDays < 7) {
+                if (dayCOUNT == 0) {
+                    daily_stats.add("0");
+                }
+                else {
+                    daily_stats.add(String.valueOf(daySUM / dayCOUNT));
+                }
+                numDays++;          
+                daySUM = 0;
+                dayCOUNT = 0; 
+            }
+            if (numDays >= 7) {
+                break;
+            }   
+            daySUM += Double.parseDouble(amostra.getSensor_information());
+            dayCOUNT++;
         }
 
-        average = average / amostras;
+        //  Ran out of data before day finished
+        if (dayCOUNT != 0) {
+            daily_stats.add(String.valueOf(daySUM / dayCOUNT));
+            numDays++;
+        }
+
+        while (numDays < 7) {
+            daily_stats.add("0");
+            numDays++;
+        }
+
+        System.out.println(daily_stats);
+        
+        Collections.reverse(daily_stats);
 
         DataSource data_source = dataSourceService.findByID(sensor_id);
 
-        int daily_multiplier = 360 * 24;
-
-        ArrayList<String> daily_stats = new ArrayList<String>();
-        Random random = new Random();
-
-        if (data_source.getDevice_category() == 1) { // temperatura
-            for (int i = 0; i < 7; i++) {
-                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
-            }
-        } else if (data_source.getDevice_category() == 2) { // eletricidade
-            for (int i = 0; i < 7; i++) {
-                daily_stats.add(String.valueOf((average * daily_multiplier * (0.2 * random.nextDouble() + 0.9))));
-            }
-
-        } else { // implementar para o resto dos sensores, este ta a dar a media
-
-            for (int i = 0; i < 7; i++) {
-                daily_stats.add(String.valueOf((average * (0.2 * random.nextDouble() + 0.9))));
-            }
-
-        }
-
-        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),daily_stats);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(), daily_stats);
 
         return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
     }
