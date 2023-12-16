@@ -93,8 +93,6 @@ public class StatsController {
             hourly_stats.add("0");
             numHours++;
         }
-
-        System.out.println(hourly_stats);
         
         Collections.reverse(hourly_stats);
 
@@ -167,8 +165,6 @@ public class StatsController {
             numDays++;
         }
 
-        System.out.println(daily_stats);
-        
         Collections.reverse(daily_stats);
 
         DataSource data_source = dataSourceService.findByID(sensor_id);
