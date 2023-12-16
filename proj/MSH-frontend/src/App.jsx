@@ -8,6 +8,8 @@ import DevicesPage from './components/pages/DevicesPage'
 import AddRoom from './components/pages/AddRoom'
 import RoutinesPage from './components/pages/RoutinesPage'
 import StatisticsPage from './components/pages/StatisticsPage'
+import RoomsPage from './components/pages/RoomsPage'
+import RoomPage from './components/pages/RoomPage'
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add" element={<AddPage />} />
           <Route path="/devices" element={<DevicesPage />} />
+          <Route path="/rooms" element={<RoomsPage />} />
+          <Route path="/room/:id" element={<RoomPage />} />
           <Route path="/addroom" element={<AddRoom />} />
           <Route path="/routines" element={<RoutinesPage />} />
           <Route path="/statistics" element={<StatisticsPage />} />

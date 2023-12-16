@@ -230,8 +230,8 @@ const Dashboard = () => {
             <div className="flex flex-col max-w-[75%] mt-5">
               {alerts.length > 0 ? 
                 alerts.map((alert) => (
-                  <div className={`transition-opacity duration-500 ease-in-out pb-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-                    <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
+                  <div key={alert.id} className={`transition-opacity duration-500 ease-in-out pb-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+                    <Alert alert={alert} removeAl={removeAlert}/>
                   </div>
                 ))
               : 

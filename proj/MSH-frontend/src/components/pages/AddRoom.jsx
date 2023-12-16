@@ -8,20 +8,34 @@ import { BASE_API_URL } from '../../constants';
 
 import { useNavigate } from 'react-router-dom';
 
+import {
+  Bedroom1,
+  Bathroom1,
+  Attic1,
+  LivingRoom1,
+  Kitchen1,
+} from '../../assets/images';
+
 const AddRoom = () => {
   const [roomName, setRoomName] = useState('');
   const [roomType, setRoomType] = useState('');
-  const [roomFloor, setRoomFloor] = useState(0);
+  const [roomFloor, setRoomFloor] = useState('');
 
   const navigate = useNavigate();
 
   const handleSubmit = () => {
     console.log(roomType, roomFloor, roomName);
+    if (roomType === '' || roomFloor === '' || roomName === '') {
+      alert('Please fill in all the fields');
+      return;
+    }
+    
     axios
       .post(`${BASE_API_URL}/room/add`, null, {
         params: {
           name: roomName,
           floornumber: roomFloor,
+          type: roomType,
         },
       })
       .then((res) => {
@@ -32,6 +46,7 @@ const AddRoom = () => {
         }
       })
       .catch((err) => {
+        alert('Error adding room. Please try again.');
         console.log(err);
       });
   };
@@ -48,25 +63,25 @@ const AddRoom = () => {
           </h2>
           <hr />
           <div className="flex flex-wrap justify-around">
-            <div
+            <span
               className={`${
                 roomType == 'Bedroom' && 'ring-4 ring-primary'
-              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] bg-contain m-2 rounded-2xl overflow-hidden`}
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] bg-cover m-2 rounded-2xl overflow-hidden`}
               style={{
-                backgroundImage: 'url(/src/assets/images/bedroom1.jpg)',
+                backgroundImage: `url(${Bedroom1})`,
               }}
               onClick={() => setRoomType('Bedroom')}
             >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Bedroom</h2>
               </span>
-            </div>
+            </span>
             <div
               className={`${
                 roomType == 'Bathroom' && 'ring-4 ring-primary'
-              } flex cursor-pointer flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              } flex cursor-pointer flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-cover overflow-hidden`}
               style={{
-                backgroundImage: 'url(/src/assets/images/bathroom1.jpg)',
+                backgroundImage: `url(${Bathroom1})`,
               }}
               onClick={() => setRoomType('Bathroom')}
             >
@@ -77,9 +92,9 @@ const AddRoom = () => {
             <div
               className={`${
                 roomType == 'Attic' && 'ring-4 ring-primary'
-              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-cover overflow-hidden`}
               style={{
-                backgroundImage: 'url(/src/assets/images/attic1.jpg)',
+                backgroundImage: `url(${Attic1})`,
               }}
               onClick={() => setRoomType('Attic')}
             >
@@ -90,9 +105,9 @@ const AddRoom = () => {
             <div
               className={`${
                 roomType == 'Living_Room' && 'ring-4 ring-primary'
-              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-cover overflow-hidden`}
               style={{
-                backgroundImage: 'url(/src/assets/images/living_room1.jpg)',
+                backgroundImage: `url(${LivingRoom1})`,
               }}
               onClick={() => setRoomType('Living_Room')}
             >
@@ -104,9 +119,9 @@ const AddRoom = () => {
             <div
               className={`${
                 roomType == 'Kitchen' && 'ring-4 ring-primary'
-              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-contain overflow-hidden`}
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-cover overflow-hidden`}
               style={{
-                backgroundImage: 'url(/src/assets/images/kitchen1.jpg)',
+                backgroundImage: `url(${Kitchen1})`,
               }}
               onClick={() => setRoomType('Kitchen')}
             >
@@ -115,7 +130,12 @@ const AddRoom = () => {
               </span>
             </div>
 
-            <div className=" flex flex-col justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-primary overflow-hidden">
+            <div
+              className={`${
+                roomType == 'Other' && 'ring-4 ring-primary'
+              } flex flex-col cursor-pointer justify-center items-center w-[32%] h-[25vh] m-2 rounded-2xl bg-cover overflow-hidden`}
+              onClick={() => setRoomType('Other')}
+            >
               <span className="flex items-end justify-start w-full h-full p-4 text-3xl font-semibold text-white hero-overlay">
                 <h2>Other</h2>
               </span>
@@ -131,7 +151,6 @@ const AddRoom = () => {
                 <input
                   className="text-lg input input-primary "
                   type="text"
-                  defaultValue={roomType && roomType.split('_').join(' ') + ' Floor ' + roomFloor}
                   placeholder='e.g. "Bedroom 1"'
                   onChange={(e) => setRoomName(e.target.value)}
                 />
@@ -144,7 +163,6 @@ const AddRoom = () => {
                   className="text-lg input input-primary"
                   type="number"
                   placeholder="e.g. 1"
-                  defaultValue={roomFloor}
                   onChange={(e) => setRoomFloor(e.target.value)}
                 />
               </span>
