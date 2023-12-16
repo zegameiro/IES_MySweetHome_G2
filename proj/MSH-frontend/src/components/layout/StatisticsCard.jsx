@@ -29,7 +29,7 @@ const StatisticsCard = ({ isChecked, inputDevice }) => {
     };
 
     return (
-        <div className={`flex flex-col card h-[12vh] w-[22vh] border-radius-5 items-center text-center hover:shadow-xl transition-shadow duration-300 ${isChecked ? "bg-primary text-white": "border-solid border-[3px] border-accent text-accent"}`}>
+        <div className={`flex flex-col card h-[100%] w-[22vh] border-radius-5 items-center text-center hover:shadow-xl transition-shadow duration-300 ${isChecked ? "bg-primary text-white": "border-solid border-[3px] border-accent text-accent"}`}>
             <div className="text-5xl pt-3 pb-3">
                 {getIcon(inputDevice)}
             </div>

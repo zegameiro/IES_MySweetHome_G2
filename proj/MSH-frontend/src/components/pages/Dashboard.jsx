@@ -26,7 +26,6 @@ const Dashboard = () => {
   const [inputDevices, setInputDevices] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [isVisible, setIsVisible] = useState(false);
 
   const getOutputDevices = async () => {
     try {
@@ -44,7 +43,6 @@ const Dashboard = () => {
       const res = await axios.get(`${BASE_API_URL}/sources/list`, null);
       if (res.status === 200) {
         setInputDevices(res.data);
-        console.log("Input Devices -> ", res.data);
       }
     } catch (error) {
       console.log(error);
@@ -66,8 +64,8 @@ const Dashboard = () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/alerts/list`, null);
       if (res.status === 200) {
-        console.log("Alerts -> ", res.data);
         setAlerts(res.data);
+        console.log("Alerts ->", res.data);
       }
     } catch (error) {
       console.log(error);
@@ -90,6 +88,14 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+  const interval = setInterval(() => {
+    getAlerts();
+  }, 5000); // Fetch new alerts every 5 seconds
+
+  return () => clearInterval(interval); // Clean up on unmount
+}, []);
+
+  useEffect(() => {
     if (selectedRoom) {
       const roomOutDevices = outputDevices.filter(
         (outdevice) => outdevice.location === selectedRoom.id
@@ -99,23 +105,6 @@ const Dashboard = () => {
       setFilteredOutDevices([]);
     }
   }, [selectedRoom, outputDevices]);
-
-  useEffect(() => {
-    setIsVisible(true);
-    const timer = setTimeout(async () => {
-      for (const alert of alerts) {
-        try{
-          await axios.post(`${BASE_API_URL}/alerts/mark?id=${alert.id}`, null);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      setAlerts(alerts.filter((alert) => alert !== alert));
-      setIsVisible(false);
-    }, 15000);
-    return () => clearTimeout(timer);
-  }, [alerts])
 
   return (
     <div className="flex flex-col pt-4 overflow-y-auto pb-[10vh]">
@@ -230,9 +219,7 @@ const Dashboard = () => {
             <div className="flex flex-col max-w-[75%] mt-5">
               {alerts.length > 0 ? 
                 alerts.map((alert) => (
-                  <div className={`transition-opacity duration-500 ease-in-out pb-3 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-                    <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
-                  </div>
+                  <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
                 ))
               : 
                 null
