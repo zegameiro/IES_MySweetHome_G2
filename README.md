@@ -8,8 +8,8 @@
 &nbsp;
 
 [![All Contributors](https://img.shields.io/badge/Contributors-4-brightgreen.svg?style=for-the-badge)](#contributors-)
-[![PRs Welcome](https://img.shields.io/badge/Open%20Issues-13-orange.svg?style=for-the-badge)](http://makeapullrequest.com)
-[![PRs Welcome](https://img.shields.io/badge/Closed%20Issues-26-blue.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/Open%20Issues-8-orange.svg?style=for-the-badge)](http://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/Closed%20Issues-57-blue.svg?style=for-the-badge)](http://makeapullrequest.com)
 
 ## Description
 ### My Sweet Home <br> Home Automation Management System
@@ -49,6 +49,13 @@ The containers used are as follows:
 
 - Frontend container: React + Vite runs on port 3000 and the NGINX server proxy runs on port 80;
 
+## API Documentation
+    You can acess our api documentation while running the project locally:
+    - http://localhost:8080/swagger-ui/index.html
+
+    Or when the production environment is running:
+    - http://deti-ies-17:8080/swagger-ui/index.html
+
 ## Sensor integration
 One of the principles for this project is making sensor integration as simple as possible, with very few hard coded parts.
 For this purpose, the communication between sensors and the relevant back-end processes are interelly made through RabbitMQ messages.
@@ -60,20 +67,44 @@ like regular sensors, to make sure we always have some running.
 To integrate outside sensors, we first need to send a register message to the RabbitMQ queue.
 All messages should be sent to the "sensor_queue" queue, with an empty "exchange" parameter and "sensor_queue" as the routing key, and all message contents must be in s JSON string format.
 The register message should have the following fields:
+```
 {
     "register_msg": "1",
     "device_id": -device_UUID-, 
     "device_category": -category_integer-, 
     "device_name": -external_device_name-
+    "reading_type": -information_description-
 }
-
+```
+Example:
+```
+{
+    "register_msg": "1",
+    "device_id": generateUUID(), 
+    "device_category": 1, 
+    "device_name": "Electricity Monitor"
+    "reading_type": "Eletricity Usage"
+}
+```
+---
 After the register message is sent, we can send as much data messages as we want, as long as these fields are present:
+```
 {
     "device_id": -device_uuid-, 
     "timestamp": -EPOCH_integer-, 
     "sensor_information": -double_value-, 
     "unit": -string_unit-
 }
+```
+Example:
+```
+{
+    "device_id": self.uuid, 
+    "timestamp": 1702750526-, 
+    "sensor_information": 0.2163785, 
+    "unit": "Kwh"
+}
+```
 
 The back-end is responsible for sensor handling in case of communication loss with the sensors and only provides real values to the front-end. 
 
@@ -85,15 +116,6 @@ The back-end is responsible for sensor handling in case of communication loss wi
 - https://uapt33090-my.sharepoint.com/:w:/g/personal/rodrigoaguiar96_ua_pt/Eclxg-hVsX1AjO4ZlODAlHwBhfHHpHcjRj9Xb4AU41awEA
 ### Github Project
 - https://github.com/users/zegameiro/projects/1
-### API Documentation
-
-    You can acess our api documentation while running the project locally:
-
-    - http://localhost:8080/swagger-ui/index.html
-
-    Or when the production environment is running :
-
-    - http://deti-ies-17:8080/swagger-ui/index.html
 
 ### Figma Mockup
 - https://www.figma.com/file/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?type=design&node-id=0%3A1&mode=design&t=O570V5XX2cdaccRS-1
