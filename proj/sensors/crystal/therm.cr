@@ -16,7 +16,7 @@ AMQP::Client.start("amqp://guest:guest@localhost") do |c|
 
   	while true 
 		epoch_time_integer = Time.utc.to_unix.to_i
-  		msg = "{\"device_id\": \"#{uuid}\", \"timestamp\": \"#{epoch_time_integer}\", \"sensor_information\":\"#{rand(20)}\"}"
+  		msg = "{\"device_id\": \"#{uuid}\", \"timestamp\": \"#{epoch_time_integer}\", \"sensor_information\":\"#{rand(20)}\", \"unit\":\"ºC\"}"
   		e.publish msg, routing_key: "sensor_queue"
   	
 		puts "Sensor message sent: #{msg}"
