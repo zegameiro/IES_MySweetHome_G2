@@ -37,16 +37,17 @@ You will need to have your localhost tcp port 3000 free for this to work or you 
 
 Then, simply navigate to localhost:3000 to access the front-end application.
 
-The project will run in a 4 container setup:
+## Docker implemetation
+The project will run in a 4 container setup, all connected via a predefined set of ports and all managed by a single docker compose implementation.
+The containers used are as follows:
 
-- RabbitMQ container ( message broker ) . Runs on port 5672 and 15672
+- Message Broker container: RabbitMQ runs on ports 5672 and 15672
 
-- MongoDB container ( database ) . Runs on port 27017
+- Database container: MongoDB runs on port 27017;
 
-- Backend container ( spring boot api + sensors ) . Runs on port 8080
+- Backend container: The Spring Boot API runs on port 8080 along with some default sensors;
 
-- Frontend container ( React + Vite ) . Runs on port 3000
-
+- Frontend container: React + Vite runs on port 3000 and the NGINX server proxy runs on port 80;
 
 ## Bookmarks
 

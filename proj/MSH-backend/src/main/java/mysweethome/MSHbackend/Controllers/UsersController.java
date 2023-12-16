@@ -169,6 +169,13 @@ public class UsersController {
         return ResponseEntity.ok(user);
     }
 
+    @Operation(summary = "Check if a given token is active for an account", description = "Check if a given token corresponds to the current active token of an account for authentication purposes.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns an OK String"), 
+        @ApiResponse(responseCode = "422", description = "User email has no account associated!",  content = @Content),
+        @ApiResponse(responseCode = "422", description = "The given token is not active for this user!",  content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
     @GetMapping(path = "/checkToken")
     public @ResponseBody String checkToken(@RequestParam String email, @RequestParam String token) {
         User user;

@@ -26,6 +26,7 @@ import java.util.LinkedList;
 
 @RestController
 @RequestMapping(path = "/sources")
+@Tag(name = "Data Sources and Input Devices Endpoints")
 @CrossOrigin("*")
 public class SensorController {
 
@@ -36,7 +37,6 @@ public class SensorController {
     private RoomService roomService;
 
     // Get a full list of all the data sources (sensors)
-
     @Operation(summary = "Associate a device", description = "Register a device inside a specific room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a OK String"),
@@ -44,7 +44,6 @@ public class SensorController {
             @ApiResponse(responseCode = "422", description = "Error! A room with this ID was not found!", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
     })
-
     @PostMapping("/associate")
     public @ResponseBody String associateSource(@RequestParam String roomID, @RequestParam String sensor_id) {
         // Get the sources list

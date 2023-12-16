@@ -13,6 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.ArrayList;
 import mysweethome.MSHbackend.Models.DataSource;
@@ -22,6 +27,7 @@ import mysweethome.MSHbackend.Models.SensorStats;
 @CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/stats")
+@Tag(name = "Data Retrieval and Statistics Calculation Endpoints")
 public class StatsController {
 
     @Autowired
@@ -30,6 +36,11 @@ public class StatsController {
     @Autowired
     private DataService dataService;
 
+    @Operation(summary = "View daily average information for a sensor", description = "Retrieve all the information for a specific sensor in the last 24 hours")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a the sensor object with all the data values"),
+            @ApiResponse(responseCode = "422", description = "This sensor ID doesnt exist in the database!", content = @Content)
+    })
     @GetMapping("/sensor/view/daily")
     public ResponseEntity<SensorStats> getSensorStats(@RequestParam String sensor_id) {
 
@@ -77,12 +88,17 @@ public class StatsController {
 
         }
 
-        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(),data.get(0).getUnit(),hourly_stats);
+        SensorStats sensor_stats = new SensorStats(data_source.getDevice_category(), data.get(0).getUnit(), hourly_stats);
 
         return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
 
     }
 
+    @Operation(summary = "View weekly average information for a sensor", description = "Retrieve all the information for a specific sensor in the last week")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a the sensor object with all the data values"),
+            @ApiResponse(responseCode = "422", description = "This sensor ID doesnt exist in the database!", content = @Content)
+    })
     @GetMapping("/sensor/view/weekly")
     public ResponseEntity<SensorStats> getSensorStatsWeekly(@RequestParam String sensor_id) {
 
@@ -132,6 +148,11 @@ public class StatsController {
         return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
     }
 
+    @Operation(summary = "View all the daily information for a sensor", description = "Retrieve all the information for a specific sensor in the current day")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a the sensor object with all the data values"),
+            @ApiResponse(responseCode = "422", description = "This sensor ID doesnt exist in the database!", content = @Content)
+    })
     @GetMapping("/sensor/view/dailytotal")
     public ResponseEntity<SensorStats> getDailyConsume(@RequestParam String sensor_id) {
 
@@ -166,11 +187,7 @@ public class StatsController {
             double average = return_value / data.size();
             sensor_stats.getValues().add(String.valueOf(average));
             return new ResponseEntity<SensorStats>( sensor_stats, HttpStatus.OK);
-        } else if (sensor.getDevice_category() == 2) // eletricidade , consumo total diário
-        {
-            sensor_stats.getValues().add(String.valueOf(return_value));
-            return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
-        } else { // ainda nao ta implementado, para os outros
+        } else { // ainda nao ta implementado, para os outros  ou eletricidade , consumo total diário
             sensor_stats.getValues().add(String.valueOf(return_value));
             return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
         }

@@ -171,5 +171,6 @@ public class DefaultValues implements ApplicationRunner {
         living_room.addDevice(radio_living_room.getID());
         couple_bedroom.addDevice(leds_ligits.getID());
         child_bedroom.addDevice(tv_couple_bedr.getID());
+
     }
 }
