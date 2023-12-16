@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../layout/Navbar';
-import ProfileButton from '../layout/ProfileButton';
-import SearchBar from '../layout/SearchBar';
 import Header from '../layout/Header';
 
 const AddPage = () => {
