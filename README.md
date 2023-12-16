@@ -49,6 +49,34 @@ The containers used are as follows:
 
 - Frontend container: React + Vite runs on port 3000 and the NGINX server proxy runs on port 80;
 
+## Sensor integration
+One of the principles for this project is making sensor integration as simple as possible, with very few hard coded parts.
+For this purpose, the communication between sensors and the relevant back-end processes are interelly made through RabbitMQ messages.
+This allows our final sensor integration to be language agnostic and for all makes of sensors to be able to communicate to our service, as long as the sensor is capable of throwing out RabbitMQ messages.
+
+Our default back-end comes with some extra java classes inside that are created on spring bootup and act just
+like regular sensors, to make sure we always have some running.
+
+To integrate outside sensors, we first need to send a register message to the RabbitMQ queue.
+All messages should be sent to the "sensor_queue" queue, with an empty "exchange" parameter and "sensor_queue" as the routing key, and all message contents must be in s JSON string format.
+The register message should have the following fields:
+{
+    "register_msg": "1",
+    "device_id": -device_UUID-, 
+    "device_category": -category_integer-, 
+    "device_name": -external_device_name-
+}
+
+After the register message is sent, we can send as much data messages as we want, as long as these fields are present:
+{
+    "device_id": -device_uuid-, 
+    "timestamp": -EPOCH_integer-, 
+    "sensor_information": -double_value-, 
+    "unit": -string_unit-
+}
+
+The back-end is responsible for sensor handling in case of communication loss with the sensors and only provides real values to the front-end. 
+
 ## Bookmarks
 
 ### Github repository
