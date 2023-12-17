@@ -109,18 +109,18 @@ public class RoutinesProcessor {
 
             if (routine.getTrigger_type().equals("range")) {
 
-                int start_value = Integer.parseInt(routine.getInput_ranges().get(0));
-                int end_value = Integer.parseInt(routine.getInput_ranges().get(1));
+                Double start_value = Double.parseDouble(routine.getInput_ranges().get(0));
+                Double end_value = Double.parseDouble(routine.getInput_ranges().get(1));
 
                 List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
                 SensorData latest_data = data.get(0);
 
-                int value;
+                Double value;
 
                 try {
 
-                    value = Integer.parseInt(latest_data.getSensor_information());
+                    value = Double.parseDouble(latest_data.getSensor_information());
 
                 } catch (Exception e) {
                     continue; // ignorar alertas sensor based com valores que nao sao int por enquanto
@@ -153,11 +153,11 @@ public class RoutinesProcessor {
 
                 List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
-                int trigger_value = Integer.parseInt(routine.getExact_value());
+                Double trigger_value = Double.parseDouble(routine.getExact_value());
 
                 SensorData latest_data = data.get(0);
 
-                if (Integer.parseInt(latest_data.getSensor_information()) == trigger_value) {
+                if (Double.parseDouble(latest_data.getSensor_information()) == trigger_value) {
 
                     routine.setTriggered(true);
                     routine.setActive(false);
