@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f70e658e-65a4-4e35-a982-77197e2ffe10",
+		"_postman_id": "38c5f92b-938c-4853-af24-4a3cb4a7effd",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "28375958"
+		"_exporter_id": "19001359"
 	},
 	"item": [
 		{
@@ -276,7 +276,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/outputs/add?state=OFF&category=1&roomID=6560c50ac795346d0d8ab6d5",
+							"raw": "localhost:8080/outputs/add?state=OFF&category=1&name=device_name",
 							"host": [
 								"localhost"
 							],
@@ -295,8 +295,8 @@
 									"value": "1"
 								},
 								{
-									"key": "roomID",
-									"value": "6560c50ac795346d0d8ab6d5"
+									"key": "name",
+									"value": "device_name"
 								}
 							]
 						}
