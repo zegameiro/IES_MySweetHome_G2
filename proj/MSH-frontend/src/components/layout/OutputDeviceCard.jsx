@@ -10,7 +10,7 @@ import { FaLightbulb, FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
 const OutputDeviceCard = ({ isBig, device, room }) => {
-  const [isChecked, setIsChecked] = useState(device.state === '1');
+  const [isChecked, setIsChecked] = useState(device.current_state === '1');
   const [durationTime, setDurationTime] = useState(`0min`);
   const [uptimeInterval, setUptimeInterval] = useState(null);
 
@@ -54,56 +54,56 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
 
   const getIcon = (category, state) => {
     switch (category) {
-      case '0':
+      case 'LIGHT':
         return state ? <FaLightbulb /> : <FaRegLightbulb />;
 
-      case '1':
+      case 'AIR_CONDITIONER':
         return state ? <TbAirConditioning /> : <TbAirConditioningDisabled />;
 
-      case '2':
+      case 'TELEVISION':
         return state ? <PiMonitorBold /> : <PiMonitorFill />;
 
-      case '3':
+      case 'SPEAKER':
         return state ? <MdSpeaker /> : <MdOutlineSpeaker />;
 
-      case '4':
+      case 'DEHUMIDIFER':
         return <WiHumidity />;
     }
   };
 
   const getDescription = (device, state) => {
-    let category = device.category;
+    let category = device.device_category;
 
     switch (category) {
-      case '0':
+      case 'LIGHT':
         if (state)
           return device.color !== 'white'
             ? `Color: ${device.color}`
             : `${device.name} on`;
         break;
 
-      case '1':
+      case 'AIR_CONDITIONER':
         if (state)
           return device.temperature !== 0
             ? `Temperature: ${device.temperature}°C`
             : `${device.name} on`;
         break;
 
-      case '2':
+      case 'TELEVISION':
         if (state)
-          return device.channel !== 'None'
-            ? `Tv on channel ${device.channel}`
+          return device.current_channel !== 'None'
+            ? `Tv on channel ${device.current_channel}`
             : `Reproducing Tv`;
         break;
 
-      case '3':
+      case 'SPEAKER':
         if (state)
-          return device.music !== 'None'
-            ? `Playing ${device.music}`
+          return device.current_music !== 'None'
+            ? `Playing ${device.current_music}`
             : `Playing music`;
         break;
 
-      case '4':
+      case 'DEHUMIDIFER':
         if (state) return `${device.name} on`;
         break;
     }
@@ -173,7 +173,7 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
                   isChecked ? 'text-primary' : 'text-accent'
                 }`}
               >
-                {getIcon(device.category, isChecked)}
+                {getIcon(device.device_category, isChecked)}
               </div>
               <div>
                 <div
@@ -245,7 +245,7 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
             }`}
           >
             <div className="text-5xl mb-[10px]">
-              {getIcon(device.category, isChecked)}
+              {getIcon(device.device_category, isChecked)}
             </div>
             <div className="text-base">
               <p>{device.name}</p>
