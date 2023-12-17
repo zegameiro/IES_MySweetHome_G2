@@ -16,13 +16,12 @@ const Alert = ({ alert, removeAl }) => {
     const [isInitial, setIsInitial] = useState(true);
 
     const convertTimestamp = (timestamp) => {
+      timestamp = timestamp * 1000
+      const date = new Date(timestamp);
 
-    timestamp = timestamp * 1000
-    const date = new Date(timestamp);
-
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-        return `${hours}h ${minutes}min`;
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours}h ${minutes}min`;
     };
 
     const backgroundColor =
