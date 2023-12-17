@@ -27,8 +27,6 @@ const RoutinesPage = () => {
             if (res1.status === 200 && res2.status === 200) {
                 setRoutinesSensor(res1.data);
                 setRoutinesTime(res2.data);
-                console.log("SENSOR ROUTINES ->", routinesSensor);
-                console.log("TIME ROUTINES ->", routinesTime);
 
             }
         } catch (error) {
@@ -42,7 +40,7 @@ const RoutinesPage = () => {
         } else {
           navigate("/login?redirect=dashboard");
         }
-    }, []);
+    }, [routinesSensor, routinesTime]);
 
     return (
         <div className="mx-[5%] mt-4 flex justify-between">
