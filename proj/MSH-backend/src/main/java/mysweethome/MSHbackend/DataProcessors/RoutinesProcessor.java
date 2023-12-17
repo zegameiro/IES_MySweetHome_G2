@@ -61,6 +61,10 @@ public class RoutinesProcessor {
 
         for (TimeBasedRoutine routine : routines) {
 
+            if (routine.isActive() == false) {
+                continue;
+            }
+
             Action action = routine.getAssociated_action();
 
             Long trigger_timestamp = routine.getTrigger_timestamp();
@@ -99,21 +103,24 @@ public class RoutinesProcessor {
 
         for (SensorBasedRoutine routine : routines) {
 
-            if (routine.getTrigger_type().equals("range"))
-            {
+            if (routine.isActive() == false) {
+                continue;
+            }
+
+            if (routine.getTrigger_type().equals("range")) {
 
                 int start_value = Integer.parseInt(routine.getInput_ranges().get(0));
                 int end_value = Integer.parseInt(routine.getInput_ranges().get(1));
 
-                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(),"latest");
+                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
                 SensorData latest_data = data.get(0);
 
-                int value; 
+                int value;
 
-                try { 
+                try {
 
-                value = Integer.parseInt(latest_data.getSensor_information());
+                    value = Integer.parseInt(latest_data.getSensor_information());
 
                 } catch (Exception e) {
                     continue; // ignorar alertas sensor based com valores que nao sao int por enquanto
@@ -142,14 +149,14 @@ public class RoutinesProcessor {
                 }
             }
 
-            else if (routine.getTrigger_type().equals("exact")){
+            else if (routine.getTrigger_type().equals("exact")) {
 
-                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(),"latest");
+                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
                 int trigger_value = Integer.parseInt(routine.getExact_value());
 
                 SensorData latest_data = data.get(0);
-                
+
                 if (Integer.parseInt(latest_data.getSensor_information()) == trigger_value) {
 
                     routine.setTriggered(true);
@@ -170,15 +177,13 @@ public class RoutinesProcessor {
 
                     break;
 
-                } 
+                }
 
             }
 
             else {
                 System.out.println("Routine " + routine.getId() + " has invalid trigger type!");
             }
-
-
 
         }
 

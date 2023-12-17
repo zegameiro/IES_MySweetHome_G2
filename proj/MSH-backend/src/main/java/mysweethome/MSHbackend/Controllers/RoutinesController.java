@@ -200,6 +200,13 @@ public class RoutinesController {
 
     }
 
+
+
+    @Operation(summary = "Change the state ( active or not ) of a time based routine", description = "Change the state of a time based routine from ON to OFF and vice-versa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+            @ApiResponse(responseCode = "422", description = "No time based routine with this ID was found!", content = @Content)
+    })
     @PostMapping("/changeStateTB")
     public @ResponseBody String changeStateTB(@RequestParam String id) {
 
@@ -218,7 +225,11 @@ public class RoutinesController {
 
     }
 
-
+    @Operation(summary = "Change the state ( active or not ) of a sensor based routine", description = "Change the state of a sensor based routine from ON to OFF and vice-versa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+            @ApiResponse(responseCode = "422", description = "No time based routine with this ID was found!", content = @Content)
+    })
     @PostMapping("/changeStateSB")
     public @ResponseBody String changeStateSB(@RequestParam String id) {
 
@@ -237,6 +248,11 @@ public class RoutinesController {
 
     }
 
+    @Operation (summary = "Delete a time based routine", description = "Delete a time based routine from the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+            @ApiResponse(responseCode = "422", description = "No time based routine with this ID was found!", content = @Content)
+    })
     @DeleteMapping("/deleteTB")
     public @ResponseBody String deleteTB(@RequestParam String id) {
 
@@ -253,6 +269,11 @@ public class RoutinesController {
 
     }
 
+    @Operation (summary = "Delete a sensor based routine", description = "Delete a sensor based routine from the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+            @ApiResponse(responseCode = "422", description = "No sensor based routine with this ID was found!", content = @Content)
+    })
     @DeleteMapping("/deleteSB")
     public @ResponseBody String deleteSB(@RequestParam String id) {
 
