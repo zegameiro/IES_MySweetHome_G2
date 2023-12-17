@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a07d913-5e18-493d-847f-a2da0d7adc78",
+		"_postman_id": "f70e658e-65a4-4e35-a982-77197e2ffe10",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19001359"
+		"_exporter_id": "28375958"
 	},
 	"item": [
 		{
@@ -220,6 +220,50 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "View Sensor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/view",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"view"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Unit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/unit?source_id=b58c0c25-ac17-4190-a480-d4b592f54d3c",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"unit"
+							],
+							"query": [
+								{
+									"key": "source_id",
+									"value": "b58c0c25-ac17-4190-a480-d4b592f54d3c"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -362,7 +406,35 @@
 					"name": "Associate Device to Room",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Room Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/outputs/getRoom?id=\"id_do_device\"",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"getRoom"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "\"id_do_device\""
+								}
+							]
+						}
 					},
 					"response": []
 				}
@@ -592,7 +664,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"25\"],  // start value, end value\r\n    \"source_id\":\"d2eef7a8-ed5b-4d09-a5b2-ed728d5cb339\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"timestamp\": 123, // isto nao interessa o valor, leva override no backend com timestamp em ms\r\n        \"action_title\": \"Fazer projeto de IES ;(\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657b190343426f3584f1ba05\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"35\"],  // start value, end value\r\n    \"source_id\":\"e322484d-a7f3-48fd-ae81-6c382747c422\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"action_title\": \"Fazer projeto de IES ;( CHANNEL\",\r\n        \"action_description\": \"Change Channel\",\r\n        \"outputDeviceID\": \"657f1dc6da6dd057924783a3\",\r\n        \"action_newValue\": \"CMTV\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -645,7 +717,18 @@
 					"name": "Check Actions",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"check"
+							]
+						}
 					},
 					"response": []
 				},
@@ -682,6 +765,92 @@
 							"path": [
 								"routines",
 								"listSB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Turn TB ON/OFF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Turn SB ON/OFF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/changeStateSB?id=833a2b7f-6343-4c4e-b2c4-0ab838d6b964",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"changeStateSB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "833a2b7f-6343-4c4e-b2c4-0ab838d6b964"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete SB Routine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/deleteSB?id=1510eea2-2a05-4a66-9138-f4209bef30ce",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"deleteSB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1510eea2-2a05-4a66-9138-f4209bef30ce"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete TB Routine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/deleteTB?id=1510eea2-2a05-4a66-9138-f4209bef30ce",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"deleteTB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1510eea2-2a05-4a66-9138-f4209bef30ce"
+								}
 							]
 						}
 					},

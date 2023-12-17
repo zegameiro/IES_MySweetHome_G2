@@ -10,6 +10,7 @@ import RoutinesPage from './components/pages/RoutinesPage'
 import StatisticsPage from './components/pages/StatisticsPage'
 import RoomsPage from './components/pages/RoomsPage'
 import RoomPage from './components/pages/RoomPage'
+import AddRoutine from './components/pages/AddRoutine'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/room/:id" element={<RoomPage />} />
           <Route path="/addroom" element={<AddRoom />} />
           <Route path="/routines" element={<RoutinesPage />} />
+          <Route path="/addroutine" element={<AddRoutine />} />
           <Route path="/statistics" element={<StatisticsPage />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

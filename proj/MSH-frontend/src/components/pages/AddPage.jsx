@@ -31,7 +31,7 @@ const AddPage = () => {
           <div className="w-full h-full m-2">
             <button
               className="bg-[url('/src/assets/images/home3.jpg')] rounded-xl shadow-lg p-4 m-4 flex justify-start items-end font-bold text-3xl w-full h-[80vh] "
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/addroutine')}
             >
               <h1>ADD ROUTINE</h1>
             </button>

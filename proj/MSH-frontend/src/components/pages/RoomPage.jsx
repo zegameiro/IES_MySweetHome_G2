@@ -79,7 +79,7 @@ const RoomPage = () => {
   }
 
   return (
-    <div className="mx-[5%] mt-4 flex justify-between«">
+    <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
       <div className="flex flex-col w-full h-full">
         <Header />
