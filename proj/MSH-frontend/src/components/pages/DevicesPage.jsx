@@ -74,7 +74,7 @@ const DevicesPage = () => {
         <Header />
         <div>
           <h1 className="m-4 text-4xl font-bold">
-            {user?.firstname}'s devices
+            {user?.firstName}'s devices
           </h1>
           {loading ? (
             <h1 className="m-4 text-4xl font-bold">Loading...</h1>
