@@ -331,6 +331,10 @@ public class OutputDeviceController {
 
         String roomID = device.getDevice_location();
 
+        if (roomID.equals("None")){ // no room associated
+            return null;
+        }
+
         Room room;
 
         try {
