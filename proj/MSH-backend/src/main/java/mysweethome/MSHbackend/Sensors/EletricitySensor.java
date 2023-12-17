@@ -46,17 +46,16 @@ public class EletricitySensor {
         // 5% chance of generating an unusually high value
         double value = RANDOM.nextDouble();
         if (value < 0.03) {
-            // Simulate an unusually high electricity usage, e.g., 0.1 kWh to 1 kWh
-            return 0.1 + 0.9 * RANDOM.nextDouble();
+            // 3% chance to simulate an unusually high electricity usage, e.g., 15 kWh to 25 kWh
+            return 15.0 + 10.0 * RANDOM.nextDouble();
         } else if (value < 0.04) {
-            // 10% chance of generating a very high value, e.g., 5 kWh to 10 kWh
-            return 5.0 + 5.0 * RANDOM.nextDouble();
+            // 1% chance of generating a very high value, e.g., 25 kWh to 50 kWh
+            return 25.0 + 25.0 * RANDOM.nextDouble();
         } else {
             // Simulate electricity usage for 10 seconds with varying patterns
-    
-            // Base electricity usage in the estimated range of 0.001 kWh to 0.02 kWh
-            double baseUsage = 0.003 * RANDOM.nextDouble();
-            
+
+            // Base electricity usage in the estimated range of 2.5 kWh to 15 kWh
+            double baseUsage = 2.5 + 12.5 * RANDOM.nextDouble();
 
             return baseUsage;
         }
