@@ -61,8 +61,9 @@ const DevicesPage = () => {
     }
   };
 
-  const getRoomDevice = (location) => {
-    const room = rooms.find((room) => room.id === location);
+  const getRoomDevice = (device) => {
+    const room = rooms.find((room) => room.devices.includes(device.id));
+    console.log('room -> ', room);
     return room;
   }
 
@@ -99,7 +100,7 @@ const DevicesPage = () => {
                         <OutputDeviceCard
                           device={device}
                           isBig
-                          room={getRoomDevice(device?.location)}
+                          room={getRoomDevice(device)}
                         />
                       </span>
                     );
