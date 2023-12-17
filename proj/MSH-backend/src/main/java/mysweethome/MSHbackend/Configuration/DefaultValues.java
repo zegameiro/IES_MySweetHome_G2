@@ -54,14 +54,6 @@ public class DefaultValues implements ApplicationRunner {
         attic.setName("Attic");
         attic.setFloornumber(2);
 
-        roomRepository.save(kitchen);
-        roomRepository.save(bath_room_couple);
-        roomRepository.save(bath_room_1);
-        roomRepository.save(child_bedroom);
-        roomRepository.save(couple_bedroom);
-        roomRepository.save(living_room);
-        roomRepository.save(attic);
-
         System.out.println("Inserted default rooms sucessfully! ");
 
         System.out.println("Inserting default values into the Database");
@@ -171,5 +163,13 @@ public class DefaultValues implements ApplicationRunner {
         living_room.addDevice(radio_living_room.getID());
         couple_bedroom.addDevice(leds_ligits.getID());
         child_bedroom.addDevice(tv_couple_bedr.getID());
+
+        roomRepository.save(kitchen);
+        roomRepository.save(bath_room_couple);
+        roomRepository.save(bath_room_1);
+        roomRepository.save(child_bedroom);
+        roomRepository.save(couple_bedroom);
+        roomRepository.save(living_room);
+        roomRepository.save(attic);
     }
 }

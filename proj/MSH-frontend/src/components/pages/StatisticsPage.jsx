@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AreaChart, BarChart, Bar, Area, XAxis, YAxis, CartesianGrid, Tooltip, Cell, Label } from 'recharts';
 import axios from "axios";
 
@@ -11,7 +11,6 @@ import { FaRegSun } from "react-icons/fa";
 import { FiWind } from "react-icons/fi";
 
 import { BASE_API_URL } from "../../constants";
- 
 
 const StatisticsPage = () => {
 
@@ -249,7 +248,7 @@ const StatisticsPage = () => {
             <div className="flex flex-col w-full h-full">
                 <Header />
                 <div className="pl-[5%] pt-[3%]">
-                    <h1 className="text-5xl font-bold pb-5">Statistics</h1>
+                    <h1 className="pb-5 text-5xl font-bold">Statistics</h1>
                     <div className="w-[70%] text-center pl-[10%]">
                         <p className="text-xl">Welcome to the statistics page, here you can obtain all the information about your input devices.<br/> Check out the data collected through a whole week or the daily data provided by your data sources. </p>
                     </div>
@@ -272,11 +271,12 @@ const StatisticsPage = () => {
                     </div>
                     {selectedCard ? 
                         <div className="flex flex-col w-[86%] text-center items-center pb-5">
+
                             <div className="stats shadow">
                                 <div className="stat">
-                                    <div className="stat-title text-error text-lg font-semibold pb-2"> {selectedCard ? "Current " + getTitle(category) : null}</div>
+                                    <div className="pb-2 text-lg font-semibold stat-title text-error"> {selectedCard ? "Current " + getTitle(category) : null}</div>
                                     {currentInformation.length > 0 ?    
-                                        <div className="flex flex-row text-center justify-center stat-value">
+                                        <div className="flex flex-row justify-center text-center stat-value">
                                             {category === 2 ?
                                                 Number(currentInformation[0].sensor_information).toFixed(4)
                                             :
@@ -286,7 +286,7 @@ const StatisticsPage = () => {
                                             {currentInformation[0].unit} ​ ​ <span className="text-warning">{getIcon(category)}</span>
                                         </div>
                                     :
-                                        <div className="stat-value text-lg"><span className="loading loading-spinner loading-lg"></span></div>
+                                        <div className="text-lg stat-value"><span className="loading loading-spinner loading-lg"></span></div>
                                     }
                                 </div>
                             </div>
@@ -294,11 +294,11 @@ const StatisticsPage = () => {
                     : 
                         null
                     }
-                    <div className="flex flex-row space-x-5 items-center ">
+                    <div className="flex flex-row items-center space-x-5 ">
                         { statsDaily.length > 0 ?
                             <div className="flex flex-col text-center">
                                 <h1 className="text-xl font-semibold">Daily {getTitle(category)}</h1>
-                                <div className="border-3px border-solid border-accent ">
+                                <div className="border-solid border-3px border-accent ">
                                     <AreaChart
                                         width={650}
                                         height={560}

@@ -133,7 +133,7 @@ const Dashboard = () => {
                   className={`hero rounded-3xl w-[100%] h-[100%] bg-[url('/src/assets/images/home1.jpg')]`}
                 >
                   <div className="hero-overlay rounded-3xl w-[100%] h-[100%] bg-[#101010] bg-opacity-50 "></div>
-                  <div className="hero-content text-center text-white">
+                  <div className="text-center text-white hero-content">
                     <div className="max-w-xl">
                       <h2 className="mb-5 text-5xl font-bold">
                         Welcome Back {user.firstname}!
@@ -164,7 +164,7 @@ const Dashboard = () => {
                   className={`hero rounded-3xl bg-[url('/src/assets/images/home2.jpg')]`}
                 >
                   <div className="hero-overlay rounded-3xl bg-[#101010] bg-opacity-50 "></div>
-                  <div className="hero-content text-center text-white">
+                  <div className="text-center text-white hero-content">
                     <div className="max-w-xl">
                       <h1 className="mb-5 text-5xl font-bold">
                         Today's Weather
@@ -202,7 +202,7 @@ const Dashboard = () => {
                   className={`hero rounded-3xl bg-[url('/src/assets/images/home3.jpg')]`}
                 >
                   <div className="hero-overlay rounded-3xl bg-[#101010] bg-opacity-50 "></div>
-                  <div className="hero-content text-center text-white">
+                  <div className="text-center text-white hero-content">
                     <div className="max-w-xl">
                       <h1 className="mb-5 text-5xl font-bold">
                         Missing Something
@@ -231,7 +231,7 @@ const Dashboard = () => {
                 <div
                   tabIndex={0}
                   role="button"
-                  className="btn btn-primary m-1 text-xl text-white"
+                  className="m-1 text-xl text-white btn btn-primary"
                 >
                   {selectedRoom ? selectedRoom.name : "Select Room"}{" "}
                   <IoIosArrowDown />
@@ -259,7 +259,7 @@ const Dashboard = () => {
                 </ul>
               </div>
               <Link to="/devices">
-                <p className="text-neutral font-semibold">See more</p>
+                <p className="font-semibold text-neutral">See more</p>
               </Link>
             </div>
             <div className="divider w-[70%] text-xl font-semibold pt-[4%] pb-[1%]">

@@ -8,6 +8,7 @@ import {
   FaGears,
   FaRightFromBracket,
 } from 'react-icons/fa6';
+
 import { FaChartLine } from 'react-icons/fa';
 import '../../utils/index.css';
 

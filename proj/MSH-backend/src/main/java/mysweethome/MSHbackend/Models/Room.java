@@ -23,7 +23,8 @@ public class Room {
     @NotBlank
     private String name;
     @NotBlank
-    private Integer floornumber;
+    private Integer floornumber; 
+    private String type;
 
     List<String> devices = new LinkedList<String>();
 
@@ -56,6 +57,13 @@ public class Room {
     }
     public void addDevice(String dev) {
         this.devices.add(dev);
+    }
+
+        public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
     
 }
