@@ -1,13 +1,23 @@
-# My Sweet Home
-## Materials used in the presentations and report diagrams
+# My Sweet Home 
+# Materials used in the presentations and report diagrams
+This is the folder where we keep all presentation assets and diagrams made through out the duration of the project.
 &nbsp;
+<p align="center">
+    <img src="https://i.imgur.com/iDO9z1k.png" height="200px">
+</p>
+
+---
 
 ## Architecture Diagrams
 ### Simple architecture diagram
-<img src = "presentations/Report_Diagrams/simple_architecture_diagram.png">
+<p align="center">
+<img src = "Report_Diagrams/simple_architecture_diagram.png"  height="400px">
+</p>
 
 ### Full architecture diagram
-<img src = "presentations/Report_Diagrams/architecture_diagram.png">
+<p align="center">
+<img src = "Report_Diagrams/architecture_diagram.png" height="500px">
+</p>
 
 ---
 
@@ -22,19 +32,28 @@ https://www.figma.com/proto/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?page-id=0
 
 ## Information Flux
 
-<img src = "presentations/Report_Diagrams/informationflux.png">
+<p align="center">
+<img src = "Report_Diagrams/informationflux.png" height="600px">
+</p>
 
 ---
 ## Sequence Diagrams
 ### Simple Front and Back end data communication for user input and control
-<img src = "presentations/Report_Diagrams/sequenceDiag1.png">
+<p align="center">
+<img src = "Report_Diagrams/sequenceDiag1.png" height="300px">
+</p>
 
 ### Time sensitive output reaction
-<img src = "presentations/Report_Diagrams/sequenceDiag2.png">
+<p align="center">
+<img src = "Report_Diagrams/sequenceDiag2.png" height="300px">
+</p>
 
 ### New sensor data input reaction
-<img src = "presentations/Report_Diagrams/sequenceDiag3.png">
+<p align="center">
+<img src = "Report_Diagrams/sequenceDiag3.png" height="300px">
+</p>
 
+---
 
 ## Our Team ✨
 
@@ -43,10 +62,12 @@ https://www.figma.com/proto/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?page-id=0
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center" width="150px;"></td>
     <td align="center"><a href="https://github.com/P-Ramos16"><img src="https://avatars0.githubusercontent.com/P-Ramos16?v=3" width="150px;" alt="Ramos"/><br /><sub><b>Pedro Ramos</b><br><i>107348</i></sub></a><hr><b>Architect</b><br><a href="https://github.com/P-Ramos16" title="Code">💻</a> <a href="https://github.com/codesandbox/codesandbox-client/commits?author=CompuIves" title="Tests">⚠️</a> <a href="#tool-CompuIves" title="Tools">🔧</a></td>
     <td align="center"><a href="https://github.com/Dan1m4D"><img src="https://avatars0.githubusercontent.com/Dan1m4D?v=3" width="150px;" alt="Madureira"/><br /><sub><b>Daniel Madureira</b><br><i>107603</i></sub></a><hr><b>Team Manager</b><br><a href="https://github.com/Dan1m4D" title="Code">💻</a><a href="#design-CompuIves" title="Design">🎨</a><a href="#tool-CompuIves" title="Tools">🔧</a></td>
     <td align="center"><a href="https://github.com/zegameiro"><img src="https://avatars0.githubusercontent.com/zegameiro?v=3" width="150px;" alt="Gameiro"/><br /><sub><b>José Gameiro</b><br><i>108840</i></sub></a><hr><b>DevOps Master</b><br><a href="https://github.com/zegameiro" title="Code">💻</a><a href="#blog-CompuIves" title="Blogposts">📝</a><a href="#tool-CompuIves" title="Tools">🔧</a></td>
     <td align="center"><a href="https://github.com/FiNeX96"><img src="https://avatars0.githubusercontent.com/FiNeX96?v=3" width="150px;" alt="Aguiar"/><br /><sub><b>Rodrigo Aguiar</b><br><i>108969</i></sub></a><hr><b>Product Owner</b><br><a href="https://github.com/FiNeX96" title="Code">💻</a><a href="#tool-MergeMaestro" title="Tools">🔀</a><a href="#tool-CompuIves" title="Tools">🔧</a></td>
+    <td align="center" width="150px;"></td>
   </tr>
 </table>
 
