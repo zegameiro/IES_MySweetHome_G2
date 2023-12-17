@@ -238,9 +238,8 @@ public class OutputDeviceController {
         @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
     })
     @GetMapping("/list")
-    public @ResponseBody String getOutputs() {
+    public @ResponseBody List <OutputDevice> getOutputs() {
         LinkedList<OutputDevice> sources;
-        List<JSONObject> output = new LinkedList<JSONObject>();
 
         // Get the the output devices list
         try {
@@ -249,39 +248,7 @@ public class OutputDeviceController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
         }
 
-        for (OutputDevice src : sources) {
-            // Generate the output user object for the frontend
-            JSONObject out = new JSONObject();
-            OutputDeviceType dev_category = src.getDevice_category();
-
-            out.put("name", src.getName());
-            out.put("id", src.getID());
-            out.put("category", dev_category.toString());
-            out.put("location", src.getDevice_location());
-            out.put("state", src.getCurrent_state());
-            out.put("laststatechange", src.getLaststatechange());
-
-            switch (dev_category) {
-                case AIR_CONDITIONER:
-                    out.put("temperature", src.getTemperature());
-                    break;
-                case TELEVISION:
-                    out.put("channel", src.getCurrent_channel());
-                    break;
-                case SPEAKER:
-                    out.put("music", src.getCurrent_music());
-                    break;
-                case LIGHT:
-                    out.put("color", src.getColor());
-                    break;
-                default:
-                    break;
-            }
-
-            output.add(out);
-        }
-
-        return output.toString();
+        return sources;
     }
 
     // Get a full list of all the output devices
