@@ -29,6 +29,10 @@ const DevicesPage = () => {
     console.log('search changed -> ', search);
   }, [search]);
 
+  const user = JSON.parse(localStorage.getItem('user'))
+    ? JSON.parse(localStorage.getItem('user'))
+    : null;
+
   const getDevices = async () => {
     try {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`);
@@ -57,8 +61,9 @@ const DevicesPage = () => {
     }
   };
 
-  const getRoomDevice = (location) => {
-    const room = rooms.find((room) => room.id === location);
+  const getRoomDevice = (device) => {
+    const room = rooms.find((room) => room.devices.includes(device.id));
+    console.log('room -> ', room);
     return room;
   }
 
@@ -68,9 +73,11 @@ const DevicesPage = () => {
       <div className="flex flex-col w-full h-full">
         <Header />
         <div>
-          <h1 className="text-4xl font-bold m-4">Devices</h1>
+          <h1 className="m-4 text-4xl font-bold">
+            {user?.firstname}'s devices
+          </h1>
           {loading ? (
-            <h1 className="text-4xl font-bold m-4">Loading...</h1>
+            <h1 className="m-4 text-4xl font-bold">Loading...</h1>
           ) : (
             <div className="flex flex-wrap mx-4">
               {devices != [] ? (
@@ -88,18 +95,18 @@ const DevicesPage = () => {
                     return (
                       <span
                         className="m-2"
-                        key={device?.uid}
+                        key={device?.id}
                       >
                         <OutputDeviceCard
                           device={device}
                           isBig
-                          room={getRoomDevice(device?.location)}
+                          room={getRoomDevice(device)}
                         />
                       </span>
                     );
                   })
               ) : (
-                <h1 className="text-4xl font-bold m-4">No devices found</h1>
+                <h1 className="m-4 text-4xl font-bold">No devices found</h1>
               )}
             </div>
           )}
