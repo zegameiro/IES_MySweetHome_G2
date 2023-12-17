@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import java.text.DecimalFormat;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 public class EletricitySensor {
     Channel broker_queue = null;
@@ -43,23 +45,43 @@ public class EletricitySensor {
     }
 
     private static double getRandomElectricityUsage() {
+        Double hourMedian = 1.0;
+        Double finalValue;
+
+        int currentHour = Instant.now().atZone(ZoneOffset.UTC).getHour();
+        
+        //  Most of the people in the house are asleep, so they use less electricity (except programmers) (75% less average power)
+        if (currentHour == 22 || currentHour == 8) {
+            hourMedian = 0.5;
+        }
+        else if (currentHour > 23 || currentHour < 7) {
+            hourMedian = 0.25;
+        } 
+        else if (currentHour < 14 && currentHour > 12) {
+            hourMedian = 0.5;
+        }
+
         // 5% chance of generating an unusually high value
         double value = RANDOM.nextDouble();
         if (value < 0.03) {
             // 3% chance to simulate an unusually high electricity usage, e.g., 15 kWh to 25
             // kWh
-            return 15.0 + 10.0 * RANDOM.nextDouble();
-        } else if (value < 0.04) {
+            finalValue = 15.0 + 10.0 * RANDOM.nextDouble();
+        } 
+        else if (value < 0.04) {
             // 1% chance of generating a very high value, e.g., 25 kWh to 50 kWh
-            return 25.0 + 25.0 * RANDOM.nextDouble();
-        } else {
+            finalValue = 25.0 + 25.0 * RANDOM.nextDouble();
+        } 
+        else {
             // Simulate electricity usage for 10 seconds with varying patterns
 
             // Base electricity usage in the estimated range of 2.5 kWh to 15 kWh
             double baseUsage = 2.5 + 12.5 * RANDOM.nextDouble();
 
-            return baseUsage;
+            finalValue = baseUsage;
         }
+
+        return Math.round(finalValue * hourMedian * 100) / 100;
     }
 
     public void setName(String name) {

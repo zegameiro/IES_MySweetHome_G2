@@ -6,6 +6,8 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.time.Instant;
+import java.time.ZoneOffset;
 
 public class WindSensor {
 
@@ -48,19 +50,35 @@ public class WindSensor {
 
     // Simulate a realistic wind strength value in the range of 0.1 m/s to 20 m/s
     public double getRandomWindStrength() {
+        int currentHour = Instant.now().atZone(ZoneOffset.UTC).getHour();
+        Double windMedian = 0.5;
+        Double finalValue;
+
+        //  Most of the people in the house are asleep, so they use less electricity (except programmers) (75% less average power)
+        if (currentHour == 22 || currentHour == 8) {
+            windMedian = 1.0;
+        }
+        else if (currentHour > 23 || currentHour < 7) {
+            windMedian = 1.25;
+        } 
+        else if (currentHour < 14 && currentHour > 12) {
+            windMedian = 0.75;
+        }
 
         Random random = new Random();
 
         // Determine whether to generate a normal or extreme value
         if (random.nextDouble() < EXTREME_PROBABILITY) {
             // 5% chance for an extreme value
-            return random.nextDouble() < 0.5 ? MIN_WIND_SPEED + 4.0 * random.nextDouble()
+            finalValue = random.nextDouble() < 0.5 ? MIN_WIND_SPEED + 4.0 * random.nextDouble()
                     : MAX_WIND_SPEED - 4.0 * random.nextDouble();
-        } else {
+        } 
+        else {
             // 90% chance for a normal value between 5 and 10
-            return 5.0 + 5.0 * random.nextDouble();
+            finalValue = 5.0 + 5.0 * random.nextDouble();
         }
 
+        return Math.round(finalValue * windMedian * 100) / 100;
     }
 
     public String getName() {

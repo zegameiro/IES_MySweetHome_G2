@@ -14,7 +14,7 @@ lower_bound = 5
 
 
 # send register message
-register_msg = json.dumps({"register_msg": "1", "device_id": str(deviceID), "device_category": "4", "device_name": "wind_python"})
+register_msg = json.dumps({"register_msg": "1", "device_id": str(deviceID), "device_category": "3", "device_name": "wind_python", "reading_type":"Wind Outside"})
 channel.basic_publish(exchange="", routing_key="sensor_queue", body=register_msg)
 print(" [TemperatureSensor] Registered with: '" + register_msg + "'");
 

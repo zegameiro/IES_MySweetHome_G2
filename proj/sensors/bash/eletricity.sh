@@ -1,7 +1,7 @@
 #!/bin/bash
 device_id=$(uuidgen)
 
-rabbitmqadmin publish routing_key="sensor_queue" payload="{\"register_msg\":\"1\", \"device_id\":\"$device_id\", \"device_category\":\"1\", \"device_name\":\"presence_bash\"}"
+rabbitmqadmin publish routing_key="sensor_queue" payload="{\"register_msg\":\"1\", \"device_id\":\"$device_id\", \"device_category\":\"1\", \"device_name\":\"presence_bash\", \"reading_type\":\"People in the House\"}"
 
 while : 
 do
