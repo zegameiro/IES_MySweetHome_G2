@@ -35,7 +35,7 @@ public class EletricitySensor {
             String message = MAPPER.writeValueAsString(
                     Map.of(
                             "timestamp", String.valueOf(System.currentTimeMillis()), "sensor_information",
-                            String.valueOf(getRandomElectricityUsage()), "device_id", uniqueID , "unit", "kWh"));
+                            String.valueOf(getRandomElectricityUsage()), "device_id", uniqueID, "unit", "kWh"));
             broker_queue.basicPublish("", this.queue_name, null, message.getBytes());
             TimeUnit.SECONDS.sleep(10);
         }
@@ -46,7 +46,8 @@ public class EletricitySensor {
         // 5% chance of generating an unusually high value
         double value = RANDOM.nextDouble();
         if (value < 0.03) {
-            // 3% chance to simulate an unusually high electricity usage, e.g., 15 kWh to 25 kWh
+            // 3% chance to simulate an unusually high electricity usage, e.g., 15 kWh to 25
+            // kWh
             return 15.0 + 10.0 * RANDOM.nextDouble();
         } else if (value < 0.04) {
             // 1% chance of generating a very high value, e.g., 25 kWh to 50 kWh
@@ -60,7 +61,7 @@ public class EletricitySensor {
             return baseUsage;
         }
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
