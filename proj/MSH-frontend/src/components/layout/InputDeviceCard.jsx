@@ -12,14 +12,15 @@ const InputDeviceCard = ({ device }) => {
   const [isChecked, setIsChecked] = useState(null);
   const [sensorDataHour, setSensorDataHour] = useState(null);
   const [sensorDataLatest, setSensorDataLatest] = useState(null);
-  const [avgSensorData, setAvgSensorData] = useState(null); 
+  const [avgSensorData, setAvgSensorData] = useState(null);
   const [latestSensorData, setLatestSensorData] = useState(null);
   const [timeInterval, setTimeInterval] = useState(null);
+  const [deviceUnit, setDeviceUnit] = useState(null);
 
   const getAverageData = (data) => {
     const informationVal = data.map((item) => Number(item.sensor_information));
 
-    const sum = informationVal.reduce((a,b) => a + b, 0);
+    const sum = informationVal.reduce((a, b) => a + b, 0);
 
     return (sum / informationVal.length).toFixed(4);
   };
@@ -29,41 +30,43 @@ const InputDeviceCard = ({ device }) => {
       const res = await axios.get(`${BASE_API_URL}/data/view`, {
         params: {
           sensor_id: deviceID,
-          filter: "last_hour"
+          filter: "last_hour",
         },
       });
-        
+
       if (res.status === 200) {
         setSensorDataHour(res.data);
         setAvgSensorData(getAverageData(res.data));
       }
     } catch (error) {
       console.log(error);
-    };
+    }
   };
 
   const getSensorInformationLatest = async (deviceID) => {
     try {
-      console.log(deviceID)
+      console.log(deviceID);
       const res = await axios.get(`${BASE_API_URL}/data/view`, {
         params: {
           sensor_id: deviceID,
-          filter: "latest"
+          filter: "latest",
         },
       });
 
       if (res.status === 200) {
         setSensorDataLatest(res.data);
+        //console.log("dados sensor -> " , res.data)
+        //console.log("unit -> " , res.data[0].unit)
+        setDeviceUnit(res.data[0].unit);
         setLatestSensorData(res.data[0].sensor_information);
       }
     } catch (error) {
       console.log(error);
-    };
+    }
   };
 
   useEffect(() => {
     if (isChecked) {
-
       getSensorInformationHour(device?.id);
       getSensorInformationLatest(device?.id);
 
@@ -72,9 +75,7 @@ const InputDeviceCard = ({ device }) => {
         getSensorInformationLatest(device?.id);
       }, 5000); // Set an interval of 5 seconds to make calls to the API
       setTimeInterval(intervalId);
-
-    } else
-      clearInterval(timeInterval);
+    } else clearInterval(timeInterval);
 
     return () => {
       clearInterval(timeInterval);
@@ -87,20 +88,33 @@ const InputDeviceCard = ({ device }) => {
         return state ? <WiThermometer /> : <WiThermometerExterior />;
 
       case 2:
-        return <MdElectricBolt />
-        
+        return <MdElectricBolt />;
+
       case 3:
-        return state ? <FaUserCheck /> : <FaUserAltSlash />;
+        return state ? <TbWind /> : <TbWindOff />;
 
       case 4:
-        return state ? <IoCloudyNight /> : <IoCloudyNightOutline />;
+        return state ? <FaUserCheck /> : <FaUserAltSlash />;
 
       case 5:
-        return state ? <TbWind /> : <TbWindOff />;
+        return state ? <IoCloudyNight /> : <IoCloudyNightOutline />;
     }
   };
 
   const getDescriptionAvg = (device, info) => {
+    //console.log(device)
+    console.log(info);
+    return (
+      <p>
+        {" "}
+        Last Hour Average : <br />{" "}
+        <strong>
+          {" "}
+          {Number(info).toPrecision(2)} {deviceUnit}{" "}
+        </strong>
+      </p>
+    );
+    /*
     switch (device.category) {
       case 1:
         return (<p>Avg Temperature (last hour): <br /> <strong>{info}°C</strong></p>);
@@ -114,10 +128,21 @@ const InputDeviceCard = ({ device }) => {
       case 4:
         return (<p>Avg Wind Strength (last hour): <br /> <strong>{info} km/h</strong></p>);
     }
-  }
+    */
+  };
 
   const getDescriptionLatest = (device, info) => {
-    let infor = Number(info)
+    let infor = Number(info);
+    return (
+      <p>
+        {device.reading_type}: <br />{" "}
+        <strong>
+          {" "}
+          {Number(infor).toPrecision(2)} {deviceUnit}{" "}
+        </strong>
+      </p>
+    );
+    /*
     switch (device.category) {
       case 1:
         return (<p>Current Temperature: <br /> <strong>{infor}°C</strong></p>);
@@ -131,7 +156,8 @@ const InputDeviceCard = ({ device }) => {
       case 4:
         return (<p>Current Wind Strength: <br /> <strong>{infor}km/h</strong></p>);
     }
-  }
+    */
+  };
 
   return (
     <>
@@ -187,9 +213,9 @@ const InputDeviceCard = ({ device }) => {
               <div className="flex-col">
                 <div className="flex text-sm pr-4">
                   <span className="flex flex-col">
-                    {getDescriptionAvg(device, avgSensorData)}
-                    <br />
                     {getDescriptionLatest(device, latestSensorData)}
+                    <br />
+                    {getDescriptionAvg(device, avgSensorData)}
                   </span>
                 </div>
               </div>
