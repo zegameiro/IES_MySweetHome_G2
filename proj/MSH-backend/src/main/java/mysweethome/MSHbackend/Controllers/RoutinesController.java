@@ -9,9 +9,12 @@ import java.util.List;
 
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
+import mysweethome.MSHbackend.Repositories.SBRepo;
+import mysweethome.MSHbackend.Repositories.TBRepo;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +31,12 @@ public class RoutinesController {
 
     @Autowired
     private RoutineService routines;
+
+    @Autowired
+    private SBRepo sbRepo;
+
+    @Autowired
+    private TBRepo tbRepo;
 
     @Autowired
     private ActionsService actions;
@@ -94,9 +103,8 @@ public class RoutinesController {
 
         routine.setId();
 
-        Action act = routine.getAssociated_action() ;
+        Action act = routine.getAssociated_action();
 
-    
         if (act == null) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
                     "An action with the specified ID does not exist!");
@@ -150,6 +158,42 @@ public class RoutinesController {
         }
 
         return device.getDevice_category().getPossibleActions();
+
+    }
+
+    @Operation(summary = "List all Time Based routines", description = "List all the routines")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a list of all routines"),
+            @ApiResponse(responseCode = "422", description = "No routines found!", content = @Content)
+    })
+    @GetMapping("/listTB")
+    public @ResponseBody ResponseEntity<List<TimeBasedRoutine>> listTB() {
+        List<TimeBasedRoutine> routines_list = routines.findAllTB();
+
+        if (routines_list == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No time based routines found!");
+        }
+
+        return ResponseEntity.ok(routines_list);
+
+    }
+
+    @Operation(summary = "List all Sensor Based routines", description = "List all the routines")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a list of all routines"),
+            @ApiResponse(responseCode = "422", description = "No routines found!", content = @Content)
+    })
+    @GetMapping("/listSB")
+    public @ResponseBody ResponseEntity<List<SensorBasedRoutine>> listSB() {
+        List<SensorBasedRoutine> routines_list = routines.findAllSB();
+
+        if (routines_list == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No sensor based routines found!");
+        }
+
+        return ResponseEntity.ok(routines_list);
 
     }
 
