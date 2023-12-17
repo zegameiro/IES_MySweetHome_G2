@@ -107,8 +107,10 @@ public class Processor {
       device_location = data.get("device_location");
     }
 
+    String reading_type = data.get("reading_type");
+
     dataSourceRepository
-        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location, device_name));
+        .saveDataSource(new DataSource(device_id, Integer.parseInt(device_category), device_location, device_name, reading_type));
 
     Alert newAlert = new Alert();
     newAlert.setId(device_id);

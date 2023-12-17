@@ -32,7 +32,7 @@ public class PeopleSensor {
 
         String register_msg = MAPPER
                 .writeValueAsString(Map.of("register_msg", "1", "device_category", device_category, "name", name,
-                        "device_id", uniqueID));
+                        "device_id", uniqueID, "reading_type", "People at the door"));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
 
         while (true) {

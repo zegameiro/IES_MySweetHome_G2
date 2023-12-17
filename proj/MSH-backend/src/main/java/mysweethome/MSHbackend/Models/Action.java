@@ -1,5 +1,6 @@
 package mysweethome.MSHbackend.Models;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 
 import lombok.NoArgsConstructor;
@@ -8,6 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.UUID;
+
 import javax.validation.constraints.NotBlank;
 
 @ToString
@@ -19,8 +23,8 @@ import javax.validation.constraints.NotBlank;
 public class Action {
 
     @Id
-    private int id;
-    @NotBlank 
+    private String id;
+    @CreatedDate
     private long timestamp;
     @NotBlank
     private String action_title;
@@ -30,6 +34,10 @@ public class Action {
     private String outputDeviceID; // id of the output device that will be affected by this action
     @NotBlank
     private boolean done = false;
+
+    public void setId(){
+        this.id = UUID.randomUUID().toString();
+    }
 
 
     public void execute() {

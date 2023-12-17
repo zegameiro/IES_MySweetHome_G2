@@ -6,11 +6,13 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.text.DecimalFormat;
 
 public class EletricitySensor {
     Channel broker_queue = null;
     String queue_name = null, device_category, name;
     String uniqueID = UUID.randomUUID().toString();
+    static DecimalFormat df = new DecimalFormat("0.00");
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
     static Random RANDOM = new Random();
@@ -26,7 +28,7 @@ public class EletricitySensor {
 
         String register_msg = MAPPER
                 .writeValueAsString(Map.of("register_msg", "1", "device_category", device_category, "name", name,
-                        "device_id", uniqueID));
+                        "device_id", uniqueID, "reading_type", "Eletricity Usage"));
         broker_queue.basicPublish("", this.queue_name, null, register_msg.getBytes());
 
         while (true) {
@@ -51,6 +53,7 @@ public class EletricitySensor {
             return 25.0 + 25.0 * RANDOM.nextDouble();
         } else {
             // Simulate electricity usage for 10 seconds with varying patterns
+
             // Base electricity usage in the estimated range of 2.5 kWh to 15 kWh
             double baseUsage = 2.5 + 12.5 * RANDOM.nextDouble();
 
