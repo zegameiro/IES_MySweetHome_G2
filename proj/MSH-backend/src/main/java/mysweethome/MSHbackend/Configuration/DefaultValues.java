@@ -1,5 +1,6 @@
 package mysweethome.MSHbackend.Configuration;
 
+import mysweethome.MSHbackend.Controllers.OutputDeviceController;
 import mysweethome.MSHbackend.Models.OutputDevice;
 import mysweethome.MSHbackend.Models.OutputDeviceType;
 import mysweethome.MSHbackend.Models.Room;
@@ -19,6 +20,9 @@ public class DefaultValues implements ApplicationRunner {
 
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private OutputDeviceController outputDeviceController;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -171,5 +175,16 @@ public class DefaultValues implements ApplicationRunner {
         roomRepository.save(couple_bedroom);
         roomRepository.save(living_room);
         roomRepository.save(attic);
+
+        outputDeviceController.associateDevice(ceiling_light.getID(), kitchen.getId());
+        outputDeviceController.associateDevice(lamp_living.getID(), living_room.getId());
+        outputDeviceController.associateDevice(leds_ligits.getID(), couple_bedroom.getId());
+        outputDeviceController.associateDevice(air_conditioner.getID(), kitchen.getId());
+        outputDeviceController.associateDevice(attic_heater.getID(), living_room.getId());
+        outputDeviceController.associateDevice(tv_living.getID(), living_room.getId());
+        outputDeviceController.associateDevice(tv_couple_bedr.getID(), couple_bedroom.getId());
+        outputDeviceController.associateDevice(radio_living_room.getID(), living_room.getId());
+        outputDeviceController.associateDevice(dehumidifier.getID(), bath_room_couple.getId());
+        outputDeviceController.associateDevice(ventilator.getID(), bath_room_1.getId());
     }
 }

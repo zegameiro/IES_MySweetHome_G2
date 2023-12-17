@@ -8,7 +8,7 @@ AMQP::Client.start("amqp://guest:guest@localhost") do |c|
 	ch = c.channel
 	e = ch.exchange("", type: "")
 
-	msg = "{\"register_msg\": \"1\", \"device_id\": \"#{uuid}\", \"device_category\":\"1\", \"device_name\":\"crystal_temp\"}"
+	msg = "{\"register_msg\": \"1\", \"device_id\": \"#{uuid}\", \"device_category\":\"0\", \"device_name\":\"crystal_temp\", \"reading_type\":\"Eletricity Usage\"}"
 	e.publish msg, routing_key: "sensor_queue"
 	puts "Register message: #{msg}"
 	

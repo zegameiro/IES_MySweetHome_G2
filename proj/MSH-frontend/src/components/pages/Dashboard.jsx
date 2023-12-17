@@ -32,6 +32,7 @@ const Dashboard = () => {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`, null);
       if (res.status === 200) {
         setOutputDevices(res.data);
+        console.log(res.data);
       }
     } catch (error) {
       console.log(error);

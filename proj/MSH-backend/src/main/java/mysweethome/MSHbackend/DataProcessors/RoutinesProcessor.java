@@ -15,7 +15,11 @@ import mysweethome.MSHbackend.Models.SensorBasedRoutine;
 import mysweethome.MSHbackend.Models.SensorData;
 import mysweethome.MSHbackend.Models.Action;
 import mysweethome.MSHbackend.Services.DataService;
+import mysweethome.MSHbackend.Services.OutputDeviceService;
 import mysweethome.MSHbackend.Models.Alert;
+import mysweethome.MSHbackend.Models.OutputDevice;
+import mysweethome.MSHbackend.Models.OutputDeviceType;
+
 import java.util.List;
 
 @Component
@@ -32,6 +36,9 @@ public class RoutinesProcessor {
 
     @Autowired
     private ActionRepository actions;
+
+    @Autowired
+    private OutputDeviceService outputDevService;
 
     @EventListener(ApplicationReadyEvent.class)
     @Async
@@ -61,6 +68,10 @@ public class RoutinesProcessor {
 
         for (TimeBasedRoutine routine : routines) {
 
+            if (routine.isActive() == false) {
+                continue;
+            }
+
             Action action = routine.getAssociated_action();
 
             Long trigger_timestamp = routine.getTrigger_timestamp();
@@ -85,6 +96,7 @@ public class RoutinesProcessor {
                 routineService.saveTBRoutine(routine);
 
                 action.execute();
+                executeAction(action);
 
                 break;
 
@@ -99,21 +111,24 @@ public class RoutinesProcessor {
 
         for (SensorBasedRoutine routine : routines) {
 
-            if (routine.getTrigger_type().equals("range"))
-            {
+            if (routine.isActive() == false) {
+                continue;
+            }
 
-                int start_value = Integer.parseInt(routine.getInput_ranges().get(0));
-                int end_value = Integer.parseInt(routine.getInput_ranges().get(1));
+            if (routine.getTrigger_type().equals("range")) {
 
-                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(),"latest");
+                Double start_value = Double.parseDouble(routine.getInput_ranges().get(0));
+                Double end_value = Double.parseDouble(routine.getInput_ranges().get(1));
+
+                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
                 SensorData latest_data = data.get(0);
 
-                int value; 
+                Double value;
 
-                try { 
+                try {
 
-                value = Integer.parseInt(latest_data.getSensor_information());
+                    value = Double.parseDouble(latest_data.getSensor_information());
 
                 } catch (Exception e) {
                     continue; // ignorar alertas sensor based com valores que nao sao int por enquanto
@@ -122,6 +137,7 @@ public class RoutinesProcessor {
                 if (value >= start_value && value <= end_value) {
 
                     routine.setTriggered(true);
+                    routine.setActive(false);
 
                     System.out.println("Routine triggered: " + routine.toString());
 
@@ -135,23 +151,25 @@ public class RoutinesProcessor {
                     routineService.saveSBRoutine(routine);
 
                     routine.getAssociated_action().execute();
+                    executeAction(routine.getAssociated_action());
 
                     break;
 
                 }
             }
 
-            else if (routine.getTrigger_type().equals("exact")){
+            else if (routine.getTrigger_type().equals("exact")) {
 
-                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(),"latest");
+                List<SensorData> data = dataService.listDataBySensor(routine.getSource_id(), "latest");
 
-                int trigger_value = Integer.parseInt(routine.getExact_value());
+                Double trigger_value = Double.parseDouble(routine.getExact_value());
 
                 SensorData latest_data = data.get(0);
-                
-                if (Integer.parseInt(latest_data.getSensor_information()) == trigger_value) {
+
+                if (Double.parseDouble(latest_data.getSensor_information()) == trigger_value) {
 
                     routine.setTriggered(true);
+                    routine.setActive(false);
 
                     System.out.println("Routine triggered: " + routine.toString());
 
@@ -165,10 +183,11 @@ public class RoutinesProcessor {
                     routineService.saveSBRoutine(routine);
 
                     routine.getAssociated_action().execute();
+                    executeAction(routine.getAssociated_action());
 
                     break;
 
-                } 
+                }
 
             }
 
@@ -176,10 +195,64 @@ public class RoutinesProcessor {
                 System.out.println("Routine " + routine.getId() + " has invalid trigger type!");
             }
 
+        }
+    }
 
+    public void executeAction(Action assocAction) {
+        String outDevID = assocAction.getOutputDeviceID();
+        OutputDevice outDev = outputDevService.findByID(outDevID);
+        String setChannel = "";
 
+        System.out.println("DESC > " + assocAction.getAction_description());
+        System.out.println("ACT0 > " + outDev.getDevice_category().getPossibleActions().get(0));
+        System.out.println("ACT1 > " + outDev.getDevice_category().getPossibleActions().get(1));
+        System.out.println("ACT2 > " + outDev.getDevice_category().getPossibleActions().get(2));
+        System.out.println("DCAT > " + outDev.getDevice_category());
+
+        //  Turning OFF the device
+        if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(1))) {
+            outDev.setCurrent_state("0");
+            setChannel = "None";
+        }
+        //  Turning ON the device
+        else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(0))) {
+            outDev.setCurrent_state("1");
+            setChannel = "None";
         }
 
+        //  Device is a television, so we can change channels
+        if (outDev.getDevice_category() == OutputDeviceType.TELEVISION) {
+            //  If the action was not an Turn ON or Turn Off, set the TV to a new channel (and make sure it is )
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                setChannel = assocAction.getAction_newValue();
+            }
+
+            //  Update with the chosen channel
+            outDev.setCurrent_channel(setChannel);
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.LIGHT) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                outDev.setColor(assocAction.getAction_newValue());
+            }
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                outDev.setTemperature(Integer.parseInt(assocAction.getAction_newValue()));
+            }
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.SPEAKER) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setCurrent_music(assocAction.getAction_newValue());
+            }
+        }
+
+        outputDevService.saveOutputDevice(outDev);
+
+        return;
     }
 
 }

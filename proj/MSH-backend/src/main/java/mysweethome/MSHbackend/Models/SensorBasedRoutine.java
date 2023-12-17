@@ -34,6 +34,8 @@ public class SensorBasedRoutine {
     private boolean triggered = false;
     @NotBlank
     private String source_id;
+    @NotBlank 
+    private boolean active = true;
 
     @NotBlank
     private String routine_name;

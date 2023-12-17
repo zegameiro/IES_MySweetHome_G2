@@ -22,6 +22,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 
 import java.util.List;
+
+import javax.xml.crypto.Data;
+
 import java.util.LinkedList;
 
 @RestController
@@ -34,6 +37,10 @@ public class SensorController {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired 
+    private DataService dataService;
+
 
     // Get a full list of all the data sources (sensors)
 
@@ -105,7 +112,7 @@ public class SensorController {
         out.put("name", source.getName());
         out.put("location", source.getDevice_location());
         out.put("category", source.getDevice_category());
-        out.put("reading_type", source.getReading_type());
+        out.put("reading_type", source.getReading_type()); 
 
         return out.toString(1);
     }
@@ -171,5 +178,38 @@ public class SensorController {
         }
 
         return output.toString();
+    }
+
+
+    @GetMapping("/unit")
+    public @ResponseBody String getUnit(@RequestParam String source_id){
+
+        List<SensorData> latest_data;
+        DataSource source;
+
+        try {
+            source = dataSourceService.findByID(source_id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error !");
+        }
+
+        if (source == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "A sensor with the specified ID does not exist!");
+        }
+
+        try {
+            latest_data = dataService.listDataBySensor(source_id, "latest");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (latest_data == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "A sensor with the specified ID does not exist!");
+        }
+
+
+        return latest_data.get(0).getUnit();
     }
 }
