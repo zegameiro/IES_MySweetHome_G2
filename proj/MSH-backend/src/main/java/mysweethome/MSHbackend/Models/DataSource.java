@@ -16,12 +16,16 @@ public class DataSource  {
     private String device_location;
     @NotBlank
     private String name;
+    @NotBlank
+    private String reading_type;
 
-    public DataSource(String device_id, int device_category,String device_location, String name) {
+
+    public DataSource(String device_id, int device_category,String device_location, String name, String reading_type) {
         this.ID = device_id;
         this.device_category = device_category;
         this.device_location = device_location;
         this.name = name;
+        this.reading_type = reading_type;
     }
 
     public DataSource() {
@@ -59,4 +63,12 @@ public class DataSource  {
         this.name = name;
     }
 
+
+        public String getReading_type() {
+        return reading_type;
+    }
+
+    public void setReading_type(String reading_type) {
+        this.reading_type = reading_type;
+    }
 }

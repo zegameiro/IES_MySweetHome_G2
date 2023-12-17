@@ -59,7 +59,7 @@ public class SensorRunner {
         });
 
 
-        /* 
+         /* 
         executorService.submit(() -> {
             try {
                 PeopleSensor peoplesensor = new PeopleSensor("Alarme da Porta da Sala",channel, QUEUE_NAME, "4");
@@ -70,6 +70,17 @@ public class SensorRunner {
             }
         });
         */
+
+        executorService.submit(() -> {
+            try {
+                WindSensor windSensor = new WindSensor("Anemómetro",channel, QUEUE_NAME, "3");
+                System.out.println("WindSensor running");
+                windSensor.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        
 
         // Shutdown the executorService when the tasks are done
         executorService.shutdown();

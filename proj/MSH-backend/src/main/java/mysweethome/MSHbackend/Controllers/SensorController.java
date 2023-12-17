@@ -15,12 +15,12 @@ import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.http.ResponseEntity;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -105,6 +105,7 @@ public class SensorController {
         out.put("name", source.getName());
         out.put("location", source.getDevice_location());
         out.put("category", source.getDevice_category());
+        out.put("reading_type", source.getReading_type());
 
         return out.toString(1);
     }
@@ -164,6 +165,7 @@ public class SensorController {
             out.put("id", src.getDevice_id());
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());
+            out.put("reading_type", src.getReading_type());
 
             output.add(out);
         }
