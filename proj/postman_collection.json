@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6a07d913-5e18-493d-847f-a2da0d7adc78",
+		"_postman_id": "f70e658e-65a4-4e35-a982-77197e2ffe10",
 		"name": "IES-Proj",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19001359"
+		"_exporter_id": "28375958"
 	},
 	"item": [
 		{
@@ -406,7 +406,10 @@
 					"name": "Associate Device to Room",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},
@@ -661,7 +664,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"25\"],  // start value, end value\r\n    \"source_id\":\"bd82cbf4-966a-4ab0-bb86-2c7f0f6edbe8\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"action_title\": \"Fazer projeto de IES ;(\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657e48bad2d5574bddd0d360\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"35\"],  // start value, end value\r\n    \"source_id\":\"e322484d-a7f3-48fd-ae81-6c382747c422\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"action_title\": \"Fazer projeto de IES ;( CHANNEL\",\r\n        \"action_description\": \"Change Channel\",\r\n        \"outputDeviceID\": \"657f1dc6da6dd057924783a3\",\r\n        \"action_newValue\": \"CMTV\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -714,7 +717,18 @@
 					"name": "Check Actions",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"check"
+							]
+						}
 					},
 					"response": []
 				},
@@ -760,7 +774,10 @@
 					"name": "Turn TB ON/OFF",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": ""
+						}
 					},
 					"response": []
 				},

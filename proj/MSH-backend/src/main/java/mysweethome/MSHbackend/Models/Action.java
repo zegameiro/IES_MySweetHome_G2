@@ -30,6 +30,7 @@ public class Action {
     private String action_title;
     @NotBlank
     private String action_description;
+    private String action_newValue;
     @NotBlank
     private String outputDeviceID; // id of the output device that will be affected by this action
     @NotBlank
