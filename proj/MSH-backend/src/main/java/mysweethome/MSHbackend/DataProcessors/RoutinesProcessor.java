@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import mysweethome.MSHbackend.Repositories.ActionRepository;
 import mysweethome.MSHbackend.Services.AlertService;
 import mysweethome.MSHbackend.Services.RoutineService;
-import springfox.documentation.builders.TokenRequestEndpointBuilder;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -231,6 +230,24 @@ public class RoutinesProcessor {
 
             //  Update with the chosen channel
             outDev.setCurrent_channel(setChannel);
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.LIGHT) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                outDev.setColor(assocAction.getAction_newValue());
+            }
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                outDev.setTemperature(Integer.parseInt(assocAction.getAction_newValue()));
+            }
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.SPEAKER) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setCurrent_music(assocAction.getAction_newValue());
+            }
         }
 
         outputDevService.saveOutputDevice(outDev);
