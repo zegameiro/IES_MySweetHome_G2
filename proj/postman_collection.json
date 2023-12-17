@@ -763,6 +763,56 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete SB Routine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/deleteSB?id=1510eea2-2a05-4a66-9138-f4209bef30ce",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"deleteSB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1510eea2-2a05-4a66-9138-f4209bef30ce"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete TB Routine",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/deleteTB?id=1510eea2-2a05-4a66-9138-f4209bef30ce",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"deleteTB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1510eea2-2a05-4a66-9138-f4209bef30ce"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
