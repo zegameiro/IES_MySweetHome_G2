@@ -97,8 +97,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedRoom) {
+      console.log("Selected Room ->", selectedRoom);
       const roomOutDevices = outputDevices.filter(
-        (outdevice) => outdevice.location === selectedRoom.id
+        (outdevice) => selectedRoom.devices.includes(outdevice.id)
       );
       setFilteredOutDevices(roomOutDevices);
     } else {
