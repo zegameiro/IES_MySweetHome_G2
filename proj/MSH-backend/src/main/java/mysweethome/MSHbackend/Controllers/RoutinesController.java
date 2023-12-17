@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -196,6 +197,75 @@ public class RoutinesController {
         }
 
         return ResponseEntity.ok(routines_list);
+
+    }
+
+    @PostMapping("/changeStateTB")
+    public @ResponseBody String changeStateTB(@RequestParam String id) {
+
+        TimeBasedRoutine routine = routines.findTBByID(id);
+
+        if (routine == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No time based routine with this ID was found!");
+        }
+
+        routine.setActive(!routine.isActive());
+
+        routines.saveTBRoutine(routine);
+
+        return "OK";
+
+    }
+
+
+    @PostMapping("/changeStateSB")
+    public @ResponseBody String changeStateSB(@RequestParam String id) {
+
+        SensorBasedRoutine routine = routines.findSBByID(id);
+
+        if (routine == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No sensor based routine with this ID was found!");
+        }
+
+        routine.setActive(!routine.isActive());
+
+        routines.saveSBRoutine(routine);
+
+        return "OK";
+
+    }
+
+    @DeleteMapping("/deleteTB")
+    public @ResponseBody String deleteTB(@RequestParam String id) {
+
+        TimeBasedRoutine routine = routines.findTBByID(id);
+
+        if (routine == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No time based routine with this ID was found!");
+        }
+
+        routines.deleteTB(routine);
+
+        return "OK";
+
+    }
+
+    @DeleteMapping("/deleteSB")
+    public @ResponseBody String deleteSB(@RequestParam String id) {
+
+        SensorBasedRoutine routine = routines.findSBByID(id);
+
+        if (routine == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "No sensor based routine with this ID was found!");
+        }
+
+        routines.deleteSB(routine);
+
+        return "OK";
 
     }
 

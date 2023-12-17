@@ -29,6 +29,8 @@ public class TimeBasedRoutine {
     private boolean triggered = false;
     @NotBlank
     private String routine_name;
+    @NotBlank 
+    private boolean active = true;
 
     @Id
     private String id = generateDefaultId(); // Default value for id field

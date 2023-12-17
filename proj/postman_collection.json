@@ -239,6 +239,31 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Unit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/unit?source_id=b58c0c25-ac17-4190-a480-d4b592f54d3c",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"unit"
+							],
+							"query": [
+								{
+									"key": "source_id",
+									"value": "b58c0c25-ac17-4190-a480-d4b592f54d3c"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -611,7 +636,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"25\"],  // start value, end value\r\n    \"source_id\":\"d2eef7a8-ed5b-4d09-a5b2-ed728d5cb339\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"timestamp\": 123, // isto nao interessa o valor, leva override no backend com timestamp em ms\r\n        \"action_title\": \"Fazer projeto de IES ;(\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657b190343426f3584f1ba05\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"trigger_type\": \"range\", // valor tem que ser entre o 1º e o 2º pra dar trigger\r\n    \"input_ranges\": [\"20\",\"25\"],  // start value, end value\r\n    \"source_id\":\"bd82cbf4-966a-4ab0-bb86-2c7f0f6edbe8\", // id do sensor que da os valores que dao trigger na routine\r\n    \"routine_name\":\"Fazer coisas wow\", // nome\r\n    \"associated_action\": {\r\n        \"action_title\": \"Fazer projeto de IES ;(\",\r\n        \"action_description\": \"Turn ON\",\r\n        \"outputDeviceID\": \"657e48bad2d5574bddd0d360\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -701,6 +726,39 @@
 							"path": [
 								"routines",
 								"listSB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Turn TB ON/OFF",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Turn SB ON/OFF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/changeStateSB?id=833a2b7f-6343-4c4e-b2c4-0ab838d6b964",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"changeStateSB"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "833a2b7f-6343-4c4e-b2c4-0ab838d6b964"
+								}
 							]
 						}
 					},

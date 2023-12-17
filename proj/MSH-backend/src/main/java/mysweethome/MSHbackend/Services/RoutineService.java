@@ -51,5 +51,21 @@ public class RoutineService {
         return timeroutineRepository.findAll();
     }
 
+    public TimeBasedRoutine findTBByID(String id) {
+        return timeroutineRepository.findById(id);
+    }
+
+    public SensorBasedRoutine findSBByID(String id) {
+        return sensorRoutineRepository.findById(id);
+    }
+
+    public void deleteTB(TimeBasedRoutine routine) {
+        timeroutineRepository.delete(routine);
+    }
+
+    public void deleteSB(SensorBasedRoutine routine) {
+        sensorRoutineRepository.delete(routine);
+    }
+
 
 }

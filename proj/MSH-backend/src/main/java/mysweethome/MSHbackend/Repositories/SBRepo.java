@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 public interface SBRepo extends MongoRepository<SensorBasedRoutine, Integer> {
     
 
-        public SensorBasedRoutine findById(int id);
+        public SensorBasedRoutine findById(String id);
 
         @Query ("{'triggered': false}")
         public java.util.List<SensorBasedRoutine> findAllUntriggered();

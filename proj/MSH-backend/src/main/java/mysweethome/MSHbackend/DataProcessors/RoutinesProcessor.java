@@ -122,6 +122,7 @@ public class RoutinesProcessor {
                 if (value >= start_value && value <= end_value) {
 
                     routine.setTriggered(true);
+                    routine.setActive(false);
 
                     System.out.println("Routine triggered: " + routine.toString());
 
@@ -152,6 +153,7 @@ public class RoutinesProcessor {
                 if (Integer.parseInt(latest_data.getSensor_information()) == trigger_value) {
 
                     routine.setTriggered(true);
+                    routine.setActive(false);
 
                     System.out.println("Routine triggered: " + routine.toString());
 
