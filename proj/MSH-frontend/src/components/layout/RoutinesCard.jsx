@@ -33,6 +33,7 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
             const res = await axios.get(`${BASE_API_URL}/sources/view?id=${indeviceId}`);
             if (res.status === 200)
                 setInputDevice(res.data);
+                console.log(res.data)
         } catch (error) {
             console.log(error);
         }
@@ -43,13 +44,13 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
             if (isSensorRoutine) {
                 if (routine.trigger_type === "range") {
                     return <p className="text-xl">If the 
-                        <span className="font-semibold">{inputDevice ? inputDevice.category === 1 ? " temperature reaches the value " : inputDevice.category === 2 ? " power consume reaches the value " : inputDevice.category === 3 ? " wind strenght reaches the value " : inputDevice.category === 4 ? " the user " : " someone " : null} </span>
+                        <span className="font-semibold"> {inputDevice? inputDevice.reading_type : null} reaches </span>
                         <span className="font-semibold">{routine.input_ranges[0]}</span> then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description} { outputDevice ? outputDevice.hasOwnProperty('location') ? " in the " + outputDevice.location : null : null }</span> 
                         until it reaches the value <span className="font-semibold">{routine.input_ranges[1]}</span> </p>;
                         
                 } else {
                     return <p className="text-xl">If the 
-                        <span className="font-semibold">{inputDevice ? inputDevice.category === 1 ? " temperature reaches the value " : inputDevice.category === 2 ? " power consume reaches the value " : inputDevice.category === 3 ? " wind strenght reaches the value " : inputDevice.category === 4 ? " the user " : " someone " : null} </span>
+                        <span className="font-semibold"> {inputDevice? inputDevice.reading_type : null} reaches </span>
                         <span className="font-semibold">{routine.exact_value}</span> then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description} { outputDevice ? outputDevice.hasOwnProperty('location') ? " in the " + outputDevice.location : null : null }</span> </p>;
                 }
             } else {
