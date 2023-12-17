@@ -126,9 +126,21 @@
 			"item": [
 				{
 					"name": "List Sources",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "localhost:8080/sources/list",
 							"host": [
@@ -138,6 +150,23 @@
 							"path": [
 								"sources",
 								"list"
+							],
+							"query": [
+								{
+									"key": "Title",
+									"value": "gay",
+									"disabled": true
+								},
+								{
+									"key": "Artist",
+									"value": "gay",
+									"disabled": true
+								},
+								{
+									"key": "Price",
+									"value": "69",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -419,10 +448,10 @@
 				{
 					"name": "Add Room",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/room/add?name=Quarto&floornumber=2",
+							"raw": "http://localhost:8080/room/add?name=Quarto&floornumber=2&type=\"bedroom\"",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -440,6 +469,10 @@
 								{
 									"key": "floornumber",
 									"value": "2"
+								},
+								{
+									"key": "type",
+									"value": "\"bedroom\""
 								}
 							]
 						}
@@ -613,6 +646,44 @@
 					"request": {
 						"method": "GET",
 						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get Time Routines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/listTB",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"listTB"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sensor Routines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/routines/listSB",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"routines",
+								"listSB"
+							]
+						}
 					},
 					"response": []
 				}

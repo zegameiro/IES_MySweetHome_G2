@@ -2,6 +2,7 @@ import React from "react";
 
 import Header from "../layout/Header";
 import Navbar from "../layout/Navbar";
+import RoutineCard from "../layout/RoutinesCard";
 
 
 const RoutinesPage = () => {
@@ -11,6 +12,7 @@ const RoutinesPage = () => {
             <div className="flex flex-col w-full h-full">
                 <Header />
                 <h1>Routines Page</h1>
+                <RoutineCard />
             </div>
         </div>
     )

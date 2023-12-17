@@ -65,7 +65,6 @@ const Dashboard = () => {
       const res = await axios.get(`${BASE_API_URL}/alerts/list`, null);
       if (res.status === 200) {
         setAlerts(res.data);
-        console.log("Alerts ->", res.data);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +97,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (selectedRoom) {
       const roomOutDevices = outputDevices.filter(
-        (outdevice) => outdevice.location === selectedRoom.id
+        (outdevice) => selectedRoom.devices.includes(outdevice.id)
       );
       setFilteredOutDevices(roomOutDevices);
     } else {
