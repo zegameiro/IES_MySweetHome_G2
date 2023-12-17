@@ -16,9 +16,12 @@ const Alert = ({ alert, removeAl }) => {
     const [isInitial, setIsInitial] = useState(true);
 
     const convertTimestamp = (timestamp) => {
-        const date = new Date(timestamp);
-        const hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
+
+    timestamp = timestamp * 1000
+    const date = new Date(timestamp);
+
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
         return `${hours}h ${minutes}min`;
     };
 
@@ -65,6 +68,7 @@ const Alert = ({ alert, removeAl }) => {
       }, [isInitial]);
     
     return (
+      <div className="pt-5">
         <div role="alert" className={`alert ${backgroundColor} shadow-lg text-white transform transition-all ease-in-out duration-500 ${isHiding ? 'opacity-0 scale-0' : (isInitial ? 'opacity-0 scale-0' : 'opacity-100 scale-100')}`}>
             <div className="text-3xl font-bold">{icon}</div>
             <div>
@@ -76,6 +80,7 @@ const Alert = ({ alert, removeAl }) => {
             </div>
             <button onClick={() => removeAlert(alert.id)}> <span className="text-3xl font-bold"><IoCloseCircleOutline /></span></button>
         </div>
+      </div>
     )
     
 };
