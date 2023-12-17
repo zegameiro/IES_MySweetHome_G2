@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.springframework.data.annotation.Id;
 import javax.validation.constraints.NotBlank;
 
@@ -15,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Document("outputdevices")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OutputDevice  {
 
     @Id
@@ -23,6 +27,7 @@ public class OutputDevice  {
     private String name;
     @NotBlank
     private OutputDeviceType device_category;
+    @NotBlank
     private String device_location; // may be blank
     @NotBlank
     private String current_state;

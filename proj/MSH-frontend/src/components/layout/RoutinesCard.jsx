@@ -9,6 +9,9 @@ import { MdEditSquare } from "react-icons/md";
 const RoutineCard = ({ routine, isSensorRoutine }) => {
     const [outputDevice, setOutputDevice] = useState(null);
     const [inputDevice, setInputDevice] = useState(null);
+    const [inputDeviceUnit, setInputDeviceUnit] = useState(null);
+    const [roomName, setRoomName] = useState(null);
+    const [isChecked, setIsChecked] = useState(routine.active);
 
     const convertTimestamp = (timestamp) => {
         const date = new Date(timestamp);
@@ -21,8 +24,14 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
     const getOutputDevice = async (outdeviceId) => {
         try {
             const res = await axios.get(`${BASE_API_URL}/outputs/view?id=${outdeviceId}`);
-            if (res.status === 200)
+            const rn = await axios.get(`${BASE_API_URL}/outputs/getRoom?id=${outdeviceId}`);
+
+            if (res.status === 200 && rn.status === 200) {
                 setOutputDevice(res.data);
+                if (rn.data !== "null")
+                    setRoomName(rn.data);
+
+            }
         } catch (error) {
             console.log(error);
         }
@@ -31,9 +40,29 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
     const getInputDevice = async (indeviceId) => {
         try {
             const res = await axios.get(`${BASE_API_URL}/sources/view?id=${indeviceId}`);
-            if (res.status === 200)
+            const unit = await axios.get(`${BASE_API_URL}/sources/unit?source_id=${indeviceId}`)
+
+            if (res.status === 200 && unit.status === 200) {
                 setInputDevice(res.data);
+                setInputDeviceUnit(unit.data);
                 console.log(res.data)
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const changeState = async (routineId) => {
+        let res = null;
+        try {
+            if (isSensorRoutine)
+                res = await axios.post(`${BASE_API_URL}/routines/changeStateSB?id=${routineId}`);
+            else
+                res = await axios.post(`${BASE_API_URL}/routines/changeStateTB?id=${routineId}`);
+
+            if (res.status === 200) {
+                console.log("State changed successfully");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -45,13 +74,13 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
                 if (routine.trigger_type === "range") {
                     return <p className="text-xl">If the 
                         <span className="font-semibold"> {inputDevice? inputDevice.reading_type : null} reaches </span>
-                        <span className="font-semibold">{routine.input_ranges[0]}</span> then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description} { outputDevice ? outputDevice.hasOwnProperty('location') ? " in the " + outputDevice.location : null : null }</span> 
-                        until it reaches the value <span className="font-semibold">{routine.input_ranges[1]}</span> </p>;
+                        <span className="font-semibold">{routine.input_ranges[0]} {inputDeviceUnit ? inputDeviceUnit : null}</span>  then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description} {roomName ? roomName : null}</span> 
+                        until it reaches the <span className="font-semibold">{routine.input_ranges[routine.input_ranges.length - 1]} {inputDeviceUnit ? inputDeviceUnit : null}</span> </p>;
                         
                 } else {
                     return <p className="text-xl">If the 
                         <span className="font-semibold"> {inputDevice? inputDevice.reading_type : null} reaches </span>
-                        <span className="font-semibold">{routine.exact_value}</span> then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description} { outputDevice ? outputDevice.hasOwnProperty('location') ? " in the " + outputDevice.location : null : null }</span> </p>;
+                        <span className="font-semibold">{routine.exact_value}</span> {inputDeviceUnit ? inputDeviceUnit : null} then the output device <span className="font-semibold"> {outputDevice ? outputDevice.name : null}</span> should <span className="font-semibold">{routine.associated_action.action_description}</span> in the <span className="font-semibold">{roomName ? roomName : null}</span> </p>;
                 }
             } else {
                 return <p className="text-xl">At 
@@ -68,17 +97,25 @@ const RoutineCard = ({ routine, isSensorRoutine }) => {
             if (isSensorRoutine) 
                 getInputDevice(routine.source_id);
         }
-    }, [routine]);
+    }, [routine, isChecked]);
 
     return (   
         <div className="pt-3">
-            <div className="card w-[100%] h-[100%] border border-[3px] border-primary flex flex-col p-4">
+            <div className={`card w-[100%] h-[100%] border border-[3px] ${isChecked ? "border-primary" : "border-accent"}  flex flex-col p-4 hover:shadow-xl transition-shadow duration-300`}>
                 <div className="flex flex-row text-center justify-between pb-3">
-                    <h1 className="text-lg">On</h1>
-                    <input type="checkbox" className="toggle toggle-primary" />
+                    <h1 className="text-lg">{isChecked ? "On" : "Off"}</h1>
+                    <input
+                        type="checkbox"
+                        className={`toggle ${isChecked ? 'toggle-primary' : 'toggle-accent'} peer`}    
+                        checked={isChecked ? true : false}
+                        onChange={(e) => {
+                            setIsChecked(e.target.checked);
+                            changeState(routine?.id);
+                        }}
+                    />
                 </div>
                 <div className="pl-4 pr-4 pb-2">
-                    <h1 className="text-xl font-bold">{routine.routine_name !== null ? routine.routine_name : "Routine"}</h1>
+                    <div class={`badge ${isChecked ? "badge-primary" : "badge-accent"} text-white text-xl font-bold`}>{routine.routine_name !== null ? routine.routine_name : "Routine"}</div>
                     {getRoutineDescription()}
                 </div>
                 <div className="flex flex-row justify-end space-x-5">
