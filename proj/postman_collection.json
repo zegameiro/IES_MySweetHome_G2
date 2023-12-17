@@ -409,6 +409,31 @@
 						"header": []
 					},
 					"response": []
+				},
+				{
+					"name": "Get Room Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/outputs/getRoom?id=\"id_do_device\"",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"outputs",
+								"getRoom"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "\"id_do_device\""
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

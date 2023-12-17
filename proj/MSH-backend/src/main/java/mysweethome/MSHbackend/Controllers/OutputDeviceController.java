@@ -305,4 +305,49 @@ public class OutputDeviceController {
 
         return output.toString();
     }
+
+
+    @Operation (summary = "Get the room of a device", description = "Get the room where a device is located")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Returns the name of the room"),
+        @ApiResponse(responseCode = "422", description = "An output device with this ID does not exist!",  content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal processing error!",  content = @Content)
+    })
+
+    @GetMapping("/getRoom")
+    public @ResponseBody String getRoom(@RequestParam String id) {
+        OutputDevice device;
+        // Get the output device
+        try {
+            device = outputDevService.findByID(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (device == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "An output device with this ID does not exist!");
+        }
+
+        String roomID = device.getDevice_location();
+
+        Room room;
+
+        try {
+            room = roomService.findByID(roomID);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (room == null) {
+            return null;
+        }
+        else {
+            return room.getName();
+        }
+
+
+
+       
+    }
 }
