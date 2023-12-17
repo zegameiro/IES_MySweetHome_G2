@@ -220,6 +220,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "View Sensor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/sources/view",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"sources",
+								"view"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
