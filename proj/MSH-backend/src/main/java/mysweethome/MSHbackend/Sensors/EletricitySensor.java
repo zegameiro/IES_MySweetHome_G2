@@ -65,7 +65,7 @@ public class EletricitySensor {
             hourMedian = 0.25;
         } 
         else if (currentHour <= 14 && currentHour >= 12) {
-            hourMedian = 0.5;
+            hourMedian = 0.75;
         }
 
         // 5% chance of generating an unusually high value
