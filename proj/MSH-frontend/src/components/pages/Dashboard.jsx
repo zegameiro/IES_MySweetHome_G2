@@ -216,15 +216,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col max-w-[75%] mt-5">
-              {alerts.length > 0 ? 
-                alerts.map((alert) => (
-                  <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
-                ))
-              : 
-                null
-              }
-            </div>
+            
             <div className="pt-5 flex flex-row text-center items-center space-x-[15%]">
               <h1 className="text-6xl font-bold">Devices</h1>
               <div className="dropdown">
@@ -299,6 +291,15 @@ const Dashboard = () => {
               ) : (
                 <h2 className="text-xl">No devices found</h2>
               )}
+            </div>
+        <div className="absolute flex flex-col bottom-2 right-2">
+              {alerts.length > 0 ? 
+                alerts.map((alert) => (
+                  <Alert key={alert.id} alert={alert} removeAl={removeAlert}/>
+                ))
+              : 
+                null
+              }
             </div>
           </div>
         </div>
