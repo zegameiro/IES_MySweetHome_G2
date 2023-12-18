@@ -192,7 +192,11 @@ const OutputDeviceCard = ({ isBig, device, room }) => {
               {isChecked ? (
                 <div className="flex-col pr-4">
                   <div className="flex text-sm pt-[30px]">
-                    <span className="font-semibold">
+                    <span className="font-semibold "
+                      style={{
+                        backgroundColor: device.color,
+                      }}
+                    >
                       {getDescription(device, isChecked)}
                     </span>
                   </div>
