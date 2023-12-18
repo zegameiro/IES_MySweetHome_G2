@@ -73,29 +73,48 @@ const AddOutputDevicePage = () => {
 
   const handleSubmit = () => {
     console.log(room, deviceName, category);
-    if (room === '' || deviceName === '' || category === '') {
-      alert('Please fill in all the fields');
+    if (deviceName === '' || category === '') {
+      alert('Please choose a category and a name for the device');
       return;
     }
-    
-    axios.post(`${BASE_API_URL}/outputs/add`, null, {
-        params: {
-          category: Number(category),
-          state: "0",
-          name: deviceName,
-          roomID: room,
-        },
-      })
-      .then((res) => {
-        if (res.status === 200) {
-          alert('Output Device added successfully');
-          navigate('/dashboard');
-        }
-      })
-      .catch((err) => {
-        alert('Error adding output device. Please try again.');
-        console.log(err);
-      });
+    if (room !== '') {
+        axios.post(`${BASE_API_URL}/outputs/add`, null, {
+            params: {
+                category: Number(category),
+                state: "0",
+                name: deviceName,
+                roomID: room,
+            },
+        })
+        .then((res) => {
+            if (res.status === 200) {
+            alert('Output Device added successfully');
+            navigate('/dashboard');
+            }
+        })
+        .catch((err) => {
+            alert('Error adding output device. Please try again.');
+            console.log(err);
+        });
+    } else {
+        axios.post(`${BASE_API_URL}/outputs/add`, null, {
+            params: {
+              category: Number(category),
+              state: "0",
+              name: deviceName,
+            },
+          })
+          .then((res) => {
+            if (res.status === 200) {
+              alert('Output Device added successfully');
+              navigate('/dashboard');
+            }
+          })
+          .catch((err) => {
+            alert('Error adding output device. Please try again.');
+            console.log(err);
+          });
+    }
   };
 
     useEffect(() => {
@@ -114,7 +133,7 @@ const AddOutputDevicePage = () => {
                 <Header />
                 <div className="flex flex-col pl-5 w-[100%]">
                     <h1 className="m-4 text-4xl font-bold">Add a new device</h1>
-                    <h2 className="m-4 text-3xl font-bold text-slate-500">Select a room</h2>
+                    <h2 className="m-4 text-3xl font-bold text-slate-500">Select a room (optional)</h2>
                     <hr className="pb-5 max-w-[90%]" />  
                     <div className="flex flex-row overflow-x-auto space-x-5 w-[90%] h-[50%] custom-scrollbar p-2">
                         
