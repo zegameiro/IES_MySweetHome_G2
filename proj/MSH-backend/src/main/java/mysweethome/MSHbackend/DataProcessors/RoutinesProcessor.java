@@ -201,9 +201,8 @@ public class RoutinesProcessor {
     public void executeAction(Action assocAction) {
         String outDevID = assocAction.getOutputDeviceID();
         OutputDevice outDev = outputDevService.findByID(outDevID);
-        String setChannel = "";
 
-        System.out.println("DESC > " + assocAction.getAction_description());
+        System.out.println("RAN ROUTINE > " + assocAction.getAction_description());
 
         //  Turning OFF the device
         if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(1))) {
@@ -234,13 +233,13 @@ public class RoutinesProcessor {
             }
         }
         if (outDev.getDevice_category() == OutputDeviceType.LIGHT) {
-            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
-                outDev.setCurrent_state("1");
-                outDev.setSlider_value(assocAction.getAction_newValue());
-            }
-            else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
                 outDev.setCurrent_state("1");
                 outDev.setColor(assocAction.getAction_newValue());
+            }
+            else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setSlider_value(assocAction.getAction_newValue());
             }
         }
         if (outDev.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) {
