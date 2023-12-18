@@ -25,14 +25,10 @@ const RoutinesPage = () => {
       const res1 = await axios.get(`${BASE_API_URL}/routines/listSB`);
       const res2 = await axios.get(`${BASE_API_URL}/routines/listTB`);
 
-            if (res1.status === 200 && res2.status === 200) {
-                setRoutinesSensor(res1.data);
-                setRoutinesTime(res2.data);
-
-                console.log(res1.data);
-                console.log(res2.data);
-
-            }
+          if (res1.status === 200 && res2.status === 200) {
+              setRoutinesSensor(res1.data);
+              setRoutinesTime(res2.data);
+          }
         } catch (error) {
             console.log(error);
         }
@@ -44,7 +40,7 @@ const RoutinesPage = () => {
         } else {
           navigate("/login?redirect=dashboard");
         }
-    }, []);
+    }, [routinesTime, routinesSensor]);
 
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
