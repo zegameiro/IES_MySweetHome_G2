@@ -4,11 +4,11 @@
 
 .custom-scrollbar::-webkit-scrollbar {
     height:12px;
-    background-color: #f5f5f5;
+    background-color: white;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #555;
+    background-color: #38848a;
     border-radius: 10px;
-    border: 3px solid #f5f5f5;
+    border: 3px solid white;
 }
