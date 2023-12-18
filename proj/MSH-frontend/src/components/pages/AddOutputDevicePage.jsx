@@ -12,6 +12,7 @@ import { FaRegLightbulb } from 'react-icons/fa6';
 import { WiHumidity } from 'react-icons/wi';
 
 import { getRoomImage } from '../../utils';
+import '../../utils/index.css';
 
 import { BASE_API_URL } from "../../constants";
 import axios from "axios";
@@ -79,9 +80,10 @@ const AddOutputDevicePage = () => {
     
     axios.post(`${BASE_API_URL}/outputs/add`, null, {
         params: {
-          category: category,
-          state: "OFF",
-          name: deviceName
+          category: Number(category),
+          state: "0",
+          name: deviceName,
+          roomID: room,
         },
       })
       .then((res) => {
@@ -114,16 +116,16 @@ const AddOutputDevicePage = () => {
                     <h1 className="m-4 text-4xl font-bold">Add a new device</h1>
                     <h2 className="m-4 text-3xl font-bold text-slate-500">Select a room</h2>
                     <hr className="pb-5 max-w-[90%]" />  
-                    <div className="flex flex-row space-x-5 pr-[10%]">
+                    <div className="flex flex-row overflow-x-auto space-x-5 w-[90%] h-[50%] custom-scrollbar p-2">
                         
                         { allRooms.length > 0 ?
                             allRooms.map((r) => (
-                                <div className={`justify-between w-[100vw] cursor-pointer rounded-2xl ${room === r.id ? "ring-4 ring-primary" : null }`} onClick={() => setRoom(r.id)} key={r.id} >
-                                    <div className="flex flex-col rounded-2xl w-full h-[20vh] bg-cover"  
+                                <div className={`justify-between cursor-pointer rounded-2xl ${room === r.id ? "ring-4 ring-primary" : null }`} onClick={() => setRoom(r.id)} key={r.id} >
+                                    <div className="flex flex-col rounded-2xl w-[20vw] h-[20vh] bg-cover"  
                                         style={{backgroundImage: `url(${getRoomImage(r?.type)})`}}
                                     >
-                                        <span className="flex flex-col justify-end w-full h-full p-4 rounded-2xl text-xl font-semibold text-white hero-overlay ">
-                                            <h1>{r?.name}</h1>
+                                        <span className="flex flex-col justify-end w-full h-full p-4 rounded-2xl  text-white hero-overlay ">
+                                            <h1 className="text-xl font-semibold">{r?.name}</h1>
                                             <h1>{r?.devices.length} {r.devices.length === 1 ? "device" : "devices"}</h1>
                                         </span>
                                     </div>
@@ -132,7 +134,7 @@ const AddOutputDevicePage = () => {
                         :   
                             <span>
                                 <h1>
-                                    No routines saved yet.{' '}
+                                    No rooms saved yet.{' '}
                                     <span className="font-bold no-underline cursor-pointer text-primary" onClick={() => navigate('/addroom')}>
                                         Add one!
                                     </span>
@@ -187,10 +189,10 @@ const AddOutputDevicePage = () => {
                             </span>
                         </div>
                         <button
-                            className="self-end w-1/3 mx-4 text-2xl btn btn-primary"
+                            className="self-end w-1/3 mx-4 text-xl btn btn-primary"
                             onClick={handleSubmit}
                         >
-                            Add room
+                            Add Output Device
                         </button>
                     </div>
                 </div>
