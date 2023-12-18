@@ -52,12 +52,6 @@ public class OutputDeviceController {
         dev.setDevice_category(dev_category);
         dev.setLaststatechange(System.currentTimeMillis());
 
-        if (roomID != null) {
-            associateDevice(dev.getID(), roomID);
-        } else{
-        dev.setDevice_location("None");
-        }
-
         switch (dev_category) {
             case AIR_CONDITIONER:
                 dev.setTemperature(0); // default temperature 0
@@ -75,7 +69,14 @@ public class OutputDeviceController {
                 break;
         }
 
-        outputDevService.saveOutputDevice(dev);
+
+        dev = outputDevService.saveGetOutputDevice(dev); // need to go to database to get a ID :)
+
+        if (roomID != null) {
+            associateDevice(dev.getID(), roomID);
+        } else {
+            dev.setDevice_location("None");
+        }
 
         return ResponseEntity.ok(dev);
     }
