@@ -36,12 +36,6 @@ public class RoutinesController {
     private RoutineService routines;
 
     @Autowired
-    private SBRepo sbRepo;
-
-    @Autowired
-    private TBRepo tbRepo;
-
-    @Autowired
     private ActionsService actions;
 
     @Autowired
