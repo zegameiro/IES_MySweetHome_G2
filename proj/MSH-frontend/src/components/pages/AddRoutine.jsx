@@ -9,7 +9,15 @@ import { HexColorPicker } from 'react-colorful';
 import axios from 'axios';
 import { BASE_API_URL } from '../../constants';
 import { useNavigate } from 'react-router-dom';
-import { BsBrightnessLow, BsBrightnessHighFill, BsVolumeMuteFill, BsVolumeUpFill } from "react-icons/bs";
+import {
+  BsBrightnessLow,
+  BsBrightnessHighFill,
+  BsVolumeMuteFill,
+  BsVolumeUpFill,
+} from 'react-icons/bs';
+import { FaFire, FaSnowflake } from 'react-icons/fa6';
+
+import { GiDrop, GiDroplets } from 'react-icons/gi'
 
 const AddRoutine = () => {
   const [timeTab, setTimeTab] = useState(true);
@@ -19,6 +27,9 @@ const AddRoutine = () => {
 
   const [color, setColor] = useState('#ffffff');
   const [slider, setSlider] = useState(50);
+
+  const [temperature, setTemperature] = useState(20);
+  const [humidity, setHumidity] = useState(25);
 
   const [categories, setCategories] = useState(null);
   const [selectDevice, setSelectDevice] = useState(null);
@@ -86,6 +97,8 @@ const AddRoutine = () => {
     }
   }, [selectDevice]);
 
+  const per_temperature = temperature * 1.6 + 16;
+
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
       <Navbar />
@@ -146,39 +159,33 @@ const AddRoutine = () => {
             <div className="flex flex-row justify-between">
               {(() => {
                 switch (action) {
-                  case 'Turn ON':
-                    return <p>Turn on action selected</p>;
-
-                  case 'Turn Off':
-                    return <p>Turn off action selected</p>;
-
-                  case 'Change Brightness':
+                  case 'Adjust Brightness':
                     return (
                       <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
                         <div className="flex flex-row items-center justify-center w-full p-4 text-2xl font-medium">
-                        <BsBrightnessLow className="mr-2 text-4xl text-slate-500" />
-                        <input
-                          type="range"
-                          className={`range range-xl ${
-                            slider >= 30 && slider < 70
-                              ? 'range-primary'
-                              : slider >= 70 && slider < 90
-                              ? 'range-warning'
-                              : slider >= 90
-                              ? 'range-error'
-                              : 'range-accent'
-                          }`}
-                          onChange={(e) => setSlider(e.target.value)}
-                          step={5}
-                          min="0"
-                          max="100"
-                          value={slider}
-                        />
-                        <BsBrightnessHighFill className="ml-2 text-4xl text-slate-500" />
+                          <BsBrightnessLow className="mr-2 text-4xl text-slate-500" />
+                          <input
+                            type="range"
+                            className={`range range-xl ${
+                              slider >= 30 && slider < 70
+                                ? 'range-primary'
+                                : slider >= 70 && slider < 90
+                                ? 'range-warning'
+                                : slider >= 90
+                                ? 'range-error'
+                                : 'range-accent'
+                            }`}
+                            onChange={(e) => setSlider(e.target.value)}
+                            step={5}
+                            min="0"
+                            max="100"
+                            value={slider}
+                          />
+                          <BsBrightnessHighFill className="ml-2 text-4xl text-slate-500" />
                         </div>
                         <div className="flex flex-row items-center justify-center w-full p-4 text-2xl font-medium">
                           <h1>Selected brightness: {slider}% </h1>
-                          </div>
+                        </div>
                       </div>
                     );
 
@@ -204,44 +211,131 @@ const AddRoutine = () => {
                       </div>
                     );
 
-                  case 'Change temperature':
-                    return <p>Change temperature action selected</p>;
+                  case 'Adjust Temperature':
+                    return (
+                      <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                        <div
+                          className={`text-4xl border radial-progress border-primary ${
+                            temperature >= 0 && temperature < 15
+                              ? 'text-primary'
+                              : temperature >= 15 && temperature < 25
+                              ? 'text-amber-400'
+                              : temperature >= 25 && temperature < 35
+                              ? 'text-warning'
+                              : temperature >= 35
+                              ? 'text-error'
+                              : 'text-accent'
+                          }`}
+                          style={{
+                            '--value': per_temperature.toFixed(0),
+                            '--size': '12rem',
+                            '--thickness': '10px',
+                          }}
+                          role="progressbar"
+                        >
+                          {temperature}°C
+                        </div>
+                        <div className="flex flex-row items-center justify-center w-full p-4 m-4 text-2xl shadow-lg text-slate-500 bg-base-100 rounded-xl">
+                          <FaSnowflake />
+                          <input
+                            type="range"
+                            min="-10"
+                            max="50"
+                            className={`m-4 range ${
+                              temperature >= 0 && temperature < 15
+                                ? 'range-primary'
+                                : temperature >= 15 && temperature < 35
+                                ? 'range-warning'
+                                : temperature >= 35
+                                ? 'range-error'
+                                : 'range-accent'
+                            }`}
+                            onChange={(e) => setTemperature(e.target.value)}
+                            value={temperature}
+                          />
+                          <FaFire />
+                        </div>
+                      </div>
+                    );
 
-                  case 'Change Volume':
+                  case 'Adjust Volume':
                     return (
                       <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
                         <div className="flex flex-row items-center justify-center w-full p-4 text-2xl font-medium">
-                        <BsVolumeMuteFill className="mr-2 text-4xl text-slate-500" />
-                        <input
-                          type="range"
-                          className={`range range-xl ${
-                            slider >= 30 && slider < 70
-                              ? 'range-primary'
-                              : slider >= 70 && slider < 90
-                              ? 'range-warning'
-                              : slider >= 90
-                              ? 'range-error'
-                              : 'range-accent'
-                          }`}
-                          onChange={(e) => setSlider(e.target.value)}
-                          step={5}
-                          min="0"
-                          max="100"
-                          value={slider}
-                        />
-                        <BsVolumeUpFill className="ml-2 text-4xl text-slate-500" />
+                          <BsVolumeMuteFill className="mr-2 text-4xl text-slate-500" />
+                          <input
+                            type="range"
+                            className={`range range-xl ${
+                              slider >= 30 && slider < 70
+                                ? 'range-primary'
+                                : slider >= 70 && slider < 90
+                                ? 'range-warning'
+                                : slider >= 90
+                                ? 'range-error'
+                                : 'range-accent'
+                            }`}
+                            onChange={(e) => setSlider(e.target.value)}
+                            step={5}
+                            min="0"
+                            max="100"
+                            value={slider}
+                          />
+                          <BsVolumeUpFill className="ml-2 text-4xl text-slate-500" />
                         </div>
                         <div className="flex flex-row items-center justify-center w-full p-4 text-2xl font-medium">
                           <h1>Selected Volume: {slider}% </h1>
-                          </div>
+                        </div>
                       </div>
                     );
 
                   case 'Change Channel':
                     return <p>Change channel action selected</p>;
 
-                  case 'Adjust volume':
-                    return <p>Adjust volume action selected</p>;
+                  case 'Adjust Humidity level':
+                    return (
+                      <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                        <div
+                          className={`text-4xl border radial-progress border-primary ${
+                            humidity >= 0 && humidity < 25
+                              ? 'text-accent'
+                              : humidity >= 25 && humidity < 50
+                              ? 'text-primary'
+                              : humidity >= 50 && humidity < 75
+                              ? 'text-warning'
+                              : 'text-error'
+                          }`}
+                          style={{
+                            '--value': humidity,
+                            '--size': '12rem',
+                            '--thickness': '10px',
+                          }}
+                          role="progressbar"
+                        >
+                          {humidity}%
+                        </div>
+                        <div className="flex flex-row items-center justify-center w-full p-4 m-4 text-4xl shadow-lg text-slate-500 bg-base-100 rounded-xl">
+                          <GiDrop />
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            className={`m-4 range ${
+                              humidity >= 0 && humidity < 25
+                                ? 'range-accent'
+                                : humidity >= 25 && humidity < 50
+                                ? 'range-primary'
+                                : humidity >= 50 && humidity < 75
+                                ? 'range-warning'
+                                : 'range-error'
+                            }`}
+                            onChange={(e) => setHumidity(e.target.value)}
+                            value={humidity}
+                          />
+                          <GiDroplets />
+                          
+                        </div>
+                      </div>
+                    );
 
                   default:
                     return null;
@@ -249,6 +343,9 @@ const AddRoutine = () => {
               })()}
             </div>
           </div>
+
+          <h2 className="mx-4 text-3xl text-slate-500">Select Trigger</h2>
+          <span className="divider" />
         </div>
       </div>
     </div>
