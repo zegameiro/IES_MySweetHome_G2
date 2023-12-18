@@ -5,15 +5,17 @@ import {
   FaLightbulb,
   FaHouseSignal,
   FaCirclePlus,
-  FaGears,
   FaRightFromBracket,
 } from 'react-icons/fa6';
+
+import { MdPendingActions } from 'react-icons/md';
+
 import { FaChartLine } from 'react-icons/fa';
 import '../../utils/index.css';
 
 const navbar = () => {
   return (
-    <div className=" flex flex-col justify-evenly gradient-blue rounded-3xl text-4xl h-[95vh] text-white p-8 sticky  ">
+    <div className=" flex flex-col justify-evenly gradient-blue rounded-3xl text-4xl h-[95vh] text-white p-8 ">
       <Link
         to="/dashboard"
         className="flex justify-center align-center"
@@ -48,7 +50,7 @@ const navbar = () => {
         to="/routines"
         className="flex justify-center align-center"
       >
-        <FaGears />
+        <MdPendingActions />
       </Link>
       <Link
         to="/login"

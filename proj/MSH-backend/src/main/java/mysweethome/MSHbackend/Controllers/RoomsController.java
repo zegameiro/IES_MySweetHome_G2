@@ -45,7 +45,7 @@ public class RoomsController {
         @ApiResponse(responseCode = "422", description = "A room with this name already exists!",  content = @Content)
     })
     @PostMapping("/add")
-    public ResponseEntity<Room> addRoom(@RequestParam String name, @RequestParam Integer floornumber) {
+    public ResponseEntity<Room> addRoom(@RequestParam String name, @RequestParam Integer floornumber, @RequestParam String type) {
         Room room = roomService.findByName(name);
 
         if (room != null) {
@@ -56,6 +56,7 @@ public class RoomsController {
 
         room.setName(name);
         room.setFloornumber(floornumber);
+        room.setType(type);
         
         roomService.saveRoom(room);
         return ResponseEntity.ok(room);

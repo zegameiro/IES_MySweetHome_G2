@@ -55,6 +55,7 @@ public class DataController {
         if (data.size() == 0)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no data!");
 
+
         return ResponseEntity.ok(data);
     }
 

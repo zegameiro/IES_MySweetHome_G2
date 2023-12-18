@@ -15,13 +15,16 @@ import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.http.ResponseEntity;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
+
+import javax.xml.crypto.Data;
+
 import java.util.LinkedList;
 
 @RestController
@@ -35,6 +38,10 @@ public class SensorController {
 
     @Autowired
     private RoomService roomService;
+
+    @Autowired 
+    private DataService dataService;
+
 
     // Get a full list of all the data sources (sensors)
     @Operation(summary = "Associate a device", description = "Register a device inside a specific room")
@@ -104,6 +111,7 @@ public class SensorController {
         out.put("name", source.getName());
         out.put("location", source.getDevice_location());
         out.put("category", source.getDevice_category());
+        out.put("reading_type", source.getReading_type()); 
 
         return out.toString(1);
     }
@@ -163,10 +171,44 @@ public class SensorController {
             out.put("id", src.getDevice_id());
             out.put("category", src.getDevice_category());
             out.put("location", src.getDevice_location());
+            out.put("reading_type", src.getReading_type());
 
             output.add(out);
         }
 
         return output.toString();
+    }
+
+
+    @GetMapping("/unit")
+    public @ResponseBody String getUnit(@RequestParam String source_id){
+
+        List<SensorData> latest_data;
+        DataSource source;
+
+        try {
+            source = dataSourceService.findByID(source_id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error !");
+        }
+
+        if (source == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "A sensor with the specified ID does not exist!");
+        }
+
+        try {
+            latest_data = dataService.listDataBySensor(source_id, "latest");
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal processing error!");
+        }
+
+        if (latest_data == null) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,
+                    "A sensor with the specified ID does not exist!");
+        }
+
+
+        return latest_data.get(0).getUnit();
     }
 }

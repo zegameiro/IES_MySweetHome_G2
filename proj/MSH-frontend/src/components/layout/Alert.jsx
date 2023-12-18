@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { BASE_API_URL } from "../../constants";
 
@@ -6,16 +6,22 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { IoWarningOutline, IoCloseCircleOutline } from "react-icons/io5";
 import { MdErrorOutline } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
+
 import axios from "axios";
 
 
 const Alert = ({ alert, removeAl }) => {
 
+    const [isHiding, setIsHiding] = useState(false);
+    const [isInitial, setIsInitial] = useState(true);
+
     const convertTimestamp = (timestamp) => {
-        const date = new Date(timestamp);
-        const hours = date.getUTCHours();
-        const minutes = date.getUTCMinutes();
-        return `${hours}h ${minutes}min`;
+      timestamp = timestamp * 1000
+      const date = new Date(timestamp);
+
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      return `${hours}h ${minutes}min`;
     };
 
     const backgroundColor =
@@ -33,16 +39,36 @@ const Alert = ({ alert, removeAl }) => {
         : <MdErrorOutline />;
 
     const removeAlert = async (alertId) => {
-        try {
-            const res = await axios.post(`${BASE_API_URL}/alerts/mark?id=${alertId}`);
-            removeAl(alertId);
-        } catch (error) {
-            console.log(error);
-        }
+        setIsHiding(true);
+        setTimeout(async () => {
+            try {
+              const res = await axios.post(`${BASE_API_URL}/alerts/mark?id=${alertId}`);
+              removeAl(alertId);
+            } catch (error) {
+              console.log(error);
+            }
+        }, 500);
     }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          removeAlert(alert.id);
+        }, 15000);
+    
+        return () => clearTimeout(timer);
+    }, []);
+
+    useEffect(() => {
+        if (isInitial) {
+          setTimeout(() => {
+            setIsInitial(false);
+          }, 50);
+        }
+      }, [isInitial]);
     
     return (
-        <div role="alert" className={`alert ${backgroundColor} shadow-lg text-white`}>
+      <div className="pt-5">
+        <div role="alert" className={`alert ${backgroundColor} shadow-lg text-white transform transition-all ease-in-out duration-500 ${isHiding ? 'opacity-0 scale-0' : (isInitial ? 'opacity-0 scale-0' : 'opacity-100 scale-100')}`}>
             <div className="text-3xl font-bold">{icon}</div>
             <div>
                 <div className="flex flex-row font-bold">
@@ -53,6 +79,7 @@ const Alert = ({ alert, removeAl }) => {
             </div>
             <button onClick={() => removeAlert(alert.id)}> <span className="text-3xl font-bold"><IoCloseCircleOutline /></span></button>
         </div>
+      </div>
     )
     
 };

@@ -59,7 +59,7 @@ const ProfileButton = () => {
         </li>
         <li className="pt-5">
           <Link
-            href="/login"
+            to="/login"
             onClick={() => {
               localStorage.removeItem('user');
             }}

@@ -51,8 +51,8 @@ const LoginPage = () => {
     <div>
       <NavbarSimple fixed />
       <div className="hero min-h-screen bg-gradient-to-br from-base-100 via-secondary via-50% to-primary to-90%">
-        <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="text-center flex flex-row lg:text-left bg-white p-4 rounded-xl bg-opacity-75 items-center">
+        <div className="flex-col hero-content lg:flex-row-reverse">
+          <div className="flex flex-row items-center p-4 text-center bg-white bg-opacity-75 lg:text-left rounded-xl">
             <img
               src={logo}
               className="h-40"
@@ -67,7 +67,7 @@ const LoginPage = () => {
                 Don't have an account?{' '}
                 <a
                   href="/register"
-                  className="text-primary hover:text-accent font-bold"
+                  className="font-bold text-primary hover:text-accent"
                 >
                   Sign up
                 </a>
@@ -76,7 +76,7 @@ const LoginPage = () => {
           </div>
 
           <div className=" gradient-blue mx-[5%] w-1/2 rounded-3xl p-2">
-            <div className="bg-base-100 rounded-2xl w-full h-full p-4">
+            <div className="w-full h-full p-4 bg-base-100 rounded-2xl">
               <Formik
                 initialValues={{
                   email: '',
@@ -98,7 +98,7 @@ const LoginPage = () => {
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/sv"
-                          className="stroke-current shrink-0 h-6 w-6"
+                          className="w-6 h-6 stroke-current shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                         >
@@ -119,7 +119,7 @@ const LoginPage = () => {
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="stroke-current shrink-0 h-6 w-6"
+                          className="w-6 h-6 stroke-current shrink-0"
                           fill="none"
                           viewBox="0 0 24 24"
                         >
@@ -137,7 +137,7 @@ const LoginPage = () => {
                     )}
                     <span className="flex flex-col w-full p-2">
                       <label
-                        className=" font-medium text-2xl p-2"
+                        className="p-2 text-2xl font-medium "
                         htmlFor="email"
                       >
                         Email
@@ -151,7 +151,7 @@ const LoginPage = () => {
                     </span>
                     <span className="flex flex-col w-full p-2">
                       <label
-                        className=" font-medium text-2xl p-2"
+                        className="p-2 text-2xl font-medium "
                         htmlFor="password"
                       >
                         Password
@@ -169,7 +169,7 @@ const LoginPage = () => {
                         />
                         <button
                           type="button"
-                          className="btn btn-primary join-item text-white text-xl"
+                          className="text-xl text-white btn btn-primary join-item"
                           onClick={() => setShowPassword(!showPassword)}
                         >
                           {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -178,7 +178,7 @@ const LoginPage = () => {
                     </span>
                     <button
                       type="submit"
-                      className="btn btn-primary w-full mt-8 text-xl text-white"
+                      className="w-full mt-8 text-xl text-white btn btn-primary"
                     >
                       Log in
                     </button>

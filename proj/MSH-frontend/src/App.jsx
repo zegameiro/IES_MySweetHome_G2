@@ -5,8 +5,13 @@ import LoginPage from './components/pages/LoginPage'
 import RegisterPage from './components/pages/RegisterPage'
 import AddPage from './components/pages/AddPage'
 import DevicesPage from './components/pages/DevicesPage'
+import AddRoom from './components/pages/AddRoom'
 import RoutinesPage from './components/pages/RoutinesPage'
 import StatisticsPage from './components/pages/StatisticsPage'
+import RoomsPage from './components/pages/RoomsPage'
+import RoomPage from './components/pages/RoomPage'
+import AddRoutine from './components/pages/AddRoutine'
+import AddOutputDevicePage from './components/pages/AddOutputDevicePage'
 
 function App() {
 
@@ -20,7 +25,12 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/add" element={<AddPage />} />
           <Route path="/devices" element={<DevicesPage />} />
+          <Route path="/rooms" element={<RoomsPage />} />
+          <Route path="/room/:id" element={<RoomPage />} />
+          <Route path="/addroom" element={<AddRoom />} />
+          <Route path="/adddevice" element={<AddOutputDevicePage />} />
           <Route path="/routines" element={<RoutinesPage />} />
+          <Route path="/addroutine" element={<AddRoutine />} />
           <Route path="/statistics" element={<StatisticsPage />} />
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>

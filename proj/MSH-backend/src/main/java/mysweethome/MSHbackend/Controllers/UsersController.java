@@ -27,7 +27,6 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.security.spec.KeySpec;
 import javax.crypto.spec.PBEKeySpec;
-import javax.faces.annotation.RequestParameterMap;
 import javax.crypto.SecretKeyFactory;
 
 @Controller
