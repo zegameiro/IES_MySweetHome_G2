@@ -21,7 +21,7 @@
 
 ## Architecture Diagram
 
-<img src = "presentations/Report_Diagrams/architecture_diagram.png">
+<img src = "reports/Report_Diagrams/architecture_diagram.png">
 
 ## How to run
 
