@@ -20,7 +20,7 @@ const Dashboard = () => {
     ? JSON.parse(localStorage.getItem('user'))
     : null;
 
-  const [selectedRoom, setSelectedRoom] = useState('');
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [filteredOutDevices, setFilteredOutDevices] = useState([]);
   const [outputDevices, setOutputDevices] = useState([]);
   const [inputDevices, setInputDevices] = useState([]);
@@ -32,7 +32,6 @@ const Dashboard = () => {
       const res = await axios.get(`${BASE_API_URL}/outputs/list`, null);
       if (res.status === 200) {
         setOutputDevices(res.data);
-        console.log(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -102,18 +101,19 @@ const Dashboard = () => {
       );
       setFilteredOutDevices(roomOutDevices);
     } else {
-      setFilteredOutDevices([]);
+      setFilteredOutDevices(outputDevices.filter((outdevice) => outdevice));
     }
   }, [selectedRoom, outputDevices]);
 
   return (
-    <div className="flex flex-col pt-4 overflow-y-auto pb-[10vh]">
-      <div className="mx-[5%] mt-4 flex justify-between">
+    <div className="flex flex-col overflow-y-auto pb-[10vh]">
+          <div className="mx-[5%] mt-4 flex flex-row  justify-between">
+
         <Navbar />
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col max-w-[83vw]">
           <Header />
-          <div className="flex flex-row w-full mx-4">
-            <div className="flex flex-col w-2/3 p-4">
+          <div className="flex flex-row mx-4">
+            <div className="flex flex-col w-[66%] p-4">
               <Carroussel />
               <div className="flex flex-col w-full m-4">
                 <div className="flex flex-row items-center justify-between w-full p-4 text-center">
@@ -124,17 +124,22 @@ const Dashboard = () => {
                       role="button"
                       className="m-1 text-xl text-white btn btn-primary"
                     >
-                      {selectedRoom ? selectedRoom.name : 'Select Room'}{' '}
+                      {selectedRoom ? selectedRoom.name : 'Select Room'}
                       <IoIosArrowDown />
                     </div>
-                    <ul className="dropdown-content z-[10] menu p-2 shadow bg-base-100 rounded-box border-2 primary border-primary w-52 text-xl">
-                      <li
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedRoom(null);
-                        }}
-                      >
-                        <button>Select Room</button>
+                    <ul
+                      tabIndex="0"
+                      className="menu dropdown-content z-[1] p-2 shadow bg-base-100 text-xl rounded-box w-52 border border-primary"
+                    >
+                      <li>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedRoom(null);
+                          }}
+                        >
+                          Select Room
+                        </button>
                       </li>
                       {rooms.map((room, idx) => (
                         <li
@@ -154,16 +159,20 @@ const Dashboard = () => {
                 <div className="w-full text-xl font-semibold divider ">
                   Output Devices
                 </div>
-                <div className="flex flex-row max-w-[85vw]">
+                <div className="flex flex-row max-w-[90%]">
                   {selectedRoom !== '' ? (
                     filteredOutDevices.length > 0 ? (
-                      <div className="flex flex-row max-w-[70%] space-x-4 overflow-x-auto overflow-y-hidden custom-scrollbar">
+                      <div className="flex flex-row overflow-x-scroll custom-scrollbar">
                         {filteredOutDevices.map((device) => (
-                          <OutputDeviceCard
+                          <span
                             key={device.id}
-                            device={device}
-                            room={selectedRoom}
-                          />
+                            className="m-2"
+                          >
+                            <OutputDeviceCard
+                              device={device}
+                              room={selectedRoom}
+                            />
+                          </span>
                         ))}
                       </div>
                     ) : (
@@ -172,7 +181,9 @@ const Dashboard = () => {
                       </span>
                     )
                   ) : (
-                    <h2 className="m-8 text-xl">No devices found</h2>
+                    <span className="flex flex-row justify-center w-full text-xl">
+                      <h2 className="m-8 text-xl">No devices found</h2>
+                    </span>
                   )}
                 </div>
                 <div className="w-full text-xl font-semibold divider">
@@ -199,18 +210,15 @@ const Dashboard = () => {
               <hr />
               {alerts.length > 0 ? (
                 alerts.map((alert) => (
-                  <span key={alert.id}
-                    
-                  >
-                    
-                  <Alert
-                    alert={alert}
-                    removeAl={removeAlert}
-                  />
+                  <span key={alert.id}>
+                    <Alert
+                      alert={alert}
+                      removeAl={removeAlert}
+                    />
                   </span>
                 ))
               ) : (
-                <span className='flex justify-center p-8'>
+                <span className="flex justify-center p-8">
                   <p className="text-xl">No alerts found</p>
                 </span>
               )}

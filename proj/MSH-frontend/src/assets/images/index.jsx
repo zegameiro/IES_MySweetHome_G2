@@ -8,6 +8,9 @@ import LivingRoom1 from './living_room1.jpg';
 import LivingRoom2 from './living_room2.jpg';
 import Kitchen1 from './kitchen1.jpg';
 import Kitchen2 from './kitchen2.jpg';
+import Rooms from './rooms.png';
+import Devices from './devices.jpg';
+import Routines from './routines.jpg';
 
 export {
     Bedroom1,
@@ -19,5 +22,8 @@ export {
     LivingRoom1,
     LivingRoom2,
     Kitchen1,
-    Kitchen2
+    Kitchen2,
+    Rooms,
+    Devices,
+    Routines
 }

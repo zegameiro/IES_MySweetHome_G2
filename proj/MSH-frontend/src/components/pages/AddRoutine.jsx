@@ -197,7 +197,7 @@ const AddRoutine = () => {
           })
           .then((res) => {
             console.log(res);
-            navigate('/dashboard');
+            navigate('/routines');
           })
           .catch((err) => {
             console.log(err);
@@ -221,7 +221,7 @@ const AddRoutine = () => {
           })
           .then((res) => {
             console.log(res);
-            navigate('/dashboard');
+            navigate('/routines');
           })
           .catch((err) => {
             console.log(err);
