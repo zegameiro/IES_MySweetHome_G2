@@ -102,12 +102,20 @@ public class OutputDeviceController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "A room with the specified ID does not exist!");
         }
 
+        Room prevRoom = roomService.findByID(device.getDevice_location());
+
+        if (prevRoom != null) {
+            prevRoom.getDevices().remove(deviceID);
+            roomService.saveRoom(prevRoom);
+        }
+
         device.setDevice_location(roomID);
         outputDevService.saveOutputDevice(device);
 
         if (!room.getDevices().contains(deviceID)) { // dont add repeated devices
             room.addDevice(deviceID);
         }
+
         roomService.saveRoom(room);
 
         return "Saved";
