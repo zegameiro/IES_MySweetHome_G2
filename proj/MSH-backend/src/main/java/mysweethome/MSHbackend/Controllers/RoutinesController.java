@@ -9,8 +9,6 @@ import java.util.List;
 
 import mysweethome.MSHbackend.Models.*;
 import mysweethome.MSHbackend.Repositories.OutputDeviceRepository;
-import mysweethome.MSHbackend.Repositories.SBRepo;
-import mysweethome.MSHbackend.Repositories.TBRepo;
 import mysweethome.MSHbackend.Services.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
@@ -94,6 +92,14 @@ public class RoutinesController {
         return "OK";
 
     }
+
+    @Operation(summary = "Add a new Sensor Based Routine", description = "Add a new routine to the list of possible routines")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a OK string"),
+            @ApiResponse(responseCode = "422", description = "An action with the specified ID does not exist!", content = @Content),
+            @ApiResponse(responseCode = "422", description = "An output device with the specified ID does not exist!", content = @Content),
+            @ApiResponse(responseCode = "422", description = "The specified action is not applicable to the specified output device!", content = @Content)
+    })
 
     @PostMapping("/addSB")
     public @ResponseBody String addRoutineSB(@RequestBody SensorBasedRoutine routine) {

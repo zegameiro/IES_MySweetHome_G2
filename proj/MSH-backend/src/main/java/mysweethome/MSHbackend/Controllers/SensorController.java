@@ -180,6 +180,13 @@ public class SensorController {
     }
 
 
+
+    @Operation (summary = "Get the data unit of a sensor", description = "Get the data unit of a sensor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the data unit of a sensor"),
+            @ApiResponse(responseCode = "422", description = "A sensor with the specified ID does not exist!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/unit")
     public @ResponseBody String getUnit(@RequestParam String source_id){
 

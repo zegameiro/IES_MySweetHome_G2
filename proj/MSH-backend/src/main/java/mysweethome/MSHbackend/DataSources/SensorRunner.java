@@ -40,7 +40,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                TemperatureSensor temperatureSensor = new TemperatureSensor("Termómetro", channel, QUEUE_NAME, "1");
+                TemperatureSensor temperatureSensor = new TemperatureSensor("Thermometer", channel, QUEUE_NAME, "1");
                 System.out.println("TemperatureSensor running");
                 temperatureSensor.run();
             } catch (Exception e) {
@@ -50,7 +50,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                EletricitySensor eletricitySensor = new EletricitySensor("Contador de Energia",channel, QUEUE_NAME, "2");
+                EletricitySensor eletricitySensor = new EletricitySensor("Eletricity",channel, QUEUE_NAME, "2");
                 System.out.println("EletricitySensor running");
                 eletricitySensor.run();
             } catch (Exception e) {
@@ -73,7 +73,7 @@ public class SensorRunner {
 
         executorService.submit(() -> {
             try {
-                WindSensor windSensor = new WindSensor("Anemómetro",channel, QUEUE_NAME, "3");
+                WindSensor windSensor = new WindSensor("Wind Sensor",channel, QUEUE_NAME, "3");
                 System.out.println("WindSensor running");
                 windSensor.run();
             } catch (Exception e) {

@@ -37,7 +37,7 @@ You will need to have your localhost tcp port 3000 free for this to work or you 
 
 Then, simply navigate to localhost:3000 to access the front-end application.
 
-## Docker implemetation
+## Docker implementation
 The project will run in a 4 container setup, all connected via a predefined set of ports and all managed by a single docker compose implementation.
 The containers used are as follows:
 
@@ -58,7 +58,7 @@ The containers used are as follows:
 
 ## Sensor integration
 One of the principles for this project is making sensor integration as simple as possible, with very few hard coded parts.
-For this purpose, the communication between sensors and the relevant back-end processes are interelly made through RabbitMQ messages.
+For this purpose, the communication between sensors and the relevant back-end processes are entirely made through RabbitMQ messages.
 This allows our final sensor integration to be language agnostic and for all makes of sensors to be able to communicate to our service, as long as the sensor is capable of throwing out RabbitMQ messages.
 
 Our default back-end comes with some extra java classes inside that are created on spring bootup and act just
@@ -100,7 +100,7 @@ Example:
 ```
 {
     "device_id": self.uuid, 
-    "timestamp": 1702750526-, 
+    "timestamp": 1702750526, 
     "sensor_information": 0.2163785, 
     "unit": "Kwh"
 }

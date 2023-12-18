@@ -44,8 +44,6 @@ public class WindSensor {
         }
     }
 
-    private static final double MIN_WIND_SPEED = 0.1; // Minimum wind speed in m/s
-    private static final double MAX_WIND_SPEED = 20.0; // Maximum wind speed in m/s
     private static final double EXTREME_PROBABILITY = 0.05; // Probability of an extreme value
 
     // Simulate a realistic wind strength value in the range of 0.1 m/s to 20 m/s
