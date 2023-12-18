@@ -83,9 +83,10 @@ public class RoutinesProcessor {
                 System.out.println("Routine triggered: " + routine.toString());
 
                 Alert alert = new Alert();
-                alert.setAlert_header("Routine " + routine.getId() + " was activated");
-                alert.setAlert_information("The routine " + routine.getId() + " was triggered.");
+                alert.setAlert_header("Routine " + routine.getRoutine_name() + " was activated");
+                alert.setAlert_information("The routine " + routine.getRoutine_name() + " was triggered.");
                 alert.setAlert_level(2);
+                alert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
 
                 action.setDone(true);
 
@@ -145,6 +146,7 @@ public class RoutinesProcessor {
                     alert.setAlert_header("Routine " + routine.getRoutine_name() + " was activated");
                     alert.setAlert_information("The routine " + routine.getRoutine_name() + " was triggered.");
                     alert.setAlert_level(2);
+                    alert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
 
                     alertService.saveAlert(alert);
 
@@ -177,6 +179,7 @@ public class RoutinesProcessor {
                     alert.setAlert_header("Routine " + routine.getRoutine_name() + " was activated");
                     alert.setAlert_information("The routine " + routine.getRoutine_name() + " was triggered.");
                     alert.setAlert_level(2);
+                    alert.setTimestamp((int) (System.currentTimeMillis() / 1000L));
 
                     alertService.saveAlert(alert);
 
