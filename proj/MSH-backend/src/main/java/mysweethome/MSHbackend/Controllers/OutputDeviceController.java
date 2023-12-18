@@ -51,6 +51,7 @@ public class OutputDeviceController {
         dev.setDevice_category(dev_category);
         dev.setLaststatechange(System.currentTimeMillis());
         dev.setDevice_location("None");
+        dev.setSlider_value("0");
 
         switch (dev_category) {
             case AIR_CONDITIONER:
@@ -148,12 +149,15 @@ public class OutputDeviceController {
                 break;
             case TELEVISION:
                 out.put("channel", device.getCurrent_channel());
+                out.put("volume", device.getSlider_value());
                 break;
             case SPEAKER:
                 out.put("music", device.getCurrent_music());
+                out.put("volume", device.getSlider_value());
                 break;
             case LIGHT:
                 out.put("color", device.getColor());
+                out.put("brightness", device.getSlider_value());
             default:
                 break;
         }
@@ -207,6 +211,8 @@ public class OutputDeviceController {
             device.setColor(body.getString("color"));
         }
 
+        device.setSlider_value("0");
+
         device.setLaststatechange(System.currentTimeMillis());
 
         outputDevService.saveOutputDevice(device);
@@ -224,8 +230,13 @@ public class OutputDeviceController {
             out.put("temperature", device.getTemperature());
         } else if (device.getDevice_category() == OutputDeviceType.TELEVISION) {
             out.put("channel", device.getCurrent_channel());
+            out.put("volume", device.getSlider_value());
         } else if (device.getDevice_category() == OutputDeviceType.SPEAKER) {
             out.put("music", device.getCurrent_music());
+            out.put("volume", device.getSlider_value());
+        } else if (device.getDevice_category() == OutputDeviceType.LIGHT) {
+            out.put("color", device.getColor());
+            out.put("brightness", device.getSlider_value());
         }
 
         return out.toString();

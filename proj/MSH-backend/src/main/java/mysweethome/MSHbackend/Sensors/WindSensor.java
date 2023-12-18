@@ -50,13 +50,22 @@ public class WindSensor {
 
     // Simulate a realistic wind strength value in the range of 0.1 m/s to 20 m/s
     public double getRandomWindStrength() {
+        int weekDay = Instant.now().atZone(ZoneOffset.UTC).getDayOfWeek().getValue();
+                            //    dom, seg, ter, qua, qui, sex, sab
+        Double[] weekdayMedian = {0.3, 0.4, 0.3, 0.7, 1.5, 1.0, 0.8};
+
         int currentHour = Instant.now().atZone(ZoneOffset.UTC).getHour();
         Double windMedian = 0.5;
         Double finalValue;
 
-        //  Most of the people in the house are asleep, so they use less electricity (except programmers) (75% less average power)
-        if (currentHour == 22 || currentHour == 8) {
+        if (currentHour == 20 || currentHour == 21 || currentHour == 9 || currentHour == 10) {
+            windMedian = 1.15;
+        }
+        else if (currentHour == 22 || currentHour == 8) {
             windMedian = 1.0;
+        }
+        else if (currentHour == 23 || currentHour == 7) {
+            windMedian = 1.10;
         }
         else if (currentHour > 23 || currentHour < 7) {
             windMedian = 1.25;
@@ -70,15 +79,15 @@ public class WindSensor {
         // Determine whether to generate a normal or extreme value
         if (random.nextDouble() < EXTREME_PROBABILITY) {
             // 5% chance for an extreme value
-            finalValue = random.nextDouble() < 0.5 ? MIN_WIND_SPEED + 4.0 * random.nextDouble()
-                    : MAX_WIND_SPEED - 4.0 * random.nextDouble();
+            finalValue = random.nextDouble() < 0.5 ? 10 + 4.0 * random.nextDouble()
+                    : 20 - 4.0 * random.nextDouble();
         } 
         else {
             // 90% chance for a normal value between 5 and 10
             finalValue = 5.0 + 5.0 * random.nextDouble();
         }
 
-        return Math.round(finalValue * windMedian * 100) / 100;
+        return Math.round(finalValue * windMedian * weekdayMedian[weekDay] * 100) / 100;
     }
 
     public String getName() {

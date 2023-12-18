@@ -38,6 +38,7 @@ public class OutputDevice  {
     String current_channel; // for television
     String current_music; // for speakers
     String color; // for lights
+    String slider_value = "0"; // for lights
 
 
 
