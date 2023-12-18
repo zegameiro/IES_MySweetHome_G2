@@ -11,6 +11,7 @@ import Kitchen2 from './kitchen2.jpg';
 import Rooms from './rooms.png';
 import Devices from './devices.jpg';
 import Routines from './routines.jpg';
+import User from './user.png';
 
 export {
     Bedroom1,
@@ -25,5 +26,6 @@ export {
     Kitchen2,
     Rooms,
     Devices,
-    Routines
+    Routines,
+    User
 }

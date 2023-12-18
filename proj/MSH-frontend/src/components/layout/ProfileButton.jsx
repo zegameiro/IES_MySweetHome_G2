@@ -10,6 +10,7 @@ import { MdAccountCircle } from 'react-icons/md';
 import { FaHouseSignal } from 'react-icons/fa6';
 import { FaLightbulb, FaChartLine, FaSignOutAlt } from 'react-icons/fa';
 import '../../utils/index.css';
+import { User } from '../../assets/images';
 
 const ProfileButton = () => {
   const user = JSON.parse(localStorage.getItem('user'))
@@ -21,7 +22,7 @@ const ProfileButton = () => {
       <summary className="btn rounded-full h-20 min-w-[10vw] p-2 text-3xl text-white flex justify-between gradient-blue">
         <div className="avatar ">
           <div className="w-16 rounded-full">
-            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            <img src={User} />
           </div>
         </div>
         {user?.firstName} <IoIosArrowDown />
