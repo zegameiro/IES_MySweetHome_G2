@@ -29,6 +29,9 @@ const RoutinesPage = () => {
                 setRoutinesSensor(res1.data);
                 setRoutinesTime(res2.data);
 
+                console.log(res1.data);
+                console.log(res2.data);
+
             }
         } catch (error) {
             console.log(error);
@@ -41,7 +44,7 @@ const RoutinesPage = () => {
         } else {
           navigate("/login?redirect=dashboard");
         }
-    }, [routinesSensor, routinesTime]);
+    }, []);
 
   return (
     <div className="mx-[5%] mt-4 flex justify-between">
