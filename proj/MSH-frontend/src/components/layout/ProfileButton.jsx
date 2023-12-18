@@ -28,11 +28,7 @@ const ProfileButton = () => {
         {user?.firstName} <IoIosArrowDown />
       </summary>
       <ul className="shadow menu dropdown-content z-[1] gradient-blue text-white text-xl font-bold rounded-box w-60">
-        <li>
-          <Link to="/profile">
-            <MdAccountCircle /> My account{' '}
-          </Link>
-        </li>
+    
         <li>
           <Link to="/rooms">
             <FaHouseSignal /> Manage rooms
@@ -48,16 +44,7 @@ const ProfileButton = () => {
             <FaChartLine /> Analytics
           </Link>
         </li>
-        <li>
-          <Link to="/setting">
-            <IoMdSettings /> Settings
-          </Link>
-        </li>
-        <li>
-          <Link to="/help">
-            <IoIosInformationCircle /> Help
-          </Link>
-        </li>
+        
         <li className="pt-5">
           <Link
             to="/login"

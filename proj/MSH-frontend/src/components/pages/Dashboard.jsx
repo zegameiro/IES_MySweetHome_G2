@@ -159,7 +159,7 @@ const Dashboard = () => {
                 <div className="w-full text-xl font-semibold divider ">
                   Output Devices
                 </div>
-                <div className="flex flex-row max-w-[90%]">
+                <div className="flex flex-row">
                   {selectedRoom !== '' ? (
                     filteredOutDevices.length > 0 ? (
                       <div className="flex flex-row overflow-x-scroll custom-scrollbar">
