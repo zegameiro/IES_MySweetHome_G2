@@ -33,30 +33,37 @@ public class DefaultValues implements ApplicationRunner {
         Room living_room = new Room();
         living_room.setName("Living Room");
         living_room.setFloornumber(0);
+        living_room.setType("Living_Room");
 
         Room child_bedroom = new Room();
         child_bedroom.setName("Children Bedroom");
         child_bedroom.setFloornumber(1);
+        child_bedroom.setType("Bedroom");
 
         Room couple_bedroom = new Room();
         couple_bedroom.setName("Couple Bedroom");
         couple_bedroom.setFloornumber(1);
+        couple_bedroom.setType("Bedroom");
 
         Room bath_room_1 = new Room();
         bath_room_1.setName("Bathroom 1");
         bath_room_1.setFloornumber(0);
+        bath_room_1.setType("Bathroom");
 
         Room bath_room_couple = new Room();
         bath_room_couple.setName("Bathroom in Couple Bedroom");
         bath_room_couple.setFloornumber(1);
+        bath_room_couple.setType("Bathroom");
 
         Room kitchen = new Room();
         kitchen.setName("Kitchen");
         kitchen.setFloornumber(0);
+        kitchen.setType("Kitchen");
 
         Room attic = new Room();
         attic.setName("Attic");
         attic.setFloornumber(2);
+        attic.setType("Attic");
 
         System.out.println("Inserted default rooms sucessfully! ");
 

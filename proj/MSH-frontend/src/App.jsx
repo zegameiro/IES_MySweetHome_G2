@@ -11,6 +11,7 @@ import StatisticsPage from './components/pages/StatisticsPage'
 import RoomsPage from './components/pages/RoomsPage'
 import RoomPage from './components/pages/RoomPage'
 import AddRoutine from './components/pages/AddRoutine'
+import AddOutputDevicePage from './components/pages/AddOutputDevicePage'
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
           <Route path="/rooms" element={<RoomsPage />} />
           <Route path="/room/:id" element={<RoomPage />} />
           <Route path="/addroom" element={<AddRoom />} />
+          <Route path="/adddevice" element={<AddOutputDevicePage />} />
           <Route path="/routines" element={<RoutinesPage />} />
           <Route path="/addroutine" element={<AddRoutine />} />
           <Route path="/statistics" element={<StatisticsPage />} />
