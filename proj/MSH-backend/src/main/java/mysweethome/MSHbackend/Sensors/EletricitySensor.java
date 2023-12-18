@@ -64,7 +64,7 @@ public class EletricitySensor {
         else if (currentHour > 23 || currentHour < 7) {
             hourMedian = 0.25;
         } 
-        else if (currentHour < 14 && currentHour > 12) {
+        else if (currentHour <= 14 && currentHour >= 12) {
             hourMedian = 0.5;
         }
 

@@ -70,7 +70,7 @@ public class WindSensor {
         else if (currentHour > 23 || currentHour < 7) {
             windMedian = 1.25;
         } 
-        else if (currentHour < 14 && currentHour > 12) {
+        else if (currentHour <= 14 && currentHour >= 12) {
             windMedian = 0.75;
         }
 
