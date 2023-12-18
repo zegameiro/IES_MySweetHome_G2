@@ -101,7 +101,7 @@ const RoomPage = () => {
               <div className="flex flex-wrap justify-start">
                 {devices
                   ?.filter((d) => {
-                    return room?.devices.includes(d.id);
+                    return d.device_location === room.id;
                   })
                   .map((device) => (
                     <span
@@ -152,26 +152,34 @@ const RoomPage = () => {
           <span className="divider" />
 
           <div className={`flex flex-row justify-start overflow-x-scroll `}>
-            {devices
-              ?.filter((d) => {
-                return !room?.devices.includes(d.id);
-              })
-              .map((device) => (
-                <span
-                  className={`m-2 rounded-2xl ${
-                    selectDevice == device && 'ring-4 ring-primary'
-                  }}`}
-                  key={device?.id}
-                  onClick={() => {
-                    setSelectDevice(device);
-                  }}
-                >
-                  <OutputDeviceCard
-                    device={device}
-                    room={room.name}
-                  />
+            { devices?.filter((d) => {return !('device_location' in d);}).length != 0 ? (
+                devices?.filter((d) => {return !('device_location' in d);})
+                .map((device) => (
+                  <span
+                    className={`m-2 rounded-2xl ${
+                      selectDevice == device && 'ring-4 ring-primary'
+                    }}`}
+                    key={device?.id}
+                    onClick={() => {
+                      setSelectDevice(device);
+                    }}
+                  >
+                    <OutputDeviceCard
+                      device={device}
+                      room={room.name}
+                    />
+                  </span>
+                ))
+              ) : (
+                <span>
+                    <h1>
+                        No output devices saved yet.{' '}
+                        <span className="font-bold no-underline cursor-pointer text-primary" onClick={() => navigate('/adddevice')}>
+                            Add one!
+                        </span>
+                    </h1>
                 </span>
-              ))}
+              )}
           </div>
           <span className="divider" />
           <div>
