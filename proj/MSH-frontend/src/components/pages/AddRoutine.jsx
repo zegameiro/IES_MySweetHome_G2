@@ -17,13 +17,29 @@ import {
 } from 'react-icons/bs';
 import { FaFire, FaSnowflake } from 'react-icons/fa6';
 
-import { GiDrop, GiDroplets } from 'react-icons/gi'
+import { GiDrop, GiDroplets } from 'react-icons/gi';
+
+const channels = [
+  'Channel 1',
+  'Channel 2',
+  'Channel 3',
+  'Channel 4',
+  'Channel 5',
+  'Channel 6',
+  'Channel 7',
+  'Channel 8',
+  'Channel 9',
+  'Channel 10',
+];
 
 const AddRoutine = () => {
-  const [timeTab, setTimeTab] = useState(true);
-  const [devices, setDevices] = useState([]);
+  const [trigger, setTrigger] = useState(null);
+  const [devices, setDevices] = useState(null);
   const [actions, setActions] = useState(null);
   const [action, setAction] = useState(null);
+
+  const [channel, setChannel] = useState(null);
+  const [music, setMusic] = useState(null);
 
   const [color, setColor] = useState('#ffffff');
   const [slider, setSlider] = useState(50);
@@ -112,7 +128,7 @@ const AddRoutine = () => {
             </h2>
             <span className="divider" />
             <div className="flex flex-row justify-start m-4 overflow-auto">
-              {devices.map((device) => (
+              {devices?.map((device) => (
                 <span
                   className={`m-2 rounded-2xl ${
                     selectDevice == device && 'ring-4 ring-primary'
@@ -120,6 +136,7 @@ const AddRoutine = () => {
                   key={device?.id}
                   onClick={() => {
                     setSelectDevice(device);
+                    setAction(null);
                   }}
                 >
                   <OutputDeviceCard
@@ -156,7 +173,12 @@ const AddRoutine = () => {
               )}
             </div>
 
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-col justify-between">
+              {action && action != 'Turn ON' && action != 'Turn OFF' && (
+                <h1 className="m-4 text-3xl text-slate-500">
+                  Select target value
+                </h1>
+              )}
               {(() => {
                 switch (action) {
                   case 'Adjust Brightness':
@@ -288,9 +310,6 @@ const AddRoutine = () => {
                       </div>
                     );
 
-                  case 'Change Channel':
-                    return <p>Change channel action selected</p>;
-
                   case 'Adjust Humidity level':
                     return (
                       <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
@@ -332,8 +351,43 @@ const AddRoutine = () => {
                             value={humidity}
                           />
                           <GiDroplets />
-                          
                         </div>
+                      </div>
+                    );
+
+                  case 'Change Music':
+                    return (
+                      <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                        <input
+                          className="w-full text-2xl border-2 input input-primary input-bordered"
+                          type="text"
+                          placeholder="Enter a music"
+                          onChange={(e) => setMusic(e.target.value)}
+                        />
+                      </div>
+                    );
+
+                  case 'Change Channel':
+                    return (
+                      <div className="flex flex-col items-center justify-center w-full p-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                        <select className="w-full text-2xl select select-bordered select-primary">
+                          <option
+                            disabled
+                            selected
+                          >
+                            Select a channel
+                          </option>
+                          {channels.map((channel, idx) => (
+                            <option
+                              key={idx}
+                              value={channel}
+                              onClick={(e) => setChannel(e.target.value)}
+                              className="text-2xl select-bordered"
+                            >
+                              {channel}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     );
 
@@ -342,10 +396,83 @@ const AddRoutine = () => {
                 }
               })()}
             </div>
-          </div>
 
-          <h2 className="mx-4 text-3xl text-slate-500">Select Trigger</h2>
-          <span className="divider" />
+            <h2 className="m-4 text-3xl text-slate-500">Select Trigger</h2>
+            <span className="w-full divider" />
+            <div className="flex flex-row justify-around w-full m-4 overflow-auto">
+              <span
+                className={`flex flex-col items-center justify-center p-4 m-4 text-2xl badge ${
+                  trigger == 'Time'
+                    ? 'badge-primary'
+                    : 'badge-outline badge-accent'
+                } badge-xl `}
+                onClick={() => setTrigger('Time')}
+              >
+                Time
+              </span>
+              <span
+                className={`flex flex-col items-center justify-center p-4 m-4 text-2xl badge ${
+                  trigger == 'Interval'
+                    ? 'badge-primary'
+                    : 'badge-outline badge-accent'
+                } badge-xl `}
+                onClick={() => setTrigger('Interval')}
+              >
+                Interval
+              </span>
+              <span
+                className={`flex flex-col items-center justify-center p-4 m-4 text-2xl badge ${
+                  trigger == 'Event'
+                    ? 'badge-primary'
+                    : 'badge-outline badge-accent'
+                } badge-xl `}
+                onClick={() => setTrigger('Event')}
+              >
+                Event
+              </span>
+            </div>
+
+            {(() => {
+              switch (trigger) {
+                case 'Time':
+                  return (
+                    <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                      <input
+                        className="w-full text-2xl border-2 input input-primary input-bordered"
+                        type="text"
+                        placeholder="Enter a time"
+                      />
+                    </div>
+                  );
+
+                case 'Interval':
+                  return (
+                    <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                      <input
+                        className="w-full text-2xl border-2 input input-primary input-bordered"
+                        type="text"
+                        placeholder="Enter an interval"
+                      />
+                    </div>
+                  );
+
+                case 'Event':
+                  return (
+                    <div className="flex flex-col items-center justify-center w-full p-4 m-4 text-2xl shadow-lg bg-base-100 rounded-xl">
+                      <input
+                        className="w-full text-2xl border-2 input input-primary input-bordered"
+                        type="text"
+                        placeholder="Enter an event"
+                      />
+                    </div>
+                  );
+
+                default:
+                  return null;
+              }
+            })()}
+
+          </div>
         </div>
       </div>
     </div>
