@@ -15,13 +15,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.ArrayList;
-import java.time.Instant;
 import java.util.Calendar;
-import java.util.Date;
+
 import mysweethome.MSHbackend.Models.DataSource;
 import mysweethome.MSHbackend.Models.SensorStats;
 import java.util.Collections;
 import java.util.Comparator;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
+
 
 @CrossOrigin("*")
 @RestController
@@ -34,6 +39,13 @@ public class StatsController {
     @Autowired
     private DataService dataService;
 
+
+    @Operation (summary = "Get the stats of a sensor", description = "Get the stats of a sensor in the last day")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a SensorStats instance"),
+            @ApiResponse(responseCode = "422", description = "Error! A sensor with this ID was not found!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/sensor/view/daily")
     public ResponseEntity<SensorStats> getSensorStats(@RequestParam String sensor_id) {
 
@@ -104,6 +116,13 @@ public class StatsController {
 
     }
 
+
+    @Operation (summary = "Get the stats of a sensor", description = "Get the stats of a sensor in the last week")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a SensorStats instance"),
+            @ApiResponse(responseCode = "422", description = "Error! A sensor with this ID was not found!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/sensor/view/weekly")
     public ResponseEntity<SensorStats> getSensorStatsWeekly(@RequestParam String sensor_id) {
 
@@ -174,6 +193,13 @@ public class StatsController {
         return new ResponseEntity<SensorStats>(sensor_stats, HttpStatus.OK);
     }
 
+
+    @Operation (summary = "Get the total stats of a sensor in a day", description = "Get the stats of a sensor in a day")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns a SensorStats instance"),
+            @ApiResponse(responseCode = "422", description = "Error! A sensor with this ID was not found!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/sensor/view/dailytotal")
     public ResponseEntity<SensorStats> getDailyConsume(@RequestParam String sensor_id) {
 

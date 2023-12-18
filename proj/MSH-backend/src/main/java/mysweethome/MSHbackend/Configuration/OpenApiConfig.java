@@ -77,4 +77,12 @@ public class OpenApiConfig implements WebMvcConfigurer {
             .pathsToMatch("/alerts/**")
             .build();
     }
+
+    @Bean
+    public GroupedOpenApi statsApi() {
+        return GroupedOpenApi.builder()
+            .group("Stats API")
+            .pathsToMatch("/stats/**")
+            .build();
+    }
 }

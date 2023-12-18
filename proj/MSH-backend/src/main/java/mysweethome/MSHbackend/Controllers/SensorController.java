@@ -20,15 +20,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 
-import javax.xml.crypto.Data;
 
 import java.util.LinkedList;
 
 @RestController
 @RequestMapping(path = "/sources")
+@Tag(name = "Data Sources and Input Devices Endpoints")
 @CrossOrigin("*")
 public class SensorController {
 
@@ -43,7 +44,6 @@ public class SensorController {
 
 
     // Get a full list of all the data sources (sensors)
-
     @Operation(summary = "Associate a device", description = "Register a device inside a specific room")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a OK String"),
@@ -51,7 +51,6 @@ public class SensorController {
             @ApiResponse(responseCode = "422", description = "Error! A room with this ID was not found!", content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
     })
-
     @PostMapping("/associate")
     public @ResponseBody String associateSource(@RequestParam String roomID, @RequestParam String sensor_id) {
         // Get the sources list
@@ -181,6 +180,13 @@ public class SensorController {
     }
 
 
+
+    @Operation (summary = "Get the data unit of a sensor", description = "Get the data unit of a sensor")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the data unit of a sensor"),
+            @ApiResponse(responseCode = "422", description = "A sensor with the specified ID does not exist!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal processing error!", content = @Content)
+    })
     @GetMapping("/unit")
     public @ResponseBody String getUnit(@RequestParam String source_id){
 

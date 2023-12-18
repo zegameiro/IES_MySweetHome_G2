@@ -173,11 +173,11 @@ public class Processor {
 
     average = average / 5;
 
-    // check if the current values is above or below 30% of the average
+    // check if the current values is above or below 50% of the average
 
     double currentValue = Double.parseDouble(sensorInformation);
 
-    if (currentValue > average * 1.3 || currentValue < average * 0.7) {
+    if (currentValue > average * 1.5 || currentValue < average * 0.5) {
 
       Alert newAlert = new Alert();
       newAlert.setId(sensorId);

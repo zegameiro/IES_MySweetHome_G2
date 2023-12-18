@@ -51,14 +51,21 @@ public class EletricitySensor {
         int currentHour = Instant.now().atZone(ZoneOffset.UTC).getHour();
         
         //  Most of the people in the house are asleep, so they use less electricity (except programmers) (75% less average power)
-        if (currentHour == 22 || currentHour == 8) {
+        
+        if (currentHour == 20 || currentHour == 21 || currentHour == 9 || currentHour == 10) {
+            hourMedian = 1.15;
+        }
+        else if (currentHour == 22 || currentHour == 8) {
             hourMedian = 0.5;
+        }
+        else if (currentHour == 23 || currentHour == 7) {
+            hourMedian = 0.4;
         }
         else if (currentHour > 23 || currentHour < 7) {
             hourMedian = 0.25;
         } 
-        else if (currentHour < 14 && currentHour > 12) {
-            hourMedian = 0.5;
+        else if (currentHour <= 14 && currentHour >= 12) {
+            hourMedian = 0.75;
         }
 
         // 5% chance of generating an unusually high value
