@@ -24,16 +24,16 @@ public enum OutputDeviceType {
 
      public List<String> getPossibleActions() {
         switch (this) {
-            case AIR_CONDITIONER:
-                return Arrays.asList("Turn ON", "Turn Off", "Change temperature");
-            case LIGHT:
-                return Arrays.asList("Turn ON", "Turn Off", "Change Brightness", "Change Color");
             case TELEVISION:
-                return Arrays.asList("Turn ON", "Turn Off", "Change Channel", "Change Volume");
-            case SPEAKER:
-                return Arrays.asList("Turn ON", "Turn Off","Adjust volume", "Change music", "Mute/unmute");
+                return Arrays.asList("Turn ON", "Turn OFF", "Change Channel", "Adjust Volume");
             case DEHUMIDIFER:
-                return Arrays.asList("Turn ON","Turn Off","Adjust humidity level", "Turn on/off", "Change fan speed");
+                return Arrays.asList("Turn ON", "Turn OFF", "Adjust Humidity level");
+            case LIGHT:
+                return Arrays.asList("Turn ON", "Turn OFF", "Change Color", "Adjust Brightness");
+            case AIR_CONDITIONER:
+                return Arrays.asList("Turn ON", "Turn OFF", "Adjust Temperature");
+            case SPEAKER:
+                return Arrays.asList("Turn ON", "Turn OFF", "Change Music", "Adjust Volume");
             default:
                 throw new UnsupportedOperationException("Unsupported device type: " + this);
         }

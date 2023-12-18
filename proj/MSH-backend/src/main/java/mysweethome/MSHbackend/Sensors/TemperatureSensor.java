@@ -47,12 +47,16 @@ public class TemperatureSensor {
 
     // Simulate a more realistic temperature with slight randomness and occasional extreme values
     public double getRandomTemp() {
+        int weekDay = Instant.now().atZone(ZoneOffset.UTC).getDayOfWeek().getValue();
+                            //    dom, seg, ter, qua, qui, sex, sab
+        Double[] weekdayMedian = {1.8, 1.3, 1.0, 0.7, 0.8, 1.0, 1.5};
+
         int currentHour = Instant.now().atZone(ZoneOffset.UTC).getHour();
                             //  00h,  01h,  02h,  03h,  04h,  05h,  06h,  07h,  08h,  09h,  10h,  11h,  12h,  13h,  14h,  15h,  16h,  17h,  18h,  19h,  20h,  21h,  22h,  23h
         Double[] hourMedian = {17.8, 17.3, 17.0, 16.3, 16.0, 16.2, 16.5, 18.0, 20.0, 23.0, 24.0, 25.0, 25.5, 25.8, 25.8, 25.5, 25.0, 24.0, 23.0, 22.0, 21.0, 20.0, 19.0, 18.3};
         Double currMedian = hourMedian[currentHour];
 
-        int temperatureChange = RANDOM.nextInt(2) - 1;  // Random change between -1 and 1
+        Double temperatureChange = (RANDOM.nextDouble() * 2  - 1) * weekdayMedian[weekDay];  // Random change between -1 and 1
 
         // Add the random change to the current temperature
         currMedian += temperatureChange;

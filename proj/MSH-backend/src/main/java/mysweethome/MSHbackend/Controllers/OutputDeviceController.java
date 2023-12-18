@@ -110,12 +110,20 @@ public class OutputDeviceController {
                     "A room with the specified ID does not exist!");
         }
 
+        Room prevRoom = roomService.findByID(device.getDevice_location());
+
+        if (prevRoom != null) {
+            prevRoom.getDevices().remove(deviceID);
+            roomService.saveRoom(prevRoom);
+        }
+
         device.setDevice_location(roomID);
         outputDevService.saveOutputDevice(device);
 
         if (!room.getDevices().contains(deviceID)) { // dont add repeated devices
             room.addDevice(deviceID);
         }
+
         roomService.saveRoom(room);
 
         return "Saved";
@@ -157,12 +165,15 @@ public class OutputDeviceController {
                 break;
             case TELEVISION:
                 out.put("channel", device.getCurrent_channel());
+                out.put("volume", device.getSlider_value());
                 break;
             case SPEAKER:
                 out.put("music", device.getCurrent_music());
+                out.put("volume", device.getSlider_value());
                 break;
             case LIGHT:
                 out.put("color", device.getColor());
+                out.put("brightness", device.getSlider_value());
             default:
                 break;
         }
@@ -216,6 +227,8 @@ public class OutputDeviceController {
             device.setColor(body.getString("color"));
         }
 
+        device.setSlider_value("0");
+
         device.setLaststatechange(System.currentTimeMillis());
 
         outputDevService.saveOutputDevice(device);
@@ -233,14 +246,19 @@ public class OutputDeviceController {
             out.put("temperature", device.getTemperature());
         } else if (device.getDevice_category() == OutputDeviceType.TELEVISION) {
             out.put("channel", device.getCurrent_channel());
+            out.put("volume", device.getSlider_value());
         } else if (device.getDevice_category() == OutputDeviceType.SPEAKER) {
             out.put("music", device.getCurrent_music());
+            out.put("volume", device.getSlider_value());
+        } else if (device.getDevice_category() == OutputDeviceType.LIGHT) {
+            out.put("color", device.getColor());
+            out.put("brightness", device.getSlider_value());
         }
 
         return out.toString();
     }
 
-    // Get a full list of all the output devices
+    // Get a full list of all the ^output devices
     @Operation(summary = "List all devices", description = "List all the known output devices")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a list of Output Device instances"),

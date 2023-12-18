@@ -201,23 +201,16 @@ public class RoutinesProcessor {
     public void executeAction(Action assocAction) {
         String outDevID = assocAction.getOutputDeviceID();
         OutputDevice outDev = outputDevService.findByID(outDevID);
-        String setChannel = "";
 
-        System.out.println("DESC > " + assocAction.getAction_description());
-        System.out.println("ACT0 > " + outDev.getDevice_category().getPossibleActions().get(0));
-        System.out.println("ACT1 > " + outDev.getDevice_category().getPossibleActions().get(1));
-        System.out.println("ACT2 > " + outDev.getDevice_category().getPossibleActions().get(2));
-        System.out.println("DCAT > " + outDev.getDevice_category());
+        System.out.println("RAN ROUTINE > " + assocAction.getAction_description());
 
         //  Turning OFF the device
         if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(1))) {
             outDev.setCurrent_state("0");
-            setChannel = "None";
         }
         //  Turning ON the device
         else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(0))) {
             outDev.setCurrent_state("1");
-            setChannel = "None";
         }
 
         //  Device is a television, so we can change channels
@@ -225,16 +218,28 @@ public class RoutinesProcessor {
             //  If the action was not an Turn ON or Turn Off, set the TV to a new channel (and make sure it is )
             if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
                 outDev.setCurrent_state("1");
-                setChannel = assocAction.getAction_newValue();
+                //  Update with the chosen channel
+                outDev.setCurrent_channel(assocAction.getAction_newValue());
             }
-
-            //  Update with the chosen channel
-            outDev.setCurrent_channel(setChannel);
+            else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setSlider_value(assocAction.getAction_newValue());
+            }
+        }
+        if (outDev.getDevice_category() == OutputDeviceType.DEHUMIDIFER) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
+                outDev.setCurrent_state("1");
+                outDev.setTemperature(Integer.parseInt(assocAction.getAction_newValue()));
+            }
         }
         if (outDev.getDevice_category() == OutputDeviceType.LIGHT) {
             if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
                 outDev.setCurrent_state("1");
                 outDev.setColor(assocAction.getAction_newValue());
+            }
+            else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setSlider_value(assocAction.getAction_newValue());
             }
         }
         if (outDev.getDevice_category() == OutputDeviceType.AIR_CONDITIONER) {
@@ -244,9 +249,13 @@ public class RoutinesProcessor {
             }
         }
         if (outDev.getDevice_category() == OutputDeviceType.SPEAKER) {
-            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+            if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(2))) {
                 outDev.setCurrent_state("1");
                 outDev.setCurrent_music(assocAction.getAction_newValue());
+            }
+            else if (assocAction.getAction_description().equals(outDev.getDevice_category().getPossibleActions().get(3))) {
+                outDev.setCurrent_state("1");
+                outDev.setSlider_value(assocAction.getAction_newValue());
             }
         }
 
