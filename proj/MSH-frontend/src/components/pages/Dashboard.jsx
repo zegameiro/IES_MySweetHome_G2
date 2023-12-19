@@ -89,7 +89,7 @@ const Dashboard = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       getAlerts();
-    }, 1); // Fetch new alerts every 5 seconds
+    }, 5000); // Fetch new alerts every 5 seconds
 
     return () => clearInterval(interval); // Clean up on unmount
   }, []);

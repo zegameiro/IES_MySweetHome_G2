@@ -11,12 +11,12 @@ This is the folder where we keep all presentation assets and diagrams made throu
 ## Architecture Diagrams
 ### Simple architecture diagram
 <p align="center">
-<img src = "Report_Diagrams/simple_architecture_diagram.png"  height="400px">
+<img src = "../reports/Report_Diagrams/simple_architecture_diagram.png"  height="400px">
 </p>
 
 ### Full architecture diagram
 <p align="center">
-<img src = "Report_Diagrams/architecture_diagram.png" height="500px">
+<img src = "../reports/Report_Diagrams/architecture_diagram.png" height="500px">
 </p>
 
 ---
@@ -29,7 +29,7 @@ https://www.figma.com/file/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?type=desig
 https://www.figma.com/proto/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?page-id=0%3A1&type=design&node-id=36-4&viewport=243%2C-92%2C0.16&t=fd7dMR9t0w2jyHMB-1&scaling=scale-down&starting-point-node-id=36%3A4&mode=design
 
 <p align="center">
-<img src = "Report_Diagrams/figma.png" height="500px">
+<img src = "../reports/Report_Diagrams/figma.png" height="500px">
 </p>
 
 
@@ -38,24 +38,24 @@ https://www.figma.com/proto/1usB0nu0174e6QMF6IsxAc/My-Sweet-Home---IES?page-id=0
 ## Information Flux
 
 <p align="center">
-<img src = "Report_Diagrams/informationflux.png" height="600px">
+<img src = "../reports/Report_Diagrams/informationflux.png" height="600px">
 </p>
 
 ---
 ## Sequence Diagrams
 ### Simple Front and Back end data communication for user input and control
 <p align="center">
-<img src = "Report_Diagrams/sequenceDiag1.png" height="300px">
+<img src = "../reports/Report_Diagrams/sequenceDiag1.png" height="300px">
 </p>
 
 ### Time sensitive output reaction
 <p align="center">
-<img src = "Report_Diagrams/sequenceDiag2.png" height="300px">
+<img src = "../reports/Report_Diagrams/sequenceDiag2.png" height="300px">
 </p>
 
 ### New sensor data input reaction
 <p align="center">
-<img src = "Report_Diagrams/sequenceDiag3.png" height="300px">
+<img src = "../reports/Report_Diagrams/sequenceDiag3.png" height="300px">
 </p>
 
 ---
